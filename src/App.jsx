@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './App.css'
 import Login from './pages/Login.jsx'
+import Chat from "./pages/Chat.jsx"
 
 export default function App() {
 //   const [response, setResponse] = useState(null);
@@ -27,6 +28,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Login />} />
+        <Route path="chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   )
