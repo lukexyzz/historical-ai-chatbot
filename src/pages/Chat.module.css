@@ -1,0 +1,22 @@
+.chatPageContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fbf8f0; 
+  overflow-x: hidden;
+}
+
+.mainContent {
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 0;
+}
+
+.shifted {
+  margin-left: 300px;
+}
+
+.chatArea {
+  padding: 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  color: #333; 
+}
