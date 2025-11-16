@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import LoginForm from './components/LoginForm.jsx'
+import ChatComponent from './components/ChatComponent.jsx'
+import './ChatComponent.css'
 
 function App() {
   const [response, setResponse] = useState(null);
@@ -26,10 +28,15 @@ useEffect(() => {
 
   return (
     <>
+
       <div>
         {response}
       </div>
       <LoginForm />
+
+      <div>
+        <ChatComponent />
+      </div>
     </>
   )
 }
