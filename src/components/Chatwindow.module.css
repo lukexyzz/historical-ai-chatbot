@@ -1,0 +1,144 @@
+
+.chatContainer {
+    width: 400px;
+    height: 550px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: #000000;
+    margin: 20px auto; 
+}
+
+.chatBody {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f9f9f9; 
+}
+
+.chatPlaceholder {
+    text-align: center;
+    color: #999;
+    margin-top: 50px;
+    font-style: italic;
+}
+
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; 
+}
+
+.userMessageContainer {
+    align-items: flex-end;
+}
+
+.apiMessageContainer {
+    align-items: flex-start;
+}
+
+
+.userName, .apiName {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.userTimestamp, .apiTimestamp {
+    font-size: 0.7em;
+    color: #999;
+    margin-top: 3px;
+    margin-right: 5px; 
+    margin-left: 5px; 
+}
+
+.messageBubble {
+    padding: 10px 15px;
+    max-width: 80%;
+    word-break: break-word;
+}
+
+.userBubble {
+    background-color: #007bff;
+    color: white;
+    border-radius: 18px 18px 2px 18px;
+}
+
+.apiBubble {
+    background-color: #e6e6e6;
+    color: #333;
+    border-radius: 18px 18px 18px 2px;
+}
+.inputForm {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+}
+
+.inputField {
+    flex-grow: 1; 
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+}
+
+
+.sendButton {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sendButton:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+.loadingBubble {
+    display: flex;
+    background-color: #e6e6e6;
+    padding: 10px 15px;
+    border-radius: 18px 18px 18px 2px; 
+    align-items: center; 
+    max-width: 100px; 
+}
+
+.loadingDot {
+    width: 8px;
+    height: 8px;
+    background-color: #999;
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: bounce 1.2s infinite ease-in-out; 
+}
+
+
+.loadingDot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loadingDot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+
+@keyframes bounce {
+    0%, 80%, 100% {
+
+        transform: scale(0);
+    }
+    40% {
+
+        transform: scale(1);
+    }
+}

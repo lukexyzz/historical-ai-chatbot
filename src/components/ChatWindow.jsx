@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
+import styles from './ChatWindow.module.css';
 
 const getCurrentTime = () => {
     return new Date().toLocaleTimeString('en-UK', { hour: '2-digit', minute: '2-digit' });
@@ -67,16 +68,18 @@ function ChatComponent() {
         }
     }, [history]);
 
+
+
     // JSX render 
     return ( 
-        <div className="chat-container">
+        <div className={styles.chatContainer}>
             <h2>Chat Messenger</h2>
 
             {/* Chat message display area */}
-            <div id='chat-body' className='chat-body'>
+            <div id='chat-body' className={styles.chatBody}>
                 {/* This condition is now TRUE when empty, showing the placeholder */}
                 {history.length === 0 && (
-                    <p className ="chat-placeholder">
+                    <p className ={styles.chatPlaceholder}>
                         Start the conversation!
                     </p>
                 )}
@@ -84,20 +87,20 @@ function ChatComponent() {
                 {history.map((msg, index) => (
                     <div
                         key={index}
-                        className={msg.role === 'user' ? "user-message-container" : "message-container api-message-container"}
+                        className={msg.role === 'user' ? styles.userMessageContainer : [styles.messageContainer, styles.apiMessageContainer]}
                     >
                         {/* User Name (Above Message) */}
-                        <small className={msg.role === 'user' ? "user-name" : "api-name"}>
+                        <small className={msg.role === 'user' ? styles.userName : styles.apiName}>
                             {msg.name}
                         </small>
 
                         {/* Message Bubble */}
-                        <div className={msg.role === 'user' ? "message-bubble user-bubble" : "message-bubble api-bubble"}>
+                        <div className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userBubble : styles.apiBubble}`}>
                             {msg.text}
                         </div>
                         
                         {/* Time Stamp (Below Message) */}
-                        <small className={msg.role === 'user' ? "user-timestamp" : "api-timestamp"}>
+                        <small className={msg.role === 'user' ? styles.userTimestamp : styles.apiTimestamp}>
                             {msg.timestamp}
                         </small>
                     </div>
@@ -105,31 +108,31 @@ function ChatComponent() {
                 
                 {/*Loading Indicator*/}
                 {isLoading && (
-                    <div className="message-container api-message-container">
-                        <small className="api-name">Historical Figure</small>
-                        <div className="loading-bubble">
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
+                    <div className={[styles.messageContainer, styles.apiMessageContainer]}>
+                        <small className={styles.apiName}>Historical Figure</small>
+                        <div className={styles.loadingBubble}>
+                            <div className={styles.loadingDot}></div>
+                            <div className={styles.loadingDot}></div>
+                            <div className={styles.loadingDot}></div>
                         </div>
                     </div>
                 )}
             </div>
             
             {/* Input Form and Button*/}
-            <form onSubmit={handleSendMessage} className="input-form">
+            <form onSubmit={handleSendMessage} className={styles.inputForm}>
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder={isLoading ? "Waiting..." : "Type your message..."}
                     disabled={isLoading}
-                    className="input-field"
+                    className={styles.inputField}
                 />
                 <button 
                     type="submit" 
                     disabled={isLoading || !input.trim()} 
-                    className="send-button"
+                    className={styles.sendButton}
                 >
                     Send
                 </button>

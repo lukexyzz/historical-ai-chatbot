@@ -1,9 +1,6 @@
 // import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './App.css'
-import LoginForm from './components/LoginForm.jsx'
-import ChatComponent from './components/ChatComponent.jsx'
-import './ChatComponent.css'
 import Login from './pages/Login.jsx'
 import Chat from "./pages/Chat.jsx"
 
@@ -28,17 +25,6 @@ export default function App() {
 // }, []);
 
   return (
-    <>
-
-      <div>
-        {response}
-      </div>
-      <LoginForm />
-
-      <div>
-        <ChatComponent />
-      </div>
-    </>
     <BrowserRouter>
       <Routes>
         <Route index element={<Login />} />

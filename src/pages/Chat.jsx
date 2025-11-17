@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import styles from './Chat.module.css'; 
+import ChatWindow from '../components/ChatWindow.jsx';
 
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,9 +28,7 @@ export default function Chat() {
         />
         
         <div className={styles.chatArea}>
-          <h1>Chat Window</h1>
-          <p>Your messages will go here.</p>
-          <p>Click the menu icon in the top left to see your chats!</p>
+          <ChatWindow />
         </div>
       </div>
     </div>
