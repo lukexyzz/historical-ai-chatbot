@@ -1,15 +1,35 @@
 .messageContainer {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 15px; 
-}
-
-.userMessageContainer {
-    align-items: flex-end;
+    width: 100%;
+    margin-bottom: 15px;
+    gap: 10px;
 }
 
 .apiMessageContainer {
+    justify-content: flex-start;
+}
+
+.userMessageContainer {
+    justify-content: flex-end;
+}
+
+.textGroup {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%; 
+}
+
+.alignRight {
+    align-items: flex-end;
+}
+
+.alignLeft {
     align-items: flex-start;
+}
+
+.avatarWrapper {
+    flex-shrink: 0;
+    margin-top: auto;
 }
 
 .userName, .apiName {
@@ -30,7 +50,6 @@
 
 .messageBubble {
     padding: 10px 15px;
-    max-width: 80%;
     word-break: break-word;
 }
 
