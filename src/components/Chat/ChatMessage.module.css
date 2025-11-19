@@ -1,0 +1,81 @@
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; 
+}
+
+.userMessageContainer {
+    align-items: flex-end;
+}
+
+.apiMessageContainer {
+    align-items: flex-start;
+}
+
+.userName, .apiName {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.userTimestamp, .apiTimestamp {
+    font-size: 0.7em;
+    color: #999;
+    margin-top: 3px;
+    margin-right: 5px; 
+    margin-left: 5px; 
+}
+
+.messageBubble {
+    padding: 10px 15px;
+    max-width: 80%;
+    word-break: break-word;
+}
+
+.userBubble {
+    background-color: #007bff;
+    color: white;
+    border-radius: 18px 18px 2px 18px; 
+}
+
+.apiBubble {
+    background-color: #e6e6e6;
+    color: #333;
+    border-radius: 18px 18px 18px 2px;
+}
+
+.loadingBubble {
+    display: flex;
+    background-color: #e6e6e6;
+    padding: 10px 15px;
+    border-radius: 18px 18px 18px 2px; 
+    align-items: center; 
+    max-width: 100px; 
+}
+
+.loadingDot {
+    width: 8px;
+    height: 8px;
+    background-color: #999;
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: bounce 1.2s infinite ease-in-out; 
+}
+
+.loadingDot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loadingDot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
