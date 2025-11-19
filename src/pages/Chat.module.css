@@ -1,22 +1,32 @@
 .chatPageContainer {
   width: 100%;
-  min-height: 100vh;
-  background-color: #fbf8f0; 
+  height: 100vh;
+  background-color: #f3e9d2; 
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .mainContent {
   transition: margin-left 0.3s ease-in-out;
   margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
 
 .shifted {
   margin-left: 300px;
+  width: calc(100% - 300px);
 }
 
 .chatArea {
-  padding: 1.5rem;
-  max-width: 1280px;
-  margin: 0 auto;
-  color: #333; 
+  width: 100%;
+  height: 100%;
+  color: #333;
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

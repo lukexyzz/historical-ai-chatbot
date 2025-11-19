@@ -15,8 +15,9 @@
 .userName, .apiName {
     font-size: 0.8em;
     font-weight: bold;
-    color: #333;
+    color: #4a3a2a;
     margin-bottom: 3px;
+    font-family: serif;
 }
 
 .userTimestamp, .apiTimestamp {
@@ -34,14 +35,14 @@
 }
 
 .userBubble {
-    background-color: #007bff;
-    color: white;
+background-color: #7d6b5c; 
+    color: white; 
     border-radius: 18px 18px 2px 18px; 
 }
 
 .apiBubble {
-    background-color: #e6e6e6;
-    color: #333;
+    background-color: #e9dec9; 
+    color: #4a3a2a;
     border-radius: 18px 18px 18px 2px;
 }
 

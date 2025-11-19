@@ -5,7 +5,7 @@ export default function LoadingIndicator() {
     // We use messageStyles.apiMessageContainer for correct alignment (left-aligned)
     return (
         <div className={messageStyles.apiMessageContainer}>
-            <small className={messageStyles.apiName}>Historical Figure</small>
+            <small className={messageStyles.apiName}>Cleopatra</small>
             
             <div 
                 className={styles.loadingBubble} 

@@ -16,7 +16,6 @@ const {
 
     return ( 
         <div className={styles.chatContainer}>
-            <h2>Historical Figure Chatbot</h2>
 
             <div 
                 id='chat-body' 
@@ -26,11 +25,9 @@ const {
             >
                 {history.length === 0 && (
                     <p className ={styles.chatPlaceholder}>
-                        Start the conversation with your chosen historical figure!
+                        Start the conversation with Cleopatra!
                     </p>
                 )}
-
-                {/*Extracted chat message and loadingindicator into seperate components */}
                 
                 {history.map((msg, index) => (
                     <ChatMessage key={index} msg={msg} />
@@ -41,7 +38,7 @@ const {
             
            
             <form onSubmit={handleSendMessage} className={styles.inputForm}>
-                <label className={styles.visuallyHidden}>Type your message here</label>
+                <label className={styles.visuallyHidden}></label>
                 <input
                     id="chat-input"
                     type="text"
