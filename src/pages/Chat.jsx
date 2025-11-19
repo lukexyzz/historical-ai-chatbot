@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar.jsx';
-import Sidebar from '../components/Sidebar.jsx';
+import Navbar from '../components/Layout/Navbar.jsx';
+import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css'; 
-import ChatWindow from '../components/ChatWindow.jsx';
+import ChatWindow from '../components/Chat/ChatWindow.jsx';
 
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
