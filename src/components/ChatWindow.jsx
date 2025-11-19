@@ -7,9 +7,28 @@ const getCurrentTime = () => {
 
 // simulate API call replace with actual gemini api fetch call
 const fetchApiMessage = async (userMessage) => {
-    await new Promise(resolve => setTimeout(resolve, 1000)); // simulate network delay
-    return `Echo: ${userMessage}`;
+    try {
+        const response = await fetch("http://localhost:3000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: userMessage }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        console.log("API response:", data);  // <-- Add this
+        return data.reply;
+
+    } catch (error) {
+        console.error("Fetch API error:", error);
+        return "Sorry, I couldn't reach the server.";
+    }
 };
+
 
 function ChatComponent() {
     // 1. Revert history to empty array for interactive start
