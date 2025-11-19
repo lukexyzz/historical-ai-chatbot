@@ -1,4 +1,8 @@
 import styles from './ChatMessage.module.css';
+import ProfilePicture from "./ProfilePicture";
+import cleopatra from "../../assets/cleopatra.svg";
+import user from "../../assets/user.svg";
+import React from 'react';
 
 export default function ChatMessage({ msg }) {
     
@@ -9,6 +13,7 @@ export default function ChatMessage({ msg }) {
     const nameClass = isUser ? styles.userName : styles.apiName;
     const bubbleClass = isUser ? styles.userBubble : styles.apiBubble;
     const timestampClass = isUser ? styles.userTimestamp : styles.apiTimestamp;
+    const alignClass = isUser ? styles.alignRight : styles.alignLeft; 
 
     return (
         <div 
@@ -16,17 +21,30 @@ export default function ChatMessage({ msg }) {
             role="status"
             aria-label={`${msg.name} sent: ${msg.text} at ${msg.timestamp}`}
         >
-            <small className={nameClass}>
-                {msg.name}
-            </small>
+            {!isUser && (
+                <div className={styles.avatarWrapper}>
+                    <ProfilePicture src={cleopatra} />
+                </div>
+            )}
+            <div className={`${styles.textGroup} ${alignClass}`}>
+                <small className={nameClass}>
+                    {msg.name}
+                </small>
 
-            <div className={`${styles.messageBubble} ${bubbleClass}`}>
-                {msg.text}
+                <div className={`${styles.messageBubble} ${bubbleClass}`}>
+                    {msg.text}
+                </div>
+                
+                <small className={timestampClass}>
+                    {msg.timestamp}
+                </small>
             </div>
-            
-            <small className={timestampClass}>
-                {msg.timestamp}
-            </small>
+
+            {isUser && (
+                <div className={styles.avatarWrapper}>
+                    <ProfilePicture src={user} />
+                </div>
+            )}
         </div>
     );
 }
