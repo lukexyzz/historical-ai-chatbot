@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchApiMessage } from '../utils/api.js';
+import { postUserMessage } from '../utils/api.js';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 export default function useChatLogic() {
@@ -22,7 +22,7 @@ export default function useChatLogic() {
         setIsLoading(true);
 
         try {
-            const apiResponseText = await fetchApiMessage(userText);
+            const apiResponseText = await postUserMessage(userText);
             // Add API Response
             const apiMessage = { 
                 role: 'api', 
