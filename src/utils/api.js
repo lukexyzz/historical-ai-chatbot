@@ -1,4 +1,4 @@
-export const fetchApiMessage = async (userMessage) => {
+export const postUserMessage = async (userMessage) => {
     try {
         // Using envirnment variable for URL
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
