@@ -14,7 +14,7 @@ export default function Navbar({ onMenuClick }) {
 
         <div>
           <h1 className={styles.title}>
-            The Historian
+            Talk with Cleopatra
           </h1>
         </div>
 
