@@ -2,7 +2,6 @@ import styles from './ChatMessage.module.css';
 import ProfilePicture from "./ProfilePicture";
 import cleopatra from "../../assets/cleopatra.svg";
 import user from "../../assets/user.svg";
-import React from 'react';
 
 export default function ChatMessage({ msg }) {
     

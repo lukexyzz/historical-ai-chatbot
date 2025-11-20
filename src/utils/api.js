@@ -1,10 +1,10 @@
 export const fetchApiMessage = async (userMessage) => {
     try {
         // Using envirnment variable for URL
-        const response = await fetch(process.env.REACT_APP_API_URL + "/chat", {
+        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: userMessage }),
+            body: JSON.stringify({ message: userMessage }),
         });
 
         if (!response.ok) {
