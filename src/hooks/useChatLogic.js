@@ -27,7 +27,7 @@ export default function useChatLogic() {
             const apiMessage = { 
                 role: 'api', 
                 text: apiResponseText, 
-                name: 'Historical Figure', 
+                name: 'Cleopatra', 
                 timestamp: getCurrentTime() 
             };
             sethistory(prevHistory => [...prevHistory, apiMessage]);
