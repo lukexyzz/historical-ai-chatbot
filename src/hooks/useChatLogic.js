@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchApiMessage } from '../utils/api.js';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
-export default function useChatLogic() {
+export default function useChatLogic(persona) {
     const [history, sethistory] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -24,20 +24,20 @@ export default function useChatLogic() {
         try {
             const apiResponseText = await fetchApiMessage(userText);
             // Add API Response
-            const apiMessage = { 
-                role: 'api', 
-                text: apiResponseText, 
-                name: 'Cleopatra', 
-                timestamp: getCurrentTime() 
+            const apiMessage = {
+                role: 'api',
+                text: apiResponseText,
+                name: persona ? persona.name : 'Cleopatra',
+                timestamp: getCurrentTime()
             };
             sethistory(prevHistory => [...prevHistory, apiMessage]);
         } catch (error) {
             console.error("API Error in handleSendMessage:", error);
-            const errorMessage = { 
-                role: "api", 
-                text: "Sorry, an unexpected error occurred during dialogue processing.", 
-                name: "Error", 
-                timestamp: getCurrentTime() 
+            const errorMessage = {
+                role: "api",
+                text: "Sorry, an unexpected error occurred during dialogue processing.",
+                name: "Error",
+                timestamp: getCurrentTime()
             };
             sethistory(prevHistory => [...prevHistory, errorMessage]);
         } finally {
@@ -53,11 +53,11 @@ export default function useChatLogic() {
     }, [history, isLoading]);
 
     return {
-        history, 
-        input, 
-        isLoading, 
-        chatBodyRef, 
-        setInput, 
+        history,
+        input,
+        isLoading,
+        chatBodyRef,
+        setInput,
         handleSendMessage
     };
 }
