@@ -3,7 +3,7 @@ import { postUserMessage, fetchSingleChat } from '../utils/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 
-export default function useChatLogic({ chatToLoadId, setChatToLoadId } = {}) {
+export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } = {}) {
     const [history, sethistory] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -54,20 +54,24 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId } = {}) {
 
         try {
             const apiResponseText = await postUserMessage(userText);
+          
+            if (!persona) {
+                throw new Error("Persona is not defined");
+            }
             const apiMessage = { 
                 role: 'api', 
                 text: apiResponseText, 
-                name: 'Cleopatra', 
+                name: persona.name, 
                 timestamp: getCurrentTime() 
             };
             sethistory(prevHistory => [...prevHistory, apiMessage]);
         } catch (error) {
             console.error("API Error in handleSendMessage:", error);
-            const errorMessage = { 
-                role: "api", 
-                text: "Sorry, an unexpected error occurred during dialogue processing.", 
-                name: "Error", 
-                timestamp: getCurrentTime() 
+            const errorMessage = {
+                role: "api",
+                text: "Sorry, an unexpected error occurred during dialogue processing.",
+                name: "Error",
+                timestamp: getCurrentTime()
             };
             sethistory(prevHistory => [...prevHistory, errorMessage]);
         } finally {
@@ -82,11 +86,11 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId } = {}) {
     }, [history, isLoading]);
 
     return {
-        history, 
-        input, 
-        isLoading, 
-        chatBodyRef, 
-        setInput, 
+        history,
+        input,
+        isLoading,
+        chatBodyRef,
+        setInput,
         handleSendMessage
     };
 }
