@@ -6,7 +6,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
   const [previousChats, setPreviousChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
 
   useEffect(() => {
     const loadChats = async () => {
@@ -14,7 +14,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
         setIsLoading(true);
         setError(null);
 
-        const data = await fetchPreviousChats(); 
+        const data = await fetchPreviousChats();
         setPreviousChats(data);
       } catch (err) {
         setError("Failed to load chats. Please try again.");
@@ -24,14 +24,14 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
     };
 
     loadChats();
-    
-  }, []); 
 
-    const sidebarClasses = [
+  }, []);
+
+  const sidebarClasses = [
     styles.sidebar,
     isOpen ? styles.open : ''
   ].join(' ');
-  
+
   const handleChatClick = (chatId) => {
     if (onChatClick) {
       onChatClick(chatId);
@@ -43,7 +43,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
       <div className={sidebarClasses}>
         <div className={styles.sidebarHeader}>
           <h3>Previous Chats</h3>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close sidebar">
             &times;
           </button>
         </div>
@@ -55,12 +55,21 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
           )}
 
           {!isLoading && !error && previousChats.map((chat) => (
-            <li 
-              key={chat.id} 
+            <li
+              key={chat.id}
               className={styles.chatItem}
               onClick={() => handleChatClick(chat.id)}
+              role="button"
+              tabIndex="0"
+              aria-label={`Load chat: ${chat.title}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleChatClick(chat.id);
+                }
+              }}
             >
-              {chat.title} 
+              {chat.title}
             </li>
           ))}
         </ul>
