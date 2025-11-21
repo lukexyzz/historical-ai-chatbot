@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { savePreviousChat } from '../utils/api'; 
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { savePreviousChat } from '../utils/api';
 import Navbar from '../components/Layout/Navbar.jsx';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css';
 import ChatWindow from '../components/Chat/ChatWindow.jsx';
 
-const PLACEMENT_TITLE = "Conversation History (Awaiting Title)"; 
-const TEMP_PERSONA_ID = "temp-guide-001"; 
+const PLACEMENT_TITLE = "Conversation History (Awaiting Title)";
+const TEMP_PERSONA_ID = "temp-guide-001";
 
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,24 +24,24 @@ export default function Chat() {
     }
   }, [location, navigate]);
   const [isSaving, setIsSaving] = useState(false);
-  const [chatToLoadId, setChatToLoadId] = useState(null); 
-  
+  const [chatToLoadId, setChatToLoadId] = useState(null);
+
   const handleLoadChat = (chatId) => {
 
     setChatToLoadId(chatId);
 
     closeSidebar();
   };
-  
+
   const handleSaveChat = async (currentMessages) => {
     setIsSaving(true);
-    
+
     const dataToSave = {
       title: PLACEMENT_TITLE,
-      personaId: TEMP_PERSONA_ID, 
-      messages: currentMessages, 
+      personaId: TEMP_PERSONA_ID,
+      messages: currentMessages,
     };
-    
+
     try {
       await savePreviousChat(dataToSave);
       console.log('Chat saved successfully!');
@@ -54,7 +54,7 @@ export default function Chat() {
 
   const openSidebar = () => setIsSidebarOpen(true);
   const closeSidebar = () => setIsSidebarOpen(false);
-  
+
   const mainContentClasses = [
     styles.mainContent,
     isSidebarOpen ? styles.shifted : ''
@@ -64,24 +64,24 @@ export default function Chat() {
 
   return (
     <div className={styles.chatPageContainer}>
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={closeSidebar} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={closeSidebar}
         onChatClick={handleLoadChat}
-      />     
+      />
       <div className={mainContentClasses}>
-          <Navbar 
-            onMenuClick={openSidebar}
-            persona={persona}
-          />
+        <Navbar
+          onMenuClick={openSidebar}
+          persona={persona}
+        />
 
         <div className={styles.chatArea}>
-          <ChatWindow 
-              chatToLoadId={chatToLoadId} 
-              setChatToLoadId={setChatToLoadId}
-              onSaveChat={handleSaveChat} 
-              isSaving={isSaving}
-              persona={persona}
+          <ChatWindow
+            chatToLoadId={chatToLoadId}
+            setChatToLoadId={setChatToLoadId}
+            onSaveChat={handleSaveChat}
+            isSaving={isSaving}
+            persona={persona}
           />
         </div>
       </div>
