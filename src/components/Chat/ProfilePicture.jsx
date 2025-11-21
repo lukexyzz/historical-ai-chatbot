@@ -1,5 +1,4 @@
 import styles from "./ProfilePicture.module.css";
-import React from "react";
 
 const ProfilePicture = ({ src, alt }) => {
   return (
