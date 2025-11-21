@@ -1,15 +1,48 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { savePreviousChat } from '../utils/api'; 
 import Navbar from '../components/Layout/Navbar.jsx';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css'; 
 import ChatWindow from '../components/Chat/ChatWindow.jsx';
 
+const PLACEMENT_TITLE = "Conversation History (Awaiting Title)"; 
+const TEMP_PERSONA_ID = "temp-guide-001"; 
+
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [chatToLoadId, setChatToLoadId] = useState(null); 
+  
+  const handleLoadChat = (chatId) => {
+
+    setChatToLoadId(chatId);
+
+    closeSidebar();
+  };
+  
+  const handleSaveChat = async (currentMessages) => {
+    setIsSaving(true);
+    
+    const dataToSave = {
+      title: PLACEMENT_TITLE,
+      personaId: TEMP_PERSONA_ID, 
+      messages: currentMessages, 
+    };
+    
+    try {
+      await savePreviousChat(dataToSave);
+      console.log('Chat saved successfully!');
+    } catch (error) {
+      console.error("Error saving chat:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const openSidebar = () => setIsSidebarOpen(true);
   const closeSidebar = () => setIsSidebarOpen(false);
-
+  
   const mainContentClasses = [
     styles.mainContent,
     isSidebarOpen ? styles.shifted : ''
@@ -20,15 +53,18 @@ export default function Chat() {
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={closeSidebar} 
-      />
-      
+        onChatClick={handleLoadChat}
+      />     
       <div className={mainContentClasses}>
-        <Navbar 
-          onMenuClick={openSidebar} 
-        />
-        
+          <Navbar onMenuClick={openSidebar} />
+
         <div className={styles.chatArea}>
-          <ChatWindow />
+          <ChatWindow 
+              chatToLoadId={chatToLoadId} 
+              setChatToLoadId={setChatToLoadId}
+              onSaveChat={handleSaveChat} 
+              isSaving={isSaving} 
+          />
         </div>
       </div>
     </div>

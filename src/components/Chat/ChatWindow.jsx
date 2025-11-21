@@ -1,21 +1,39 @@
-import { useState, useEffect, useRef } from 'react';
 import styles from './ChatWindow.module.css';
 import ChatMessage from './ChatMessage'; 
 import LoadingIndicator from './LoadingIndicator';
 import useChatLogic from '../../hooks/useChatLogic';
 
-export default function ChatWindow() { 
-const { 
+export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId }) { 
+    
+    const { 
         history, 
         input, 
         isLoading, 
         chatBodyRef, 
         setInput,
         handleSendMessage
-    } = useChatLogic();
+    } = useChatLogic({ chatToLoadId, setChatToLoadId });
+
+    const handleEndSession = () => {
+        onSaveChat(history);
+    };
+
+    const hasHistory = history.length > 0;
+    const canSave = hasHistory && !isSaving && !isLoading;
+
 
     return ( 
         <div className={styles.chatContainer}>
+    
+            <div className={styles.chatActions}>
+                <button 
+                    onClick={handleEndSession} 
+                    disabled={!canSave} 
+                    className={styles.saveButton} 
+                >
+                    {isSaving ? 'Saving...' : '💾 Save Conversation'}
+                </button>
+            </div>
 
             <div 
                 id='chat-body' 
@@ -25,7 +43,7 @@ const {
             >
                 {history.length === 0 && (
                     <p className ={styles.chatPlaceholder}>
-                        Start the conversation with Cleopatra!
+                        Start the conversation!
                     </p>
                 )}
                 
@@ -38,7 +56,6 @@ const {
             
            
             <form onSubmit={handleSendMessage} className={styles.inputForm}>
-                <label className={styles.visuallyHidden}></label>
                 <input
                     id="chat-input"
                     type="text"

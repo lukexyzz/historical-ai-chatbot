@@ -1,12 +1,44 @@
 import { useState, useEffect, useRef } from 'react';
-import { postUserMessage } from '../utils/api.js';
+import { postUserMessage, fetchSingleChat } from '../utils/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
-export default function useChatLogic() {
+
+export default function useChatLogic({ chatToLoadId, setChatToLoadId } = {}) {
     const [history, sethistory] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatBodyRef = useRef(null);
+
+    useEffect(() => {
+        if (chatToLoadId) {
+            const loadChat = async () => {
+                try {
+                    setIsLoading(true);
+                    
+                    const data = await fetchSingleChat(chatToLoadId);
+                    
+                    if (data && data.messages) {
+                        sethistory(data.messages);
+                    }
+                    
+                    if (setChatToLoadId) setChatToLoadId(null);
+                    
+                } catch (error) {
+                    console.error("Error loading chat:", error);
+                    sethistory([{ 
+                        role: "error", 
+                        text: "Failed to load chat history. Please try again.", 
+                        name: "System", 
+                        timestamp: getCurrentTime() 
+                    }]);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            loadChat();
+        }
+    }, [chatToLoadId, setChatToLoadId]);
+
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -15,7 +47,6 @@ export default function useChatLogic() {
 
         const currentTime = getCurrentTime();
 
-        // Add User Message
         const userMessage = { role: 'user', text: userText, name: 'You', timestamp: currentTime };
         sethistory(prevHistory => [...prevHistory, userMessage]);
         setInput('');
@@ -23,7 +54,6 @@ export default function useChatLogic() {
 
         try {
             const apiResponseText = await postUserMessage(userText);
-            // Add API Response
             const apiMessage = { 
                 role: 'api', 
                 text: apiResponseText, 
@@ -45,7 +75,6 @@ export default function useChatLogic() {
         }
     };
 
-    //Effect hook for auto-scrolling.
     useEffect(() => {
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
