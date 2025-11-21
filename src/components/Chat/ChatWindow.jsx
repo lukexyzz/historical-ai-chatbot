@@ -25,7 +25,7 @@ export default function ChatWindow({ persona }) {
             >
                 {history.length === 0 && (
                     <p className={styles.chatPlaceholder}>
-                        Start the conversation with {persona ? persona.name : 'Cleopatra'}!
+                        Start the conversation with {persona.name}!
                     </p>
                 )}
 

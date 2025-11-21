@@ -23,11 +23,16 @@ export default function useChatLogic(persona) {
 
         try {
             const apiResponseText = await fetchApiMessage(userText);
+
+            if (!persona) {
+                throw new Error("Persona is not defined");
+            }
+
             // Add API Response
             const apiMessage = {
                 role: 'api',
                 text: apiResponseText,
-                name: persona ? persona.name : 'Cleopatra',
+                name: persona.name,
                 timestamp: getCurrentTime()
             };
             sethistory(prevHistory => [...prevHistory, apiMessage]);

@@ -1,11 +1,11 @@
-import { Menu, Feather} from 'lucide-react';
+import { Menu, Feather } from 'lucide-react';
 import styles from './Navbar.module.css';
 
-export default function Navbar({ onMenuClick }) {
+export default function Navbar({ onMenuClick, persona }) {
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        
+
         <div className={styles.iconGroup}>
           <button className={styles.navButton} onClick={onMenuClick}>
             <Menu size={28} />
@@ -14,14 +14,14 @@ export default function Navbar({ onMenuClick }) {
 
         <div>
           <h1 className={styles.title}>
-            Talk with Cleopatra
+            Talk with {persona ? persona.name : '...'}
           </h1>
         </div>
 
         <div className={styles.iconGroup}>
           <Feather size={26} />
         </div>
-        
+
       </div>
     </nav>
   );
