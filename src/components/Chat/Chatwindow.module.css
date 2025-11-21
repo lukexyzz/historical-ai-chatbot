@@ -1,4 +1,3 @@
-
 .chatContainer {
     font-family: serif;
     max-width: 1080px;
@@ -10,9 +9,9 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: #f3e9d2;
-    margin: 0; 
+    margin: 0;
 }
 
 .chatBody {
@@ -37,7 +36,7 @@
 .messageContainer {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
 }
 
 .userMessageContainer {
@@ -49,19 +48,21 @@
 }
 
 
-.userName, .apiName {
+.userName,
+.apiName {
     font-size: 0.8em;
     font-weight: bold;
     color: #333;
     margin-bottom: 3px;
 }
 
-.userTimestamp, .apiTimestamp {
+.userTimestamp,
+.apiTimestamp {
     font-size: 0.7em;
     color: #999;
     margin-top: 3px;
-    margin-right: 5px; 
-    margin-left: 5px; 
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .messageBubble {
@@ -81,6 +82,7 @@
     color: #333;
     border-radius: 18px 18px 18px 2px;
 }
+
 .inputForm {
     display: flex;
     border-top: 1px solid #dcd1b8;
@@ -96,6 +98,11 @@
     margin: 10px 8px 10px 10px;
 }
 
+.inputField:focus-visible {
+    outline: 2px solid #7d6b5c;
+    outline-offset: 1px;
+}
+
 
 .sendButton {
     padding: 10px 20px;
@@ -108,6 +115,15 @@
     margin: 10px 10px 10px 0;
 }
 
+.sendButton:hover {
+    background-color: #6b5a4b;
+}
+
+.sendButton:focus-visible {
+    outline: 2px solid #4a3a2a;
+    outline-offset: 2px;
+}
+
 .sendButton:disabled {
     background-color: #a0a0a0;
     cursor: not-allowed;
@@ -117,9 +133,9 @@
     display: flex;
     background-color: #e6e6e6;
     padding: 10px 15px;
-    border-radius: 18px 18px 18px 2px; 
-    align-items: center; 
-    max-width: 100px; 
+    border-radius: 18px 18px 18px 2px;
+    align-items: center;
+    max-width: 100px;
 }
 
 .loadingDot {
@@ -128,7 +144,7 @@
     background-color: #999;
     border-radius: 50%;
     margin: 0 3px;
-    animation: bounce 1.2s infinite ease-in-out; 
+    animation: bounce 1.2s infinite ease-in-out;
 }
 
 
@@ -142,10 +158,14 @@
 
 
 @keyframes bounce {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
 
         transform: scale(0);
     }
+
     40% {
 
         transform: scale(1);

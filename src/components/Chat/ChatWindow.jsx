@@ -3,13 +3,13 @@ import ChatMessage from './ChatMessage';
 import LoadingIndicator from './LoadingIndicator';
 import useChatLogic from '../../hooks/useChatLogic';
 
-export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona }) { 
-    
-    const { 
-        history, 
-        input, 
-        isLoading, 
-        chatBodyRef, 
+export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona }) {
+
+    const {
+        history,
+        input,
+        isLoading,
+        chatBodyRef,
         setInput,
         handleSendMessage
     } = useChatLogic({ chatToLoadId, setChatToLoadId, persona });
@@ -24,12 +24,13 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
 
     return (
         <div className={styles.chatContainer}>
-    
+
             <div className={styles.chatActions}>
-                <button 
-                    onClick={handleEndSession} 
-                    disabled={!canSave} 
-                    className={styles.saveButton} 
+                <button
+                    onClick={handleEndSession}
+                    disabled={!canSave}
+                    className={styles.saveButton}
+                    aria-label="Save conversation history"
                 >
                     {isSaving ? 'Saving...' : '💾 Save Conversation'}
                 </button>
@@ -64,11 +65,13 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
                     placeholder={isLoading ? "Waiting for response..." : "Type your message..."}
                     disabled={isLoading}
                     className={styles.inputField}
+                    aria-label="Message input"
                 />
                 <button
                     type="submit"
                     disabled={isLoading || !input.trim()}
                     className={styles.sendButton}
+                    aria-label="Send message"
                 >
                     Send
                 </button>
