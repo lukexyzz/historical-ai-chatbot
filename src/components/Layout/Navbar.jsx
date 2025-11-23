@@ -7,7 +7,7 @@ export default function Navbar({ onMenuClick, persona }) {
       <div className={styles.container}>
 
         <div className={styles.iconGroup}>
-          <button className={styles.navButton} onClick={onMenuClick}>
+          <button className={styles.navButton} onClick={onMenuClick} aria-label="Open menu">
             <Menu size={28} />
           </button>
         </div>

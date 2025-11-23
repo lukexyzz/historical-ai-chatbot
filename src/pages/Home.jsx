@@ -15,11 +15,23 @@ export default function Home() {
             <h1>Choose Your Ancient Guide</h1>
             <div className={styles.personasGrid}>
                 {personas.map((persona) => (
-                    <div key={persona.id} className={styles.personaCard} onClick={() => handlePersonaClick(persona)}>
+                    <div
+                        key={persona.id}
+                        className={styles.personaCard}
+                        onClick={() => handlePersonaClick(persona)}
+                        role="button"
+                        tabIndex="0"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handlePersonaClick(persona);
+                            }
+                        }}
+                    >
                         <div className={styles.personaInfo}>
                             <h2>{persona.name}</h2>
                             <p>{persona.description}</p>
-                            <button className={styles.chatButton}>Chat Now</button>
+                            <span className={styles.chatButton}>Chat Now</span>
                         </div>
                     </div>
                 ))}
