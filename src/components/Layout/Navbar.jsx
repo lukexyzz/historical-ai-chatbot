@@ -1,5 +1,6 @@
 import { Menu, Feather } from 'lucide-react';
 import styles from './Navbar.module.css';
+import HomeButton from '../Chat/HomeButton.jsx';
 
 export default function Navbar({ onMenuClick, persona }) {
   return (
@@ -20,6 +21,7 @@ export default function Navbar({ onMenuClick, persona }) {
 
         <div className={styles.iconGroup}>
           <Feather size={26} />
+          <HomeButton />
         </div>
 
       </div>

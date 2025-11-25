@@ -27,9 +27,7 @@ export default function Chat() {
   const [chatToLoadId, setChatToLoadId] = useState(null);
 
   const handleLoadChat = (chatId) => {
-
     setChatToLoadId(chatId);
-
     closeSidebar();
   };
 
