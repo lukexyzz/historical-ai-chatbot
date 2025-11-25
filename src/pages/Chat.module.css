@@ -1,9 +1,10 @@
 .chatPageContainer {
   width: 100%;
   height: 100vh;
-  background-color: #f3e9d2;
+  background-color: var(--primary-bg);
   overflow-x: hidden;
   overflow-y: hidden;
+  color: var(--text-primary);
 }
 
 .mainContent {
@@ -14,6 +15,7 @@
   height: 100vh;
   width: 100%;
   position: relative;
+  background: radial-gradient(circle at center, var(--primary-bg) 0%, var(--secondary-bg) 100%);
 }
 
 .shifted {
@@ -24,7 +26,7 @@
 .chatArea {
   width: 100%;
   height: 100%;
-  color: #333;
+  color: var(--text-primary);
   flex-grow: 1;
   min-height: 0;
   display: flex;
