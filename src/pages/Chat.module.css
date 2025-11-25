@@ -1,7 +1,7 @@
 .chatPageContainer {
   width: 100%;
   height: 100vh;
-  background-color: #f3e9d2; 
+  background-color: #f3e9d2;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -13,6 +13,7 @@
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  position: relative;
 }
 
 .shifted {

@@ -1,28 +1,44 @@
 import styles from './ChatMessage.module.css';
 import ProfilePicture from "./ProfilePicture";
 import cleopatra from "../../assets/cleopatra.svg";
+import ramesses from "../../assets/ramesses.svg";
+import tutan from "../../assets/tutan.svg";
 import user from "../../assets/user.svg";
 
-export default function ChatMessage({ msg }) {
-    
+const personaImages = {
+    cleopatra: cleopatra,
+    ramesses: ramesses,
+    tutankhamun: tutan
+};
+
+export default function ChatMessage({ msg, persona }) {
+
     //Apply correct CSS class clearly
     const isUser = msg.role === 'user';
-    
+
     const containerClass = isUser ? styles.userMessageContainer : styles.apiMessageContainer;
     const nameClass = isUser ? styles.userName : styles.apiName;
     const bubbleClass = isUser ? styles.userBubble : styles.apiBubble;
     const timestampClass = isUser ? styles.userTimestamp : styles.apiTimestamp;
-    const alignClass = isUser ? styles.alignRight : styles.alignLeft; 
+    const alignClass = isUser ? styles.alignRight : styles.alignLeft;
+
+    // Determine the image to use
+    let avatarSrc = cleopatra; // Default
+    if (!isUser && persona && personaImages[persona.id]) {
+        avatarSrc = personaImages[persona.id];
+    } else if (isUser) {
+        avatarSrc = user;
+    }
 
     return (
-        <div 
+        <div
             className={`${styles.messageContainer} ${containerClass}`}
             role="status"
             aria-label={`${msg.name} sent: ${msg.text} at ${msg.timestamp}`}
         >
             {!isUser && (
                 <div className={styles.avatarWrapper}>
-                    <ProfilePicture src={cleopatra} />
+                    <ProfilePicture src={avatarSrc} alt={persona ? persona.name : 'AI'} />
                 </div>
             )}
             <div className={`${styles.textGroup} ${alignClass}`}>
@@ -33,7 +49,7 @@ export default function ChatMessage({ msg }) {
                 <div className={`${styles.messageBubble} ${bubbleClass}`}>
                     {msg.text}
                 </div>
-                
+
                 <small className={timestampClass}>
                     {msg.timestamp}
                 </small>
@@ -41,7 +57,7 @@ export default function ChatMessage({ msg }) {
 
             {isUser && (
                 <div className={styles.avatarWrapper}>
-                    <ProfilePicture src={user} />
+                    <ProfilePicture src={user} alt="User" />
                 </div>
             )}
         </div>

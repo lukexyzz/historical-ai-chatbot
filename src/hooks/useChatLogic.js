@@ -14,22 +14,22 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } 
             const loadChat = async () => {
                 try {
                     setIsLoading(true);
-                    
+
                     const data = await fetchSingleChat(chatToLoadId);
-                    
+
                     if (data && data.messages) {
                         sethistory(data.messages);
                     }
-                    
+
                     if (setChatToLoadId) setChatToLoadId(null);
-                    
+
                 } catch (error) {
                     console.error("Error loading chat:", error);
-                    sethistory([{ 
-                        role: "error", 
-                        text: "Failed to load chat history. Please try again.", 
-                        name: "System", 
-                        timestamp: getCurrentTime() 
+                    sethistory([{
+                        role: "error",
+                        text: "Failed to load chat history. Please try again.",
+                        name: "System",
+                        timestamp: getCurrentTime()
                     }]);
                 } finally {
                     setIsLoading(false);
@@ -54,15 +54,15 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } 
 
         try {
             const apiResponseText = await postUserMessage(userText);
-          
+
             if (!persona) {
                 throw new Error("Persona is not defined");
             }
-            const apiMessage = { 
-                role: 'api', 
-                text: apiResponseText, 
-                name: persona.name, 
-                timestamp: getCurrentTime() 
+            const apiMessage = {
+                role: 'api',
+                text: apiResponseText,
+                name: persona.name,
+                timestamp: getCurrentTime()
             };
             sethistory(prevHistory => [...prevHistory, apiMessage]);
         } catch (error) {

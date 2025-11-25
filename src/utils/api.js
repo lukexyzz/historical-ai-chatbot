@@ -16,7 +16,7 @@ export const postUserMessage = async (userMessage) => {
 
     } catch (error) {
         console.error("Fetch API error:", error);
-        return "Sorry, I couldn't reach the server."; 
+        return "Sorry, I couldn't reach the server.";
     }
 };
 
@@ -32,8 +32,8 @@ export const fetchPreviousChats = async () => {
         return await response.json();
     } catch (err) {
         console.error("Error fetching previous chats:", err);
-        throw new Error("Failed to fetch chat list from server."); 
-    } 
+        throw new Error("Failed to fetch chat list from server.");
+    }
 };
 
 export const savePreviousChat = async ({ title, personaId, messages }) => {
@@ -59,7 +59,7 @@ export const fetchSingleChat = async (chatId) => {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_APP_API_URL}/chat/${chatId}`
-        ); 
+        );
 
         if (!response.ok) {
             throw new Error(`Server error: ${response.status}`);
