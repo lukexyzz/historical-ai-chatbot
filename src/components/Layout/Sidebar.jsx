@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { fetchPreviousChats } from '../../utils/api'; // Assuming correct path
+import { fetchPreviousChats } from '../../utils/api';
 
 export default function Sidebar({ isOpen, onClose, onChatClick }) {
   const [previousChats, setPreviousChats] = useState([]);
