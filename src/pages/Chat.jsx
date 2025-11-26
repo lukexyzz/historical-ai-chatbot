@@ -36,7 +36,7 @@ export default function Chat() {
 
     const dataToSave = {
       title: PLACEMENT_TITLE,
-      personaId: TEMP_PERSONA_ID,
+      personaName: persona.name,
       messages: currentMessages,
     };
 

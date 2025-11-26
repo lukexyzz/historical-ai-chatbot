@@ -36,12 +36,12 @@ export const fetchPreviousChats = async () => {
     }
 };
 
-export const savePreviousChat = async ({ title, personaId, messages }) => {
+export const savePreviousChat = async ({ title, personaName, messages }) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat/save", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title, personaId, messages }),
+            body: JSON.stringify({ title, personaName, messages }),
         });
 
         if (!response.ok) {
