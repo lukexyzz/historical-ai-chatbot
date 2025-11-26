@@ -25,6 +25,7 @@ export default function Chat() {
   }, [location, navigate]);
   const [isSaving, setIsSaving] = useState(false);
   const [chatToLoadId, setChatToLoadId] = useState(null);
+  const [language, setLanguage] = useState('English');
 
   const handleLoadChat = (chatId) => {
     setChatToLoadId(chatId);
@@ -71,6 +72,8 @@ export default function Chat() {
         <Navbar
           onMenuClick={openSidebar}
           persona={persona}
+          language={language}
+          setLanguage={setLanguage}
         />
 
         <div className={styles.chatArea}>
@@ -80,6 +83,7 @@ export default function Chat() {
             onSaveChat={handleSaveChat}
             isSaving={isSaving}
             persona={persona}
+            language={language}
           />
         </div>
       </div>
