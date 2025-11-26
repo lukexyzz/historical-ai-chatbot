@@ -1,9 +1,9 @@
-export const postUserMessage = async (userMessage) => {
+export const postUserMessage = async (userMessage, persona) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userMessage }),
+            body: JSON.stringify({ message: userMessage, personaName: persona.name }),
         });
 
         if (!response.ok) {

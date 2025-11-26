@@ -53,7 +53,7 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } 
         setIsLoading(true);
 
         try {
-            const apiResponseText = await postUserMessage(userText);
+            const apiResponseText = await postUserMessage(userText, persona);
 
             if (!persona) {
                 throw new Error("Persona is not defined");

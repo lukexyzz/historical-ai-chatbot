@@ -1,14 +1,14 @@
 import styles from './ChatMessage.module.css';
 import ProfilePicture from "./ProfilePicture";
 import cleopatra from "../../assets/cleopatra.svg";
-import ramesses from "../../assets/ramesses.svg";
-import tutan from "../../assets/tutan.svg";
+import ramessesII from "../../assets/ramesses-ii.svg";
+import tutankhamun from "../../assets/tutankhamun.svg";
 import user from "../../assets/user.svg";
 
 const personaImages = {
     cleopatra: cleopatra,
-    ramesses: ramesses,
-    tutankhamun: tutan
+    ramesses: ramessesII,
+    tutankhamun: tutankhamun
 };
 
 export default function ChatMessage({ msg, persona }) {
