@@ -3,7 +3,7 @@ import ChatMessage from './ChatMessage';
 import LoadingIndicator from './LoadingIndicator';
 import useChatLogic from '../../hooks/useChatLogic';
 
-export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona }) {
+export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona, language }) {
 
     const {
         history,
@@ -12,7 +12,7 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
         chatBodyRef,
         setInput,
         handleSendMessage
-    } = useChatLogic({ chatToLoadId, setChatToLoadId, persona });
+    } = useChatLogic({ chatToLoadId, setChatToLoadId, persona, language });
 
     const handleEndSession = () => {
         onSaveChat(history);
@@ -49,10 +49,10 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
                 )}
 
                 {history.map((msg, index) => (
-                    <ChatMessage key={index} msg={msg} persona={persona} />
+                    <ChatMessage key={index} msg={msg} {persona} />
                 ))}
 
-                {isLoading && <LoadingIndicator />}
+                {isLoading && <LoadingIndicator persona={persona.name} />}
             </div>
 
 

@@ -1,9 +1,13 @@
-export const postUserMessage = async (userMessage, persona) => {
+export const postUserMessage = async (userMessage, persona, language) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userMessage, personaName: persona.name }),
+            body: JSON.stringify({
+                message: userMessage,
+                personaName: persona.name,
+                language: language
+            }),
         });
 
         if (!response.ok) {
@@ -12,11 +16,11 @@ export const postUserMessage = async (userMessage, persona) => {
 
         const data = await response.json();
 
-        return data.reply;
+        return data; // Return full data to access detectedLanguage if present
 
     } catch (error) {
         console.error("Fetch API error:", error);
-        return "Sorry, I couldn't reach the server.";
+        return { reply: "Sorry, I couldn't reach the server." };
     }
 };
 

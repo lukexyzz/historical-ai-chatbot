@@ -3,7 +3,7 @@ import { postUserMessage, fetchSingleChat } from '../utils/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 
-export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } = {}) {
+export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona, language } = {}) {
     const [history, sethistory] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -53,14 +53,20 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona } 
         setIsLoading(true);
 
         try {
-            const apiResponseText = await postUserMessage(userText, persona);
+            const apiResponse = await postUserMessage(userText, persona, language);
 
             if (!persona) {
                 throw new Error("Persona is not defined");
             }
+
+            // Handle backend translation detector if present
+            if (apiResponse.detectedLanguage) {
+                console.log("Detected Language:", apiResponse.detectedLanguage);
+            }
+
             const apiMessage = {
                 role: 'api',
-                text: apiResponseText,
+                text: apiResponse.reply,
                 name: persona.name,
                 timestamp: getCurrentTime()
             };

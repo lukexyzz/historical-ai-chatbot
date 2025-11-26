@@ -1,0 +1,14 @@
+.languageSelect {
+    background-color: var(--secondary-bg);
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+
+.languageSelect:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+}
