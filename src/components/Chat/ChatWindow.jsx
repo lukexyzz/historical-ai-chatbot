@@ -49,7 +49,7 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
                 )}
 
                 {history.map((msg, index) => (
-                    <ChatMessage key={index} msg={msg} {persona} />
+                    <ChatMessage key={index} msg={msg} persona={persona} />
                 ))}
 
                 {isLoading && <LoadingIndicator persona={persona.name} />}
