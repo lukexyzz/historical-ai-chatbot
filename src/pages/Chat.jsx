@@ -7,22 +7,24 @@ import styles from './Chat.module.css';
 import ChatWindow from '../components/Chat/ChatWindow.jsx';
 
 const PLACEMENT_TITLE = "Conversation History (Awaiting Title)";
-const TEMP_PERSONA_ID = "temp-guide-001";
 
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [persona, setPersona] = useState(null);
+  const [currentPersonaName, setCurrentPersonaName] = useState('');
 
   useEffect(() => {
     if (location.state && location.state.persona) {
       setPersona(location.state.persona);
+      setCurrentPersonaName(location.state.persona.name);
     } else {
       // Redirect to home if no persona selected
       navigate('/');
     }
   }, [location, navigate]);
+
   const [isSaving, setIsSaving] = useState(false);
   const [chatToLoadId, setChatToLoadId] = useState(null);
   const [language, setLanguage] = useState('English');
@@ -32,12 +34,20 @@ export default function Chat() {
     closeSidebar();
   };
 
+  const handleHistoryChange = (history) => {
+    // Extract persona name from the first API message
+    const firstApiMessage = history.find(msg => msg.role === 'api');
+    if (firstApiMessage && firstApiMessage.name) {
+      setCurrentPersonaName(firstApiMessage.name);
+    }
+  };
+
   const handleSaveChat = async (currentMessages) => {
     setIsSaving(true);
 
     const dataToSave = {
       title: PLACEMENT_TITLE,
-      personaName: persona.name,
+      personaName: currentPersonaName,
       messages: currentMessages,
     };
 
@@ -71,7 +81,7 @@ export default function Chat() {
       <div className={mainContentClasses}>
         <Navbar
           onMenuClick={openSidebar}
-          persona={persona}
+          personaName={currentPersonaName}
           language={language}
           setLanguage={setLanguage}
         />
@@ -84,6 +94,7 @@ export default function Chat() {
             isSaving={isSaving}
             persona={persona}
             language={language}
+            onHistoryChange={handleHistoryChange}
           />
         </div>
       </div>

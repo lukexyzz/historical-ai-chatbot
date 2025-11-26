@@ -2,8 +2,9 @@ import styles from './ChatWindow.module.css';
 import ChatMessage from './ChatMessage';
 import LoadingIndicator from './LoadingIndicator';
 import useChatLogic from '../../hooks/useChatLogic';
+import { useEffect } from 'react';
 
-export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona, language }) {
+export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona, language, onHistoryChange }) {
 
     const {
         history,
@@ -13,6 +14,13 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
         setInput,
         handleSendMessage
     } = useChatLogic({ chatToLoadId, setChatToLoadId, persona, language });
+
+    // Notify parent when history changes
+    useEffect(() => {
+        if (onHistoryChange) {
+            onHistoryChange(history);
+        }
+    }, [history, onHistoryChange]);
 
     const handleEndSession = () => {
         onSaveChat(history);
