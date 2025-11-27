@@ -2,67 +2,68 @@ import { useState, useEffect, useRef } from 'react';
 import { postUserMessage, fetchSingleChat } from '../utils/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
-
-export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona, language } = {}) {
-    const [history, sethistory] = useState([]);
+export default function useChatLogic({ chat, setChat, persona, language } = {}) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatBodyRef = useRef(null);
 
+    const messages = chat?.messages || [];
+
     useEffect(() => {
-        if (chatToLoadId) {
+        if (chat?.id && messages.length === 0) {
             const loadChat = async () => {
                 try {
                     setIsLoading(true);
-
-                    const data = await fetchSingleChat(chatToLoadId);
+                    const data = await fetchSingleChat(chat.id);
 
                     if (data && data.messages) {
-                        sethistory(data.messages);
+                        setChat(prev => ({ ...prev, messages: data.messages }));
                     }
-
-                    if (setChatToLoadId) setChatToLoadId(null);
-
                 } catch (error) {
                     console.error("Error loading chat:", error);
-                    sethistory([{
+                    const errorMsg = {
                         role: "error",
-                        text: "Failed to load chat history. Please try again.",
+                        text: "Failed to load chat history.",
                         name: "System",
                         timestamp: getCurrentTime()
-                    }]);
+                    };
+                    setChat(prev => ({ ...prev, messages: [errorMsg] }));
                 } finally {
                     setIsLoading(false);
                 }
             };
             loadChat();
         }
-    }, [chatToLoadId, setChatToLoadId]);
+    }, [chat?.id, setChat]);
 
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
         const userText = input.trim();
+        
         if (!userText || isLoading) return;
 
         const currentTime = getCurrentTime();
 
-        const userMessage = { role: 'user', text: userText, name: 'You', timestamp: currentTime };
-        sethistory(prevHistory => [...prevHistory, userMessage]);
+        const userMessage = { 
+            role: 'user', 
+            text: userText, 
+            name: 'You', 
+            timestamp: currentTime 
+        };
+
+        setChat(prev => ({
+            ...prev,
+            messages: [...(prev?.messages || []), userMessage]
+        }));
+        
         setInput('');
         setIsLoading(true);
 
         try {
+            if (!persona) throw new Error("Persona is not defined");
+
             const apiResponse = await postUserMessage(userText, persona, language);
-
-            if (!persona) {
-                throw new Error("Persona is not defined");
-            }
-
-            // Handle backend translation detector if present
-            if (apiResponse.detectedLanguage) {
-                console.log("Detected Language:", apiResponse.detectedLanguage);
-            }
 
             const apiMessage = {
                 role: 'api',
@@ -70,16 +71,25 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona, l
                 name: persona.name,
                 timestamp: getCurrentTime()
             };
-            sethistory(prevHistory => [...prevHistory, apiMessage]);
+
+            setChat(prev => ({
+                ...prev,
+                messages: [...(prev?.messages || []), apiMessage]
+            }));
+
         } catch (error) {
-            console.error("API Error in handleSendMessage:", error);
+            console.error("API Error:", error);
             const errorMessage = {
                 role: "api",
-                text: "Sorry, an unexpected error occurred during dialogue processing.",
+                text: "Sorry, an error occurred.",
                 name: "Error",
                 timestamp: getCurrentTime()
             };
-            sethistory(prevHistory => [...prevHistory, errorMessage]);
+            
+            setChat(prev => ({
+                ...prev,
+                messages: [...(prev?.messages || []), errorMessage]
+            }));
         } finally {
             setIsLoading(false);
         }
@@ -89,10 +99,9 @@ export default function useChatLogic({ chatToLoadId, setChatToLoadId, persona, l
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
         }
-    }, [history, isLoading]);
+    }, [messages, isLoading]);
 
     return {
-        history,
         input,
         isLoading,
         chatBodyRef,

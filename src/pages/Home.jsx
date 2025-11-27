@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-
 import { personas } from '../data/personas';
 
 export default function Home() {

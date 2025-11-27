@@ -2,33 +2,32 @@ import styles from './ChatWindow.module.css';
 import ChatMessage from './ChatMessage';
 import LoadingIndicator from './LoadingIndicator';
 import useChatLogic from '../../hooks/useChatLogic';
-import { useEffect } from 'react';
 
-export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChatToLoadId, persona, language, onHistoryChange }) {
+export default function ChatWindow({ 
+    chat, 
+    setChat, 
+    onSaveChat, 
+    isSaving = false, 
+    persona, 
+    language = 'en' 
+}) {
 
     const {
-        history,
         input,
         isLoading,
         chatBodyRef,
         setInput,
         handleSendMessage
-    } = useChatLogic({ chatToLoadId, setChatToLoadId, persona, language });
+    } = useChatLogic({ chat, setChat, persona, language });
 
-    // Notify parent when history changes
-    useEffect(() => {
-        if (onHistoryChange) {
-            onHistoryChange(history);
-        }
-    }, [history, onHistoryChange]);
+    const messages = chat?.messages || [];
 
     const handleEndSession = () => {
-        onSaveChat(history);
+        onSaveChat(messages);
     };
 
-    const hasHistory = history.length > 0;
+    const hasHistory = messages.length > 0;
     const canSave = hasHistory && !isSaving && !isLoading;
-
 
     return (
         <div className={styles.chatContainer}>
@@ -50,19 +49,18 @@ export default function ChatWindow({ onSaveChat, isSaving, chatToLoadId, setChat
                 ref={chatBodyRef}
                 role="log"
             >
-                {history.length === 0 && (
+                {messages.length === 0 && (
                     <p className={styles.chatPlaceholder}>
-                        Start the conversation with {persona.name}!
+                        Start the conversation with {persona?.name || 'your companion'}!
                     </p>
                 )}
 
-                {history.map((msg, index) => (
+                {messages.map((msg, index) => (
                     <ChatMessage key={index} msg={msg} persona={persona} />
                 ))}
 
-                {isLoading && <LoadingIndicator persona={persona.name} />}
+                {isLoading && <LoadingIndicator persona={persona?.name} />}
             </div>
-
 
             <form onSubmit={handleSendMessage} className={styles.inputForm}>
                 <input

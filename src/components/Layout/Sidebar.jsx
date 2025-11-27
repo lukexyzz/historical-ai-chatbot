@@ -32,9 +32,9 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
     isOpen ? styles.open : ''
   ].join(' ');
 
-  const handleChatClick = (chatId) => {
+  const handleChatClick = (chat) => {
     if (onChatClick) {
-      onChatClick(chatId);
+      onChatClick(chat);
     }
   };
 
@@ -58,7 +58,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
             <li
               key={chat.id}
               className={styles.chatItem}
-              onClick={() => handleChatClick(chat.id)}
+              onClick={() => handleChatClick(chat)}
               role="button"
               tabIndex="0"
               aria-label={`Load chat: ${chat.title}`}
