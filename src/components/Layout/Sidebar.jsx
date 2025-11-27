@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
 import { fetchPreviousChats } from '../../utils/api';
 
-export default function Sidebar({ isOpen, onClose, onChatClick }) {
+export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }) {
   const [previousChats, setPreviousChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +25,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick }) {
 
     loadChats();
 
-  }, []);
+  }, [refreshTrigger]); 
 
   const sidebarClasses = [
     styles.sidebar,

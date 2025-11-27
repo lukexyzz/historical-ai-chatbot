@@ -17,6 +17,7 @@ export default function Chat() {
   const [chat, setChat] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [language, setLanguage] = useState('English');
+  const [refreshSidebarTrigger, setRefreshSidebarTrigger] = useState(0);
 
   useEffect(() => {
     if (location.state && location.state.persona) {
@@ -44,6 +45,9 @@ export default function Chat() {
     try {
       await savePreviousChat(dataToSave);
       console.log('Chat saved successfully!');
+      
+      setRefreshSidebarTrigger(prev => prev + 1);
+      
     } catch (error) {
       console.error("Error saving chat:", error);
     } finally {
@@ -59,7 +63,7 @@ export default function Chat() {
     isSidebarOpen ? styles.shifted : ''
   ].join(' ');
 
-  if (!persona) return null; // or a loading spinner
+  if (!persona) return null;
 
   return (
     <div className={styles.chatPageContainer}>
@@ -67,6 +71,7 @@ export default function Chat() {
         isOpen={isSidebarOpen}
         onClose={closeSidebar}
         onChatClick={handleLoadChat}
+        refreshTrigger={refreshSidebarTrigger}
       />
       <div className={mainContentClasses}>
         <Navbar
