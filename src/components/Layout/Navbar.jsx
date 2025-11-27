@@ -4,7 +4,7 @@ import HomeButton from '../Chat/HomeButton.jsx';
 
 import LangDropdown from './LangDropdown';
 
-export default function Navbar({ onMenuClick, persona, language, setLanguage }) {
+export default function Navbar({ onMenuClick, personaName, language, setLanguage }) {
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -17,7 +17,7 @@ export default function Navbar({ onMenuClick, persona, language, setLanguage }) 
 
         <div>
           <h1 className={styles.title}>
-            Talk with {persona ? persona.name : '...'}
+            Talk with {personaName || '...'}
           </h1>
         </div>
 
