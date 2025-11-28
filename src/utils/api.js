@@ -74,3 +74,24 @@ export const fetchSingleChat = async (chatId) => {
         throw new Error("Failed to load conversation.");
     }
 };
+
+export const deletePreviousChat = async (chatId) => {
+    try {
+
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/chat/${chatId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Delete chat API error:", error);
+        throw new Error("Failed to delete the chat session");
+    }
+};

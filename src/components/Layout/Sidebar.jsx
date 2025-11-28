@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { fetchPreviousChats } from '../../utils/api';
+import { fetchPreviousChats, deletePreviousChat } from '../../utils/api';
+import DeleteButton from './DeleteButton.jsx';
 
 export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }) {
   const [previousChats, setPreviousChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   useEffect(() => {
     const loadChats = async () => {
@@ -25,7 +25,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
 
     loadChats();
 
-  }, [refreshTrigger]); 
+  }, [refreshTrigger]);
 
   const sidebarClasses = [
     styles.sidebar,
@@ -35,6 +35,17 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
   const handleChatClick = (chat) => {
     if (onChatClick) {
       onChatClick(chat);
+    }
+  };
+
+  const handleDeleteChat = async (chatId) => {
+    try {
+      await deletePreviousChat(chatId);
+      // Refresh the chat list by removing the deleted chat
+      setPreviousChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+      setError("Failed to delete chat. Please try again.");
     }
   };
 
@@ -58,18 +69,26 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
             <li
               key={chat.id}
               className={styles.chatItem}
-              onClick={() => handleChatClick(chat)}
               role="button"
               tabIndex="0"
               aria-label={`Load chat: ${chat.title}`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleChatClick(chat.id);
-                }
-              }}
             >
-              {chat.title}
+              <span
+                className={styles.chatTitle}
+                onClick={() => handleChatClick(chat)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleChatClick(chat);
+                  }
+                }}
+              >
+                {chat.title}
+              </span>
+              <DeleteButton
+                onClick={() => handleDeleteChat(chat.id)}
+                chatTitle={chat.title}
+              />
             </li>
           ))}
         </ul>

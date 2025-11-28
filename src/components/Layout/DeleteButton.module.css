@@ -1,0 +1,30 @@
+.deleteButton {
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    color: rgba(245, 230, 211, 0.6);
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.deleteButton:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    transform: scale(1.1);
+}
+
+.deleteButton:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+.deleteIcon {
+    width: 18px;
+    height: 18px;
+}
