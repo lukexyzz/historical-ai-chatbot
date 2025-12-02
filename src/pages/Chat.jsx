@@ -9,6 +9,12 @@ import { personas } from '../data/personas';
 
 const PLACEMENT_TITLE = "Conversation History (Awaiting Title)";
 
+/**
+ * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
+ * 
+ * @component
+ * @returns {JSX.Element|null} The rendered chat page or null if no persona is selected.
+ */
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -45,9 +51,9 @@ export default function Chat() {
     try {
       await savePreviousChat(dataToSave);
       console.log('Chat saved successfully!');
-      
+
       setRefreshSidebarTrigger(prev => prev + 1);
-      
+
     } catch (error) {
       console.error("Error saving chat:", error);
     } finally {

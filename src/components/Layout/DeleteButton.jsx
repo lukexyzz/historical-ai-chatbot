@@ -1,5 +1,14 @@
 import styles from './DeleteButton.module.css';
 
+/**
+ * A button component to delete a chat session.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.onClick - Callback function to handle the delete action.
+ * @param {string} props.chatTitle - The title of the chat being deleted (for accessibility).
+ * @returns {JSX.Element} The rendered delete button.
+ */
 export default function DeleteButton({ onClick, chatTitle }) {
     const handleClick = (e) => {
         e.stopPropagation(); // Prevent triggering the chat item click

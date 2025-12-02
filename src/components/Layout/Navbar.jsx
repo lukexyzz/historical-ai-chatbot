@@ -4,6 +4,17 @@ import HomeButton from '../Chat/HomeButton.jsx';
 
 import LangDropdown from './LangDropdown';
 
+/**
+ * The navigation bar component displayed at the top of the chat interface.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.onMenuClick - Callback function to handle menu button clicks (e.g., to open sidebar).
+ * @param {string} props.personaName - The name of the current persona.
+ * @param {string} props.language - The current language code.
+ * @param {Function} props.setLanguage - State setter for updating the language.
+ * @returns {JSX.Element} The rendered navbar.
+ */
 export default function Navbar({ onMenuClick, personaName, language, setLanguage }) {
   return (
     <nav className={styles.navbar}>

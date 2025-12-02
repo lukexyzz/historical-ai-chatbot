@@ -1,6 +1,14 @@
 import styles from './LoadingIndicator.module.css';
 import messageStyles from './ChatMessage.module.css';
 
+/**
+ * A visual indicator displayed while the AI is generating a response.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.persona - The name of the persona generating the response.
+ * @returns {JSX.Element} The rendered loading indicator.
+ */
 export default function LoadingIndicator({ persona }) {
 
     return (

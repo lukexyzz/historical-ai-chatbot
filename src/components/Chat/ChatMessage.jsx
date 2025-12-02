@@ -5,12 +5,31 @@ import ramessesII from "../../assets/ramesses-ii.svg";
 import tutankhamun from "../../assets/tutankhamun.svg";
 import user from "../../assets/user.svg";
 
+/**
+ * Mapping of persona IDs to their respective image assets.
+ * @type {Object.<string, string>}
+ */
 const personaImages = {
     cleopatra: cleopatra,
     ramesses: ramessesII,
     tutankhamun: tutankhamun
 };
 
+/**
+ * A component that displays a single chat message.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.msg - The message object containing details about the chat message.
+ * @param {string} props.msg.role - The role of the sender ('user' or 'model').
+ * @param {string} props.msg.name - The display name of the sender.
+ * @param {string} props.msg.text - The content of the message.
+ * @param {string} props.msg.timestamp - The timestamp of when the message was sent.
+ * @param {Object} [props.persona] - The persona object associated with the chat (if applicable).
+ * @param {string} props.persona.id - The unique identifier for the persona.
+ * @param {string} props.persona.name - The name of the persona.
+ * @returns {JSX.Element} The rendered chat message component.
+ */
 export default function ChatMessage({ msg, persona }) {
 
     //Apply correct CSS class clearly
