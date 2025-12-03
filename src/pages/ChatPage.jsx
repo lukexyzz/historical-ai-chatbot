@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { savePreviousChat } from '../utils/api';
+import { savePreviousChat } from '../services/api';
 import Navbar from '../components/Layout/Navbar.jsx';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css';
-import ChatWindow from '../components/Chat/ChatWindow.jsx';
+import ChatWindow from '../features/chat/components/ChatWindow.jsx';
 import { personas } from '../data/personas';
 
 const PLACEMENT_TITLE = "Conversation History (Awaiting Title)";
@@ -45,9 +45,9 @@ export default function Chat() {
     try {
       await savePreviousChat(dataToSave);
       console.log('Chat saved successfully!');
-      
+
       setRefreshSidebarTrigger(prev => prev + 1);
-      
+
     } catch (error) {
       console.error("Error saving chat:", error);
     } finally {

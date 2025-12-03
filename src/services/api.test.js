@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { postUserMessage, fetchPreviousChats, savePreviousChat, fetchSingleChat, deletePreviousChat } from './api';
 
 // Mock global fetch

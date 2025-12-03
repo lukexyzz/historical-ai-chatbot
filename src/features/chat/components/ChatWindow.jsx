@@ -1,15 +1,15 @@
 import styles from './ChatWindow.module.css';
 import ChatMessage from './ChatMessage';
-import LoadingIndicator from './LoadingIndicator';
-import useChatLogic from '../../hooks/useChatLogic';
+import LoadingIndicator from '../../../components/UI/LoadingIndicator';
+import useChatLogic from '../hooks/useChatLogic';
 
-export default function ChatWindow({ 
-    chat, 
-    setChat, 
-    onSaveChat, 
-    isSaving = false, 
-    persona, 
-    language = 'en' 
+export default function ChatWindow({
+    chat,
+    setChat,
+    onSaveChat,
+    isSaving = false,
+    persona,
+    language = 'en'
 }) {
 
     const {

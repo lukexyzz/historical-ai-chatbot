@@ -1,10 +1,10 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Chat from './Chat';
-import { savePreviousChat } from '../utils/api';
+import Chat from './ChatPage';
+import { savePreviousChat } from '../services/api';
 
 // Mock dependencies
-vi.mock('../utils/api', () => ({
+vi.mock('../services/api', () => ({
     savePreviousChat: vi.fn(),
 }));
 
@@ -17,7 +17,7 @@ vi.mock('react-router-dom', () => ({
 }));
 
 // Mock child components to simplify testing and isolate Chat logic
-vi.mock('../components/Chat/ChatWindow', () => ({
+vi.mock('../features/chat/components/ChatWindow', () => ({
     default: ({ onSaveChat, persona, isSaving }) => (
         <div data-testid="chat-window">
             Chat with {persona.name}

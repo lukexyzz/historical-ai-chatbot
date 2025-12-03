@@ -7,7 +7,7 @@ vi.mock('./LangDropdown', () => ({
     default: () => <div data-testid="lang-dropdown">LangDropdown</div>
 }));
 
-vi.mock('../Chat/HomeButton', () => ({
+vi.mock('../UI/Button/HomeButton', () => ({
     default: () => <div data-testid="home-button">HomeButton</div>
 }));
 

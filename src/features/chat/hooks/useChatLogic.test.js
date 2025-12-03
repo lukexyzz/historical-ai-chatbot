@@ -1,10 +1,10 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import useChatLogic from './useChatLogic';
-import * as api from '../utils/api';
+import * as api from '../../../services/api';
 
 // Mock API functions
-vi.mock('../utils/api', () => ({
+vi.mock('../../../services/api', () => ({
     postUserMessage: vi.fn(),
     fetchSingleChat: vi.fn(),
 }));

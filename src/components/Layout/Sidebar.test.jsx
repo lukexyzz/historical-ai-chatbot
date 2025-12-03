@@ -1,16 +1,16 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Sidebar from './Sidebar';
-import * as api from '../../utils/api';
+import * as api from '../../services/api';
 
 // Mock API
-vi.mock('../../utils/api', () => ({
+vi.mock('../../services/api', () => ({
     fetchPreviousChats: vi.fn(),
     deletePreviousChat: vi.fn(),
 }));
 
 // Mock DeleteButton
-vi.mock('./DeleteButton', () => ({
+vi.mock('../UI/Button/DeleteButton', () => ({
     default: ({ onClick }) => (
         <button onClick={(e) => { e.stopPropagation(); onClick(); }} aria-label="Delete chat">
             Delete

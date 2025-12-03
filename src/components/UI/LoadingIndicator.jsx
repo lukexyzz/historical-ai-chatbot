@@ -1,5 +1,5 @@
 import styles from './LoadingIndicator.module.css';
-import messageStyles from './ChatMessage.module.css';
+import messageStyles from '../../features/chat/components/ChatMessage.module.css';
 
 export default function LoadingIndicator({ persona }) {
 

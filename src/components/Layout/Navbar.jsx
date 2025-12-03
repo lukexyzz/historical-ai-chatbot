@@ -1,6 +1,6 @@
 import { Menu, Feather } from 'lucide-react';
 import styles from './Navbar.module.css';
-import HomeButton from '../Chat/HomeButton.jsx';
+import HomeButton from '../UI/Button/HomeButton.jsx';
 
 import LangDropdown from './LangDropdown';
 

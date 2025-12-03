@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { fetchPreviousChats, deletePreviousChat } from '../../utils/api';
-import DeleteButton from './DeleteButton.jsx';
+import { fetchPreviousChats, deletePreviousChat } from '../../services/api';
+import DeleteButton from '../UI/Button/DeleteButton.jsx';
 
 export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }) {
   const [previousChats, setPreviousChats] = useState([]);

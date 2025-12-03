@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { postUserMessage, fetchSingleChat } from '../utils/api';
+import { postUserMessage, fetchSingleChat } from '../../../services/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 export default function useChatLogic({ chat, setChat, persona, language } = {}) {
@@ -40,23 +40,23 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
     const handleSendMessage = async (e) => {
         e.preventDefault();
         const userText = input.trim();
-        
+
         if (!userText || isLoading) return;
 
         const currentTime = getCurrentTime();
 
-        const userMessage = { 
-            role: 'user', 
-            text: userText, 
-            name: 'You', 
-            timestamp: currentTime 
+        const userMessage = {
+            role: 'user',
+            text: userText,
+            name: 'You',
+            timestamp: currentTime
         };
 
         setChat(prev => ({
             ...prev,
             messages: [...(prev?.messages || []), userMessage]
         }));
-        
+
         setInput('');
         setIsLoading(true);
 
@@ -85,7 +85,7 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
                 name: "Error",
                 timestamp: getCurrentTime()
             };
-            
+
             setChat(prev => ({
                 ...prev,
                 messages: [...(prev?.messages || []), errorMessage]

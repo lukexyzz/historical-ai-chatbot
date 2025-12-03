@@ -1,9 +1,10 @@
+
 import styles from './ChatMessage.module.css';
 import ProfilePicture from "./ProfilePicture";
-import cleopatra from "../../assets/cleopatra.svg";
-import ramessesII from "../../assets/ramesses-ii.svg";
-import tutankhamun from "../../assets/tutankhamun.svg";
-import user from "../../assets/user.svg";
+import cleopatra from "../../../assets/icons/cleopatra.svg";
+import ramessesII from "../../../assets/icons/ramesses-ii.svg";
+import tutankhamun from "../../../assets/icons/tutankhamun.svg";
+import user from "../../../assets/icons/user.svg";
 
 const personaImages = {
     cleopatra: cleopatra,
