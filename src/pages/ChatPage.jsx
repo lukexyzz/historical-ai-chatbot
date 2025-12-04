@@ -7,7 +7,7 @@ import styles from './Chat.module.css';
 import ChatWindow from '../features/chat/components/ChatWindow.jsx';
 import { personas } from '../data/personas';
 
-const PLACEMENT_TITLE = "Conversation History (Awaiting Title)";
+
 
 /**
  * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
@@ -43,7 +43,7 @@ export default function Chat() {
     setIsSaving(true);
 
     const dataToSave = {
-      title: PLACEMENT_TITLE,
+      title: chat?.title || null,
       personaName: persona.name,
       messages: currentMessages,
     };
