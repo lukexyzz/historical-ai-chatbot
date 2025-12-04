@@ -55,7 +55,42 @@ describe('useChatLogic', () => {
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
 
         // Check if API was called
-        expect(api.postUserMessage).toHaveBeenCalledWith('Hi', persona, undefined);
+        expect(api.postUserMessage).toHaveBeenCalledWith('Hi', persona, undefined, undefined);
+    });
+
+    it('handles dialogueTree and mode updates', async () => {
+        const setChat = vi.fn();
+        const persona = { name: 'Cleopatra' };
+        const initialChat = { messages: [], dialogueTree: { id: '1' } };
+
+        api.postUserMessage.mockResolvedValue({
+            reply: 'Hello',
+            dialogueTree: { id: '2' },
+            mode: 'interactive'
+        });
+
+        const { result } = renderHook(() => useChatLogic({ chat: initialChat, setChat, persona }));
+
+        act(() => {
+            result.current.setInput('Next');
+        });
+
+        await act(async () => {
+            await result.current.handleSendMessage({ preventDefault: vi.fn() });
+        });
+
+        // Check if API was called with correct dialogueTree
+        expect(api.postUserMessage).toHaveBeenCalledWith('Next', persona, undefined, { id: '1' });
+
+        // Check if state was updated with new dialogueTree and mode
+        expect(setChat).toHaveBeenCalledWith(expect.any(Function));
+
+        // Verify the updater function (second call is the API response update)
+        const updater = setChat.mock.calls[1][0];
+        const newState = updater(initialChat);
+
+        expect(newState.dialogueTree).toEqual({ id: '2' });
+        expect(newState.mode).toBe('interactive');
     });
 
     it('handles API errors gracefully', async () => {
