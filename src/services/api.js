@@ -11,7 +11,7 @@
 */
 export const postUserMessage = async (userMessage, persona, language, dialogueTree) => {
     try {
-        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
+        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -46,7 +46,7 @@ export const postUserMessage = async (userMessage, persona, language, dialogueTr
 export const fetchPreviousChats = async () => {
     try {
 
-        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/previous-chat");
+        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat/history");
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,7 +72,7 @@ export const fetchPreviousChats = async () => {
  */
 export const savePreviousChat = async ({ title, personaName, messages }) => {
     try {
-        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/chat/save", {
+        const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat/history", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title, personaName, messages }),
@@ -100,7 +100,7 @@ export const savePreviousChat = async ({ title, personaName, messages }) => {
 export const fetchSingleChat = async (chatId) => {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_APP_API_URL}/chat/${chatId}`
+            `${import.meta.env.VITE_APP_API_URL}/api/chat/history/${chatId}`
         );
 
         if (!response.ok) {
@@ -124,7 +124,7 @@ export const fetchSingleChat = async (chatId) => {
 export const deletePreviousChat = async (chatId) => {
     try {
 
-        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/chat/${chatId}`, {
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/chat/history/${chatId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"

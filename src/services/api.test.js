@@ -24,7 +24,7 @@ describe('API Utils', () => {
 
             const result = await postUserMessage('Hello', { name: 'Cleopatra' }, 'en');
 
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/chat'), {
+            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/chat'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -72,7 +72,7 @@ describe('API Utils', () => {
             });
 
             const result = await savePreviousChat({ title: 'Test', personaName: 'Cleopatra', messages: [] });
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/chat/save'), expect.objectContaining({
+            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/chat/history'), expect.objectContaining({
                 method: 'POST'
             }));
             expect(result).toEqual(mockData);
