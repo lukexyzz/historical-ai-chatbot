@@ -65,7 +65,7 @@ describe('useChatLogic', () => {
 
         chatService.sendMessage.mockResolvedValue({
             reply: 'Hello',
-            dialogueTree: { id: '2' },
+            treeState: { id: '2' },
             mode: 'interactive'
         });
 
