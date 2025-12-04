@@ -90,7 +90,7 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
             setChat(prev => ({
                 ...prev,
                 messages: [...(prev?.messages || []), apiMessage],
-                dialogueTree: apiResponse.dialogueTree,
+                dialogueTree: apiResponse.treeState,
                 mode: apiResponse.mode
             }));
 

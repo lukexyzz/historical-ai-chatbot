@@ -18,7 +18,7 @@ export const sendMessage = async (userMessage, persona, language, dialogueTree) 
                 message: userMessage,
                 personaName: persona.name,
                 language: language,
-                dialogueTree: dialogueTree
+                treeState: dialogueTree
             }),
         });
 
