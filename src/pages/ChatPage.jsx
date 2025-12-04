@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { savePreviousChat } from '../services/api';
+import { createChatHistory } from '../services/chatService';
 import Navbar from '../components/Layout/Navbar.jsx';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css';
@@ -49,7 +49,7 @@ export default function Chat() {
     };
 
     try {
-      await savePreviousChat(dataToSave);
+      await createChatHistory(dataToSave);
       console.log('Chat saved successfully!');
 
       setRefreshSidebarTrigger(prev => prev + 1);

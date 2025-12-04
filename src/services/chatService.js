@@ -9,7 +9,7 @@
 * @returns {Promise<Object>} A promise that resolves to the API response data, including the reply and potentially detected language.
 * @throws {Error} If the server responds with an error status.
 */
-export const postUserMessage = async (userMessage, persona, language, dialogueTree) => {
+export const sendMessage = async (userMessage, persona, language, dialogueTree) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat", {
             method: "POST",
@@ -43,7 +43,7 @@ export const postUserMessage = async (userMessage, persona, language, dialogueTr
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of previous chat session objects.
  * @throws {Error} If the fetch operation fails or the server returns an error.
  */
-export const fetchPreviousChats = async () => {
+export const getChatHistory = async () => {
     try {
 
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat/history");
@@ -70,7 +70,7 @@ export const fetchPreviousChats = async () => {
  * @returns {Promise<Object>} A promise that resolves to the server response.
  * @throws {Error} If the save operation fails.
  */
-export const savePreviousChat = async ({ title, personaName, messages }) => {
+export const createChatHistory = async ({ title, personaName, messages }) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat/history", {
             method: "POST",
@@ -97,7 +97,7 @@ export const savePreviousChat = async ({ title, personaName, messages }) => {
  * @returns {Promise<Object>} A promise that resolves to the chat session data.
  * @throws {Error} If the fetch operation fails.
  */
-export const fetchSingleChat = async (chatId) => {
+export const getChatHistoryById = async (chatId) => {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_APP_API_URL}/api/chat/history/${chatId}`
@@ -121,7 +121,7 @@ export const fetchSingleChat = async (chatId) => {
  * @returns {Promise<Object>} A promise that resolves to the server response.
  * @throws {Error} If the delete operation fails.
  */
-export const deletePreviousChat = async (chatId) => {
+export const deleteChatHistory = async (chatId) => {
     try {
 
         const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/chat/history/${chatId}`, {

@@ -1,12 +1,12 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import useChatLogic from './useChatLogic';
-import * as api from '../../../services/api';
+import * as chatService from '../../../services/chatService';
 
 // Mock API functions
-vi.mock('../../../services/api', () => ({
-    postUserMessage: vi.fn(),
-    fetchSingleChat: vi.fn(),
+vi.mock('../../../services/chatService', () => ({
+    sendMessage: vi.fn(),
+    getChatHistoryById: vi.fn(),
 }));
 
 describe('useChatLogic', () => {
@@ -39,7 +39,7 @@ describe('useChatLogic', () => {
         const setChat = vi.fn();
         const persona = { name: 'Cleopatra' };
 
-        api.postUserMessage.mockResolvedValue({ reply: 'Hello User' });
+        chatService.sendMessage.mockResolvedValue({ reply: 'Hello User' });
 
         const { result } = renderHook(() => useChatLogic({ chat: { messages: [] }, setChat, persona }));
 
@@ -55,7 +55,7 @@ describe('useChatLogic', () => {
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
 
         // Check if API was called
-        expect(api.postUserMessage).toHaveBeenCalledWith('Hi', persona, undefined, undefined);
+        expect(chatService.sendMessage).toHaveBeenCalledWith('Hi', persona, undefined, undefined);
     });
 
     it('handles dialogueTree and mode updates', async () => {
@@ -63,7 +63,7 @@ describe('useChatLogic', () => {
         const persona = { name: 'Cleopatra' };
         const initialChat = { messages: [], dialogueTree: { id: '1' } };
 
-        api.postUserMessage.mockResolvedValue({
+        chatService.sendMessage.mockResolvedValue({
             reply: 'Hello',
             dialogueTree: { id: '2' },
             mode: 'interactive'
@@ -80,7 +80,7 @@ describe('useChatLogic', () => {
         });
 
         // Check if API was called with correct dialogueTree
-        expect(api.postUserMessage).toHaveBeenCalledWith('Next', persona, undefined, { id: '1' });
+        expect(chatService.sendMessage).toHaveBeenCalledWith('Next', persona, undefined, { id: '1' });
 
         // Check if state was updated with new dialogueTree and mode
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
@@ -97,7 +97,7 @@ describe('useChatLogic', () => {
         const setChat = vi.fn();
         const persona = { name: 'Cleopatra' };
 
-        api.postUserMessage.mockRejectedValue(new Error('API Error'));
+        chatService.sendMessage.mockRejectedValue(new Error('API Error'));
 
         const { result } = renderHook(() => useChatLogic({ chat: { messages: [] }, setChat, persona }));
 

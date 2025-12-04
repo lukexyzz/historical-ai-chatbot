@@ -1,11 +1,11 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Chat from './ChatPage';
-import { savePreviousChat } from '../services/api';
+import { createChatHistory } from '../services/chatService';
 
 // Mock dependencies
-vi.mock('../services/api', () => ({
-    savePreviousChat: vi.fn(),
+vi.mock('../services/chatService', () => ({
+    createChatHistory: vi.fn(),
 }));
 
 const mockNavigate = vi.fn();
@@ -59,11 +59,11 @@ describe('Chat Component', () => {
         expect(mockNavigate).not.toHaveBeenCalled();
     });
 
-    it('calls savePreviousChat when save is triggered from ChatWindow', async () => {
+    it('calls createChatHistory when save is triggered from ChatWindow', async () => {
         mockLocation.state = {
             persona: { id: 'cleopatra', name: 'Cleopatra' }
         };
-        savePreviousChat.mockResolvedValue({});
+        createChatHistory.mockResolvedValue({});
         const logSpy = vi.spyOn(console, 'log').mockImplementation(() => { });
 
         render(<Chat />);
@@ -73,14 +73,14 @@ describe('Chat Component', () => {
         fireEvent.click(saveButton);
 
         await waitFor(() => {
-            expect(savePreviousChat).toHaveBeenCalledTimes(1);
+            expect(createChatHistory).toHaveBeenCalledTimes(1);
         });
 
         await waitFor(() => {
             expect(screen.getByText('Save Chat')).toBeInTheDocument();
         });
 
-        expect(savePreviousChat).toHaveBeenCalledWith(expect.objectContaining({
+        expect(createChatHistory).toHaveBeenCalledWith(expect.objectContaining({
             personaName: 'Cleopatra',
             messages: expect.any(Array),
         }));

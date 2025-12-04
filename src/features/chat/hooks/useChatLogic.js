@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { postUserMessage, fetchSingleChat } from '../../../services/api';
+import { sendMessage, getChatHistoryById } from '../../../services/chatService';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 /**
@@ -29,7 +29,7 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
             const loadChat = async () => {
                 try {
                     setIsLoading(true);
-                    const data = await fetchSingleChat(chat.id);
+                    const data = await getChatHistoryById(chat.id);
 
                     if (data && data.messages) {
                         setChat(prev => ({ ...prev, messages: data.messages }));
@@ -78,7 +78,7 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
         try {
             if (!persona) throw new Error("Persona is not defined");
 
-            const apiResponse = await postUserMessage(userText, persona, language, chat?.dialogueTree);
+            const apiResponse = await sendMessage(userText, persona, language, chat?.dialogueTree);
 
             const apiMessage = {
                 role: 'api',

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { postUserMessage, fetchPreviousChats, savePreviousChat, fetchSingleChat, deletePreviousChat } from './api';
+import { sendMessage, getChatHistory, createChatHistory, getChatHistoryById, deleteChatHistory } from './chatService';
 
 // Mock global fetch
 global.fetch = vi.fn();
@@ -14,7 +14,7 @@ describe('API Utils', () => {
         vi.restoreAllMocks();
     });
 
-    describe('postUserMessage', () => {
+    describe('sendMessage', () => {
         it('sends a POST request and returns data on success', async () => {
             const mockResponse = { reply: 'Hello from AI' };
             fetch.mockResolvedValueOnce({
@@ -22,7 +22,7 @@ describe('API Utils', () => {
                 json: async () => mockResponse,
             });
 
-            const result = await postUserMessage('Hello', { name: 'Cleopatra' }, 'en');
+            const result = await sendMessage('Hello', { name: 'Cleopatra' }, 'en');
 
             expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/chat'), {
                 method: 'POST',
@@ -39,13 +39,13 @@ describe('API Utils', () => {
         it('returns error message on failure', async () => {
             fetch.mockRejectedValueOnce(new Error('Network error'));
 
-            const result = await postUserMessage('Hello', { name: 'Cleopatra' }, 'en');
+            const result = await sendMessage('Hello', { name: 'Cleopatra' }, 'en');
 
             expect(result).toEqual({ reply: "Sorry, I couldn't reach the server." });
         });
     });
 
-    describe('fetchPreviousChats', () => {
+    describe('getChatHistory', () => {
         it('fetches previous chats successfully', async () => {
             const mockChats = [{ id: 1, title: 'Chat 1' }];
             fetch.mockResolvedValueOnce({
@@ -53,17 +53,17 @@ describe('API Utils', () => {
                 json: async () => mockChats,
             });
 
-            const result = await fetchPreviousChats();
+            const result = await getChatHistory();
             expect(result).toEqual(mockChats);
         });
 
         it('throws error on failure', async () => {
             fetch.mockResolvedValueOnce({ ok: false, status: 500 });
-            await expect(fetchPreviousChats()).rejects.toThrow("Failed to fetch chat list from server.");
+            await expect(getChatHistory()).rejects.toThrow("Failed to fetch chat list from server.");
         });
     });
 
-    describe('savePreviousChat', () => {
+    describe('createChatHistory', () => {
         it('sends POST request to save chat', async () => {
             const mockData = { id: 123 };
             fetch.mockResolvedValueOnce({
@@ -71,7 +71,7 @@ describe('API Utils', () => {
                 json: async () => mockData,
             });
 
-            const result = await savePreviousChat({ title: 'Test', personaName: 'Cleopatra', messages: [] });
+            const result = await createChatHistory({ title: 'Test', personaName: 'Cleopatra', messages: [] });
             expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/chat/history'), expect.objectContaining({
                 method: 'POST'
             }));

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { fetchPreviousChats, deletePreviousChat } from '../../services/api';
+import { getChatHistory, deleteChatHistory } from '../../services/chatService';
 import DeleteButton from '../UI/Button/DeleteButton.jsx';
 
 /**
@@ -25,7 +25,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
         setIsLoading(true);
         setError(null);
 
-        const data = await fetchPreviousChats();
+        const data = await getChatHistory();
         setPreviousChats(data);
       } catch (err) {
         setError("Failed to load chats. Please try again.");
@@ -51,7 +51,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
 
   const handleDeleteChat = async (chatId) => {
     try {
-      await deletePreviousChat(chatId);
+      await deleteChatHistory(chatId);
       // Refresh the chat list by removing the deleted chat
       setPreviousChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
     } catch (error) {
