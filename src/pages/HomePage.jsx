@@ -2,6 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import { personas } from '../data/personas';
 
+/**
+ * The Home page component where users can select a persona to chat with.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered home page.
+ */
 export default function Home() {
     const navigate = useNavigate();
 
