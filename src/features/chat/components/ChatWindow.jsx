@@ -3,6 +3,19 @@ import ChatMessage from './ChatMessage';
 import LoadingIndicator from '../../../components/UI/LoadingIndicator';
 import useChatLogic from '../hooks/useChatLogic';
 
+/**
+ * The main chat window component that displays the conversation and input area.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.chat - The current chat object containing messages and metadata.
+ * @param {Function} props.setChat - State setter for updating the chat object.
+ * @param {Function} props.onSaveChat - Callback function to save the current chat session.
+ * @param {boolean} [props.isSaving=false] - Flag indicating if the chat is currently being saved.
+ * @param {Object} props.persona - The persona object the user is chatting with.
+ * @param {string} [props.language='en'] - The language code for the conversation.
+ * @returns {JSX.Element} The rendered chat window.
+ */
 export default function ChatWindow({
     chat,
     setChat,

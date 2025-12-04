@@ -2,6 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 import { postUserMessage, fetchSingleChat } from '../../../services/api';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
+/**
+ * Custom hook to manage chat logic, including sending messages, handling loading states, and scrolling.
+ * 
+ * @param {Object} params - The hook parameters.
+ * @param {Object} [params.chat] - The current chat object containing messages.
+ * @param {Function} [params.setChat] - State setter for the chat object.
+ * @param {Object} [params.persona] - The persona object being chatted with.
+ * @param {string} [params.language] - The language code for the conversation.
+ * @returns {Object} An object containing the chat state and handlers.
+ * @returns {string} returns.input - The current value of the message input field.
+ * @returns {boolean} returns.isLoading - Whether a message is currently being sent or loaded.
+ * @returns {Object} returns.chatBodyRef - A ref to the chat body element for auto-scrolling.
+ * @returns {Function} returns.setInput - State setter for the input field.
+ * @returns {Function} returns.handleSendMessage - Form submission handler to send a message.
+ */
 export default function useChatLogic({ chat, setChat, persona, language } = {}) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
