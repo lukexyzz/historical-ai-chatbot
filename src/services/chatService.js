@@ -5,11 +5,10 @@
 * @param {string} userMessage - The message text sent by the user.
 * @param {Object} persona - The persona object the user is chatting with.
 * @param {string} persona.name - The name of the persona.
-* @param {string} language - The language code (e.g., 'en') for the conversation.
-* @returns {Promise<Object>} A promise that resolves to the API response data, including the reply and potentially detected language.
+* @returns {Promise<Object>} A promise that resolves to the API response data, including the reply.
 * @throws {Error} If the server responds with an error status.
 */
-export const sendMessage = async (userMessage, persona, language, dialogueTree) => {
+export const sendMessage = async (userMessage, persona, dialogueTree) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat", {
             method: "POST",
@@ -17,7 +16,6 @@ export const sendMessage = async (userMessage, persona, language, dialogueTree) 
             body: JSON.stringify({
                 message: userMessage,
                 personaName: persona.name,
-                language: language,
                 treeState: dialogueTree
             }),
         });
@@ -28,7 +26,7 @@ export const sendMessage = async (userMessage, persona, language, dialogueTree) 
 
         const data = await response.json();
 
-        return data; // Return full data to access detectedLanguage if present
+        return data;
 
     } catch (error) {
         console.error("Fetch API error:", error);

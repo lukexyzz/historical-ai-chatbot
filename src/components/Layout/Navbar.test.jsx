@@ -2,11 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Navbar from './Navbar';
 
-// Mock child components
-vi.mock('./LangDropdown', () => ({
-    default: () => <div data-testid="lang-dropdown">LangDropdown</div>
-}));
-
 vi.mock('../UI/Button/HomeButton', () => ({
     default: () => <div data-testid="home-button">HomeButton</div>
 }));
@@ -15,7 +10,6 @@ describe('Navbar Component', () => {
     it('renders correctly with persona name', () => {
         render(<Navbar personaName="Cleopatra" />);
         expect(screen.getByText('Talk with Cleopatra')).toBeInTheDocument();
-        expect(screen.getByTestId('lang-dropdown')).toBeInTheDocument();
         expect(screen.getByTestId('home-button')).toBeInTheDocument();
     });
 

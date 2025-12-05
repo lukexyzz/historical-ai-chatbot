@@ -9,7 +9,6 @@ import { getCurrentTime } from '../utils/timeHelpers.js';
  * @param {Object} [params.chat] - The current chat object containing messages.
  * @param {Function} [params.setChat] - State setter for the chat object.
  * @param {Object} [params.persona] - The persona object being chatted with.
- * @param {string} [params.language] - The language code for the conversation.
  * @returns {Object} An object containing the chat state and handlers.
  * @returns {string} returns.input - The current value of the message input field.
  * @returns {boolean} returns.isLoading - Whether a message is currently being sent or loaded.
@@ -17,7 +16,7 @@ import { getCurrentTime } from '../utils/timeHelpers.js';
  * @returns {Function} returns.setInput - State setter for the input field.
  * @returns {Function} returns.handleSendMessage - Form submission handler to send a message.
  */
-export default function useChatLogic({ chat, setChat, persona, language } = {}) {
+export default function useChatLogic({ chat, setChat, persona } = {}) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatBodyRef = useRef(null);
@@ -78,7 +77,7 @@ export default function useChatLogic({ chat, setChat, persona, language } = {}) 
         try {
             if (!persona) throw new Error("Persona is not defined");
 
-            const apiResponse = await sendMessage(userText, persona, language, chat?.dialogueTree);
+            const apiResponse = await sendMessage(userText, persona, chat?.dialogueTree);
 
             const apiMessage = {
                 role: 'api',

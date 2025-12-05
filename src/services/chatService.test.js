@@ -22,15 +22,14 @@ describe('API Utils', () => {
                 json: async () => mockResponse,
             });
 
-            const result = await sendMessage('Hello', { name: 'Cleopatra' }, 'en');
+            const result = await sendMessage('Hello', { name: 'Cleopatra' });
 
             expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/chat'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: 'Hello',
-                    personaName: 'Cleopatra',
-                    language: 'en'
+                    personaName: 'Cleopatra'
                 }),
             });
             expect(result).toEqual(mockResponse);
@@ -39,7 +38,7 @@ describe('API Utils', () => {
         it('returns error message on failure', async () => {
             fetch.mockRejectedValueOnce(new Error('Network error'));
 
-            const result = await sendMessage('Hello', { name: 'Cleopatra' }, 'en');
+            const result = await sendMessage('Hello', { name: 'Cleopatra' });
 
             expect(result).toEqual({ reply: "Sorry, I couldn't reach the server." });
         });

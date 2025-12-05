@@ -22,7 +22,6 @@ export default function Chat() {
   const [persona, setPersona] = useState(null);
   const [chat, setChat] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [language, setLanguage] = useState('English');
   const [refreshSidebarTrigger, setRefreshSidebarTrigger] = useState(0);
 
   useEffect(() => {
@@ -83,8 +82,6 @@ export default function Chat() {
         <Navbar
           onMenuClick={openSidebar}
           personaName={persona.name}
-          language={language}
-          setLanguage={setLanguage}
         />
 
         <div className={styles.chatArea}>
@@ -94,7 +91,6 @@ export default function Chat() {
             onSaveChat={handleSaveChat}
             isSaving={isSaving}
             persona={persona}
-            language={language}
           />
         </div>
       </div>

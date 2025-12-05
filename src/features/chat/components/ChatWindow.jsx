@@ -13,7 +13,6 @@ import useChatLogic from '../hooks/useChatLogic';
  * @param {Function} props.onSaveChat - Callback function to save the current chat session.
  * @param {boolean} [props.isSaving=false] - Flag indicating if the chat is currently being saved.
  * @param {Object} props.persona - The persona object the user is chatting with.
- * @param {string} [props.language='en'] - The language code for the conversation.
  * @returns {JSX.Element} The rendered chat window.
  */
 export default function ChatWindow({
@@ -21,8 +20,7 @@ export default function ChatWindow({
     setChat,
     onSaveChat,
     isSaving = false,
-    persona,
-    language = 'en'
+    persona
 }) {
 
     const {
@@ -31,7 +29,7 @@ export default function ChatWindow({
         chatBodyRef,
         setInput,
         handleSendMessage
-    } = useChatLogic({ chat, setChat, persona, language });
+    } = useChatLogic({ chat, setChat, persona });
 
     const messages = chat?.messages || [];
 

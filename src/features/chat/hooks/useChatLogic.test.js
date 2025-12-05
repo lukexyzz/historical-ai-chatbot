@@ -55,7 +55,7 @@ describe('useChatLogic', () => {
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
 
         // Check if API was called
-        expect(chatService.sendMessage).toHaveBeenCalledWith('Hi', persona, undefined, undefined);
+        expect(chatService.sendMessage).toHaveBeenCalledWith('Hi', persona, undefined);
     });
 
     it('handles dialogueTree and mode updates', async () => {
@@ -80,7 +80,7 @@ describe('useChatLogic', () => {
         });
 
         // Check if API was called with correct dialogueTree
-        expect(chatService.sendMessage).toHaveBeenCalledWith('Next', persona, undefined, { id: '1' });
+        expect(chatService.sendMessage).toHaveBeenCalledWith('Next', persona, { id: '1' });
 
         // Check if state was updated with new dialogueTree and mode
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
