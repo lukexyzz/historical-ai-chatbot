@@ -37,14 +37,30 @@ export default function ChatWindow({
         onSaveChat(messages);
     };
 
+    const handleClearChat = () => {
+        setChat(prevChat => ({
+            ...prevChat,
+            messages: []
+        }));
+    };
+
     const hasHistory = messages.length > 0;
     const canSave = hasHistory && !isSaving && !isLoading;
+    const canClear = hasHistory && !isLoading;
 
     return (
         <div className={styles.chatContainer}>
 
             <div className={styles.chatActions}>
                 {chat?.mode && <span style={{ marginRight: '10px', fontWeight: 'bold' }}>Mode: {chat.mode}</span>}
+                <button
+                    onClick={handleClearChat}
+                    disabled={!canClear}
+                    className={styles.clearButton}
+                    aria-label="Clear conversation"
+                >
+                    🗑️ Clear Chat
+                </button>
                 <button
                     onClick={handleEndSession}
                     disabled={!canSave}
