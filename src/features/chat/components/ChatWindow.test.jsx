@@ -56,4 +56,11 @@ describe('ChatWindow Component', () => {
 
         expect(mockProps.onSaveChat).toHaveBeenCalled();
     });
+
+    it('has correct accessibility attributes for live region', () => {
+        render(<ChatWindow {...mockProps} />);
+        const chatBody = screen.getByRole('log');
+        expect(chatBody).toHaveAttribute('aria-live', 'assertive');
+        expect(chatBody).toHaveAttribute('aria-relevant', 'additions');
+    });
 });

@@ -53,8 +53,8 @@ export default function ChatMessage({ msg, persona }) {
     return (
         <div
             className={`${styles.messageContainer} ${containerClass}`}
-            role="status"
-            aria-label={`${msg.name} sent: ${msg.text} at ${msg.timestamp}`}
+
+
         >
             {!isUser && (
                 <div className={styles.avatarWrapper}>

@@ -75,17 +75,21 @@ export default function ChatWindow({
                 id='chat-body'
                 className={styles.chatBody}
                 ref={chatBodyRef}
-                role="log"
-            >
-                {messages.length === 0 && (
-                    <p className={styles.chatPlaceholder}>
-                        Start the conversation with {persona?.name || 'your companion'}!
-                    </p>
-                )}
 
-                {messages.map((msg, index) => (
-                    <ChatMessage key={index} msg={msg} persona={persona} />
-                ))}
+
+
+            >
+                <div role="log" aria-live="assertive" aria-relevant="additions">
+                    {messages.length === 0 && (
+                        <p className={styles.chatPlaceholder}>
+                            Start the conversation with {persona?.name || 'your companion'}!
+                        </p>
+                    )}
+
+                    {messages.map((msg, index) => (
+                        <ChatMessage key={index} msg={msg} persona={persona} />
+                    ))}
+                </div>
 
                 {isLoading && <LoadingIndicator persona={persona?.name} />}
             </div>
