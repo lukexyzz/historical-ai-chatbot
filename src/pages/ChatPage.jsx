@@ -38,7 +38,6 @@ export default function Chat() {
             setChat(loadedChat);
           } catch (error) {
             console.error("Failed to load chat:", error);
-            // Optionally clear the invalid chatId from URL or show error
             setChat(null);
           }
         } else {
@@ -53,12 +52,24 @@ export default function Chat() {
     }
   }, [personaId, chatId, navigate]);
 
+  /**
+   * Switches the current persona and optionally loads a specific chat.
+   * 
+   * @param {Object} targetPersona - The persona object to switch to.
+   * @param {string|null} [specificChatId=null] - The ID of the chat to load, or null for a new chat.
+   */
+  const switchPersona = (targetPersona, specificChatId = null) => {
+    if (targetPersona) {
+      const url = specificChatId
+        ? `/chat/${targetPersona.id}?chatId=${specificChatId}`
+        : `/chat/${targetPersona.id}`;
+      navigate(url);
+    }
+  };
+
   const handleLoadChat = (chat) => {
     const targetPersona = personas.find(p => p.name === chat.personaName);
-    if (targetPersona) {
-      // Navigate to the persona's URL with chatId query param
-      navigate(`/chat/${targetPersona.id}?chatId=${chat.id}`);
-    }
+    switchPersona(targetPersona, chat.id);
     closeSidebar();
   };
 
