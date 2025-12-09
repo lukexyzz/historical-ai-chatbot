@@ -39,11 +39,6 @@ export default function Sidebar({ onChatClick, refreshTrigger }) {
 
   }, [refreshTrigger]);
 
-  const sidebarClasses = [
-    styles.sidebar,
-    isOpen ? styles.open : ''
-  ].join(' ');
-
   const handleChatClick = (chat) => {
     if (onChatClick) {
       onChatClick(chat);
@@ -62,45 +57,48 @@ export default function Sidebar({ onChatClick, refreshTrigger }) {
     }
   };
 
-  return (
-    <>
-      <aside className={sidebarClasses}>
-        <header className={styles.sidebarHeader}>
-          <h3>Previous Chats</h3>
-          <button className={styles.closeButton} onClick={closeSidebar} aria-label="Close sidebar">
-            &times;
-          </button>
-        </header>
-        <ul className={styles.chatList}>
-          {isLoading && <li>Loading previous chats...</li>}
-          {error && <li className={styles.errorText}>{error}</li>}
-          {!isLoading && !error && previousChats.length === 0 && (
-            <li>No previous chats found.</li>
-          )}
+  const sidebarClasses = [
+    styles.sidebar,
+    isOpen ? styles.open : ''
+  ].join(' ');
 
-          {!isLoading && !error && previousChats.map((chat) => (
-            <li
-              key={chat.id}
-              className={styles.chatItem}
-              role="button"
-              tabIndex="0"
-              aria-label={`Load chat: ${chat.title}`}
+  return (
+    <aside className={sidebarClasses}>
+      <header className={styles.sidebarHeader}>
+        <h3>Previous Chats</h3>
+        <button className={styles.closeButton} onClick={closeSidebar} aria-label="Close sidebar">
+          &times;
+        </button>
+      </header>
+      <ul className={styles.chatList}>
+        {isLoading && <li>Loading previous chats...</li>}
+        {error && <li className={styles.errorText}>{error}</li>}
+        {!isLoading && !error && previousChats.length === 0 && (
+          <li>No previous chats found.</li>
+        )}
+
+        {!isLoading && !error && previousChats.map((chat) => (
+          <li
+            key={chat.id}
+            className={styles.chatItem}
+            role="button"
+            tabIndex="0"
+            aria-label={`Load chat: ${chat.title}`}
+          >
+            <span
+              className={styles.chatTitle}
+              onClick={() => handleChatClick(chat)}
+              onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
             >
-              <span
-                className={styles.chatTitle}
-                onClick={() => handleChatClick(chat)}
-                onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
-              >
-                {chat.title}
-              </span>
-              <DeleteButton
-                onClick={() => handleDeleteChat(chat.id)}
-                chatTitle={chat.title}
-              />
-            </li>
-          ))}
-        </ul>
-      </aside>
-    </>
+              {chat.title}
+            </span>
+            <DeleteButton
+              onClick={() => handleDeleteChat(chat.id)}
+              chatTitle={chat.title}
+            />
+          </li>
+        ))}
+      </ul>
+    </aside>
   );
 }
