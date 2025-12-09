@@ -97,8 +97,6 @@ export const createChatHistory = async ({ title, personaName, messages }) => {
  * @param {string|number} chatId - The unique identifier of the chat session.
  * @returns {Promise<Object>} A promise that resolves to the chat session data.
  * @throws {Error} If the fetch operation fails.
- * @returns {Promise<Object>} A promise that resolves to the chat session data.
- * @throws {Error} If the fetch operation fails.
  */
 export const getChatHistoryById = async (chatId) => {
     try {
