@@ -70,35 +70,38 @@ export default function Sidebar({ onChatClick, refreshTrigger }) {
           &times;
         </button>
       </header>
-      <ul className={styles.chatList}>
-        {isLoading && <li>Loading previous chats...</li>}
-        {error && <li className={styles.errorText}>{error}</li>}
-        {!isLoading && !error && previousChats.length === 0 && (
-          <li>No previous chats found.</li>
-        )}
 
-        {!isLoading && !error && previousChats.map((chat) => (
-          <li
-            key={chat.id}
-            className={styles.chatItem}
-            role="button"
-            tabIndex="0"
-            aria-label={`Load chat: ${chat.title}`}
-          >
-            <span
-              className={styles.chatTitle}
-              onClick={() => handleChatClick(chat)}
-              onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
+      {isLoading && <p className={styles.statusMessage}>Loading previous chats...</p>}
+      {error && <p className={styles.errorText}>{error}</p>}
+      {!isLoading && !error && previousChats.length === 0 && (
+        <p className={styles.statusMessage}>No previous chats found.</p>
+      )}
+
+      {!isLoading && !error && previousChats.length > 0 && (
+        <ul className={styles.chatList}>
+          {previousChats.map((chat) => (
+            <li
+              key={chat.id}
+              className={styles.chatItem}
+              role="button"
+              tabIndex="0"
+              aria-label={`Load chat: ${chat.title}`}
             >
-              {chat.title}
-            </span>
-            <DeleteButton
-              onClick={() => handleDeleteChat(chat.id)}
-              chatTitle={chat.title}
-            />
-          </li>
-        ))}
-      </ul>
+              <span
+                className={styles.chatTitle}
+                onClick={() => handleChatClick(chat)}
+                onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
+              >
+                {chat.title}
+              </span>
+              <DeleteButton
+                onClick={() => handleDeleteChat(chat.id)}
+                chatTitle={chat.title}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </aside>
   );
 }

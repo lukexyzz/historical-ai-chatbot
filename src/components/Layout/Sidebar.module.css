@@ -126,3 +126,16 @@
   outline: 2px solid var(--accent-gold);
   outline-offset: -2px;
 }
+
+.statusMessage {
+  padding: 1.5rem;
+  text-align: center;
+  color: rgba(245, 230, 211, 0.6);
+  font-style: italic;
+}
+
+.errorText {
+  padding: 1.5rem;
+  text-align: center;
+  color: #ff6b6b;
+}

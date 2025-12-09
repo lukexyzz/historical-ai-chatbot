@@ -13,7 +13,7 @@ import styles from '../../pages/Chat.module.css';
  * @returns {JSX.Element} The rendered layout.
  */
 export default function ChatLayout({ children, onChatClick, refreshTrigger }) {
-    const { isOpen, closeSidebar } = useSidebar();
+    const { isOpen } = useSidebar();
 
     const mainContentClasses = [
         styles.mainContent,
