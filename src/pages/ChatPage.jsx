@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { createChatHistory, getChatHistoryById } from '../services/chatService';
 import Navbar from '../components/Layout/Navbar.jsx';
-import Sidebar from '../components/Layout/Sidebar.jsx';
+import ChatLayout from '../components/Layout/ChatLayout.jsx';
 import styles from './Chat.module.css';
 import ChatWindow from '../features/chat/components/ChatWindow.jsx';
 import { personas } from '../data/personas';
+import { SidebarProvider } from '../context/SidebarContext';
 
 /**
  * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
@@ -14,8 +15,6 @@ import { personas } from '../data/personas';
  * @returns {JSX.Element|null} The rendered chat page or null if no persona is selected.
  */
 export default function Chat() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const navigate = useNavigate();
   const { personaId } = useParams();
   const [persona, setPersona] = useState(null);
@@ -70,7 +69,6 @@ export default function Chat() {
   const handleLoadChat = (chat) => {
     const targetPersona = personas.find(p => p.name === chat.personaName);
     switchPersona(targetPersona, chat.id);
-    closeSidebar();
   };
 
   const handleSaveChat = async (currentMessages) => {
@@ -95,27 +93,15 @@ export default function Chat() {
     }
   };
 
-  const openSidebar = () => setIsSidebarOpen(true);
-  const closeSidebar = () => setIsSidebarOpen(false);
-
-  const mainContentClasses = [
-    styles.mainContent,
-    isSidebarOpen ? styles.shifted : ''
-  ].join(' ');
-
   if (!persona) return null;
 
   return (
-    <div className={styles.chatPageContainer}>
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={closeSidebar}
+    <SidebarProvider>
+      <ChatLayout
         onChatClick={handleLoadChat}
         refreshTrigger={refreshSidebarTrigger}
-      />
-      <main className={mainContentClasses}>
+      >
         <Navbar
-          onMenuClick={openSidebar}
           personaName={persona.name}
         />
 
@@ -128,7 +114,7 @@ export default function Chat() {
             persona={persona}
           />
         </section>
-      </main>
-    </div>
+      </ChatLayout>
+    </SidebarProvider>
   );
 }

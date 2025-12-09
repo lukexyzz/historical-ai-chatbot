@@ -3,19 +3,19 @@ import styles from './Sidebar.module.css';
 import { getChatHistory, deleteChatHistory } from '../../services/chatService';
 import DeleteButton from '../UI/Button/DeleteButton.jsx';
 import { handleKeyboardEvent } from '../../utils/accessibility';
+import { useSidebar } from '../../context/SidebarContext';
 
 /**
  * The sidebar component that displays previous chat history.
  * 
  * @component
  * @param {Object} props - The component props.
- * @param {boolean} props.isOpen - Whether the sidebar is currently open.
- * @param {Function} props.onClose - Callback function to close the sidebar.
  * @param {Function} props.onChatClick - Callback function when a chat item is clicked.
  * @param {number} props.refreshTrigger - A dependency value to trigger a refresh of the chat list.
  * @returns {JSX.Element} The rendered sidebar.
  */
-export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }) {
+export default function Sidebar({ onChatClick, refreshTrigger }) {
+  const { isOpen, closeSidebar } = useSidebar();
   const [previousChats, setPreviousChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,6 +48,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
     if (onChatClick) {
       onChatClick(chat);
     }
+    closeSidebar();
   };
 
   const handleDeleteChat = async (chatId) => {
@@ -66,7 +67,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
       <aside className={sidebarClasses}>
         <header className={styles.sidebarHeader}>
           <h3>Previous Chats</h3>
-          <button className={styles.closeButton} onClick={onClose} aria-label="Close sidebar">
+          <button className={styles.closeButton} onClick={closeSidebar} aria-label="Close sidebar">
             &times;
           </button>
         </header>
