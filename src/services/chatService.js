@@ -5,10 +5,12 @@
 * @param {string} userMessage - The message text sent by the user.
 * @param {Object} persona - The persona object the user is chatting with.
 * @param {string} persona.name - The name of the persona.
+* @param {Object} [dialogueTree] - The current dialogue tree state.
+* @param {Array} [history] - The chat history (last 4 messages).
 * @returns {Promise<Object>} A promise that resolves to the API response data, including the reply.
 * @throws {Error} If the server responds with an error status.
 */
-export const sendMessage = async (userMessage, persona, dialogueTree) => {
+export const sendMessage = async (userMessage, persona, dialogueTree, history = []) => {
     try {
         const response = await fetch(import.meta.env.VITE_APP_API_URL + "/api/chat", {
             method: "POST",
@@ -16,7 +18,8 @@ export const sendMessage = async (userMessage, persona, dialogueTree) => {
             body: JSON.stringify({
                 message: userMessage,
                 personaName: persona.name,
-                treeState: dialogueTree
+                treeState: dialogueTree,
+                history
             }),
         });
 
@@ -92,6 +95,8 @@ export const createChatHistory = async ({ title, personaName, messages }) => {
  * 
  * @async
  * @param {string|number} chatId - The unique identifier of the chat session.
+ * @returns {Promise<Object>} A promise that resolves to the chat session data.
+ * @throws {Error} If the fetch operation fails.
  * @returns {Promise<Object>} A promise that resolves to the chat session data.
  * @throws {Error} If the fetch operation fails.
  */

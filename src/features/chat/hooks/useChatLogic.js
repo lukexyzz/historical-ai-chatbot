@@ -77,7 +77,9 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
         try {
             if (!persona) throw new Error("Persona is not defined");
 
-            const apiResponse = await sendMessage(userText, persona, chat?.dialogueTree);
+            const history = (chat?.messages || []).slice(-4);
+
+            const apiResponse = await sendMessage(userText, persona, chat?.dialogueTree, history);
 
             const apiMessage = {
                 role: 'api',

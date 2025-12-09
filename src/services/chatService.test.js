@@ -29,7 +29,8 @@ describe('API Utils', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: 'Hello',
-                    personaName: 'Cleopatra'
+                    personaName: 'Cleopatra',
+                    history: []
                 }),
             });
             expect(result).toEqual(mockResponse);
