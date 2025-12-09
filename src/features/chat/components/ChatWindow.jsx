@@ -40,7 +40,9 @@ export default function ChatWindow({
     const handleClearChat = () => {
         setChat(prevChat => ({
             ...prevChat,
-            messages: []
+            messages: [],
+            mode: null,
+            dialogueTree: null
         }));
     };
 
