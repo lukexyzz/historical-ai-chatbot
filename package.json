@@ -1,7 +1,18 @@
 {
-  "name": "ai-chatbot",
+  "name": "historical-ai-chatbot-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Frontend application for the Historical AI Chatbot",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "keywords": [
+    "react",
+    "ai",
+    "chatbot",
+    "history",
+    "frontend"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
