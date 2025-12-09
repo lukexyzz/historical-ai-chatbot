@@ -28,7 +28,8 @@ export default function ChatWindow({
         isLoading,
         chatBodyRef,
         setInput,
-        handleSendMessage
+        handleSendMessage,
+        onSendOption
     } = useChatLogic({ chat, setChat, persona });
 
     const messages = chat?.messages || [];
@@ -89,7 +90,7 @@ export default function ChatWindow({
                     )}
 
                     {messages.map((msg, index) => (
-                        <ChatMessage key={index} msg={msg} persona={persona} />
+                        <ChatMessage key={index} msg={msg} persona={persona} onSendOption={onSendOption} messageIndex={index} />
                     ))}
                 </div>
 

@@ -123,3 +123,44 @@
         transform: scale(1);
     }
 }
+
+.optionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.optionButton {
+    background-color: transparent;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.optionButton:hover:not(.disabled) {
+    background-color: var(--accent-gold);
+    color: var(--secondary-bg);
+    transform: translateY(-1px);
+}
+
+.optionButton:active:not(.disabled) {
+    transform: translateY(0);
+}
+
+.optionButton.selected {
+    background-color: var(--accent-gold);
+    color: var(--secondary-bg);
+    cursor: default;
+}
+
+.optionButton.disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
+}

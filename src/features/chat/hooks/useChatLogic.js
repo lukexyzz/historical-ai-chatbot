@@ -15,6 +15,7 @@ import { getCurrentTime } from '../utils/timeHelpers.js';
  * @returns {Object} returns.chatBodyRef - A ref to the chat body element for auto-scrolling.
  * @returns {Function} returns.setInput - State setter for the input field.
  * @returns {Function} returns.handleSendMessage - Form submission handler to send a message.
+ * @returns {Function} returns.onSendOption - Handler to send a message from an option click.
  */
 export default function useChatLogic({ chat, setChat, persona } = {}) {
     const [input, setInput] = useState('');
@@ -51,10 +52,7 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
     }, [chat?.id, setChat]);
 
 
-    const handleSendMessage = async (e) => {
-        e.preventDefault();
-        const userText = input.trim();
-
+    const sendMessageToApi = async (userText) => {
         if (!userText || isLoading) return;
 
         const currentTime = getCurrentTime();
@@ -71,7 +69,6 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
             messages: [...(prev?.messages || []), userMessage]
         }));
 
-        setInput('');
         setIsLoading(true);
 
         try {
@@ -85,7 +82,8 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
                 role: 'api',
                 text: apiResponse.reply,
                 name: persona.name,
-                timestamp: getCurrentTime()
+                timestamp: getCurrentTime(),
+                options: apiResponse.options
             };
 
             setChat(prev => ({
@@ -113,6 +111,32 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
         }
     };
 
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        const userText = input.trim();
+        setInput('');
+        await sendMessageToApi(userText);
+    };
+
+    const onSendOption = async (optionText, messageIndex) => {
+        // Optimistically update the UI to show the selected option
+        setChat(prev => {
+            const newMessages = [...(prev?.messages || [])];
+            if (newMessages[messageIndex]) {
+                newMessages[messageIndex] = {
+                    ...newMessages[messageIndex],
+                    selectedOption: optionText
+                };
+            }
+            return {
+                ...prev,
+                messages: newMessages
+            };
+        });
+
+        await sendMessageToApi(optionText);
+    };
+
     useEffect(() => {
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
@@ -124,6 +148,7 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
         isLoading,
         chatBodyRef,
         setInput,
-        handleSendMessage
+        handleSendMessage,
+        onSendOption
     };
 }
