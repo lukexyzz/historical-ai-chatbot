@@ -24,73 +24,69 @@ vi.mock("../UI/Button/DeleteButton", () => ({
   ),
 }));
 
+// Mock SidebarContext
+const mockCloseSidebar = vi.fn();
+vi.mock("../../context/SidebarContext", () => ({
+  useSidebar: () => ({
+    isOpen: true,
+    closeSidebar: mockCloseSidebar,
+  }),
+}));
+
 describe("Sidebar Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders loading state initially", () => {
-    chatService.getChatHistory.mockImplementation(() => new Promise(() => {})); // Never resolves
-    render(<Sidebar isOpen={true} />);
+    render(<Sidebar isLoading={true} />);
     expect(screen.getByText("Loading previous chats...")).toBeInTheDocument();
   });
 
-  it("renders chats after loading", async () => {
+  it("renders chats after loading", () => {
     const mockChats = [
       { id: 1, title: "Chat 1" },
       { id: 2, title: "Chat 2" },
     ];
-    chatService.getChatHistory.mockResolvedValue(mockChats);
 
-    render(<Sidebar isOpen={true} />);
+    render(<Sidebar chats={mockChats} />);
 
-    await waitFor(() => {
-      expect(screen.getByText("Chat 1")).toBeInTheDocument();
-      expect(screen.getByText("Chat 2")).toBeInTheDocument();
-    });
+    expect(screen.getByText("Chat 1")).toBeInTheDocument();
+    expect(screen.getByText("Chat 2")).toBeInTheDocument();
   });
 
-  it("renders error message on fetch failure", async () => {
-    chatService.getChatHistory.mockRejectedValue(new Error("Failed"));
+  it("renders error message on fetch failure", () => {
+    render(<Sidebar error="Failed to load chats. Please try again." />);
 
-    render(<Sidebar isOpen={true} />);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("Failed to load chats. Please try again."),
-      ).toBeInTheDocument();
-    });
+    expect(
+      screen.getByText("Failed to load chats. Please try again."),
+    ).toBeInTheDocument();
   });
 
-  it("calls onChatClick when a chat is clicked", async () => {
+  it("calls onChatClick and closeSidebar when a chat is clicked", () => {
     const mockChats = [{ id: 1, title: "Chat 1" }];
-    chatService.getChatHistory.mockResolvedValue(mockChats);
     const onChatClick = vi.fn();
 
-    render(<Sidebar isOpen={true} onChatClick={onChatClick} />);
+    render(<Sidebar chats={mockChats} onChatClick={onChatClick} />);
 
-    await waitFor(() => expect(screen.getByText("Chat 1")).toBeInTheDocument());
+    expect(screen.getByText("Chat 1")).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("Chat 1"));
     expect(onChatClick).toHaveBeenCalledWith(mockChats[0]);
+    expect(mockCloseSidebar).toHaveBeenCalled();
   });
 
-  it("calls deleteChatHistory and updates list when delete is clicked", async () => {
+  it("calls onDeleteChat when delete is clicked", () => {
     const mockChats = [{ id: 1, title: "Chat 1" }];
-    chatService.getChatHistory.mockResolvedValue(mockChats);
-    chatService.deleteChatHistory.mockResolvedValue({});
+    const onDeleteChat = vi.fn();
 
-    render(<Sidebar isOpen={true} />);
+    render(<Sidebar chats={mockChats} onDeleteChat={onDeleteChat} />);
 
-    await waitFor(() => expect(screen.getByText("Chat 1")).toBeInTheDocument());
+    expect(screen.getByText("Chat 1")).toBeInTheDocument();
 
     const deleteButton = screen.getByLabelText("Delete chat");
     fireEvent.click(deleteButton);
 
-    expect(chatService.deleteChatHistory).toHaveBeenCalledWith(1);
-
-    await waitFor(() => {
-      expect(screen.queryByText("Chat 1")).not.toBeInTheDocument();
-    });
+    expect(onDeleteChat).toHaveBeenCalledWith(1);
   });
 });

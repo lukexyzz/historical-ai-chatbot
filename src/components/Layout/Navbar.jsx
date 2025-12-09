@@ -28,7 +28,7 @@ export default function Navbar({ personaName }) {
         </div>
 
         <div>
-          <h1 className={styles.title}>Talk with {personaName}</h1>
+          <h1 className={styles.title}>Talk with {personaName || "..."}</h1>
         </div>
 
         <div className={styles.iconGroup}>
