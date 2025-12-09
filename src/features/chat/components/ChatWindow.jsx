@@ -1,11 +1,11 @@
-import styles from './ChatWindow.module.css';
-import ChatMessage from './ChatMessage';
-import LoadingIndicator from '../../../components/UI/LoadingIndicator';
-import useChatLogic from '../hooks/useChatLogic';
+import styles from "./ChatWindow.module.css";
+import ChatMessage from "./ChatMessage";
+import LoadingIndicator from "../../../components/UI/LoadingIndicator";
+import useChatLogic from "../hooks/useChatLogic";
 
 /**
  * The main chat window component that displays the conversation and input area.
- * 
+ *
  * @component
  * @param {Object} props - The component props.
  * @param {Object} props.chat - The current chat object containing messages and metadata.
@@ -16,107 +16,109 @@ import useChatLogic from '../hooks/useChatLogic';
  * @returns {JSX.Element} The rendered chat window.
  */
 export default function ChatWindow({
-    chat,
-    setChat,
-    onSaveChat,
-    isSaving = false,
-    persona
+  chat,
+  setChat,
+  onSaveChat,
+  isSaving = false,
+  persona,
 }) {
+  const {
+    input,
+    isLoading,
+    messages,
+    chatBodyRef,
+    setInput,
+    handleSendMessage,
+    onSendOption,
+  } = useChatLogic({ chat, setChat, persona });
 
-    const {
-        input,
-        isLoading,
-        chatBodyRef,
-        setInput,
-        handleSendMessage,
-        onSendOption
-    } = useChatLogic({ chat, setChat, persona });
+  const handleEndSession = () => {
+    onSaveChat(messages);
+  };
 
-    const messages = chat?.messages || [];
+  const handleClearChat = () => {
+    setChat((prevChat) => ({
+      ...prevChat,
+      messages: [],
+      mode: null,
+      dialogueTree: null,
+    }));
+  };
 
-    const handleEndSession = () => {
-        onSaveChat(messages);
-    };
+  const hasHistory = messages.length > 0;
+  const canSave = hasHistory && !isSaving && !isLoading;
+  const canClear = hasHistory && !isLoading;
 
-    const handleClearChat = () => {
-        setChat(prevChat => ({
-            ...prevChat,
-            messages: [],
-            mode: null,
-            dialogueTree: null
-        }));
-    };
+  return (
+    <section className={styles.chatContainer}>
+      <header className={styles.chatActions}>
+        {chat?.mode && (
+          <span style={{ marginRight: "10px", fontWeight: "bold" }}>
+            Mode: {chat.mode}
+          </span>
+        )}
+        <button
+          onClick={handleClearChat}
+          disabled={!canClear}
+          className={styles.clearButton}
+          aria-label="Clear conversation"
+        >
+          🗑️ Clear Chat
+        </button>
+        <button
+          onClick={handleEndSession}
+          disabled={!canSave}
+          className={styles.saveButton}
+          aria-label="Save conversation history"
+        >
+          {isSaving ? "Saving..." : "💾 Save Conversation"}
+        </button>
+      </header>
 
-    const hasHistory = messages.length > 0;
-    const canSave = hasHistory && !isSaving && !isLoading;
-    const canClear = hasHistory && !isLoading;
+      <div id="chat-body" className={styles.chatBody} ref={chatBodyRef}>
+        <div role="log" aria-live="assertive" aria-relevant="additions">
+          {messages.length === 0 && (
+            <p className={styles.chatPlaceholder}>
+              Start the conversation with {persona?.name || "your companion"}!
+            </p>
+          )}
 
-    return (
-        <section className={styles.chatContainer}>
+          {messages.map((msg, index) => (
+            <ChatMessage
+              key={index}
+              msg={msg}
+              persona={persona}
+              onSendOption={onSendOption}
+              messageIndex={index}
+            />
+          ))}
+        </div>
 
-            <header className={styles.chatActions}>
-                {chat?.mode && <span style={{ marginRight: '10px', fontWeight: 'bold' }}>Mode: {chat.mode}</span>}
-                <button
-                    onClick={handleClearChat}
-                    disabled={!canClear}
-                    className={styles.clearButton}
-                    aria-label="Clear conversation"
-                >
-                    🗑️ Clear Chat
-                </button>
-                <button
-                    onClick={handleEndSession}
-                    disabled={!canSave}
-                    className={styles.saveButton}
-                    aria-label="Save conversation history"
-                >
-                    {isSaving ? 'Saving...' : '💾 Save Conversation'}
-                </button>
-            </header>
+        {isLoading && <LoadingIndicator persona={persona?.name} />}
+      </div>
 
-            <div
-                id='chat-body'
-                className={styles.chatBody}
-                ref={chatBodyRef}
-
-
-
-            >
-                <div role="log" aria-live="assertive" aria-relevant="additions">
-                    {messages.length === 0 && (
-                        <p className={styles.chatPlaceholder}>
-                            Start the conversation with {persona?.name || 'your companion'}!
-                        </p>
-                    )}
-
-                    {messages.map((msg, index) => (
-                        <ChatMessage key={index} msg={msg} persona={persona} onSendOption={onSendOption} messageIndex={index} />
-                    ))}
-                </div>
-
-                {isLoading && <LoadingIndicator persona={persona?.name} />}
-            </div>
-
-            <form onSubmit={handleSendMessage} className={styles.inputForm}>
-                <input
-                    id="chat-input"
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder={isLoading ? "Waiting for response..." : "Type your message..."}
-                    disabled={isLoading}
-                    className={styles.inputField}
-                    aria-label="Message input"
-                />
-                <button
-                    type="submit"
-                    disabled={isLoading || !input.trim()}
-                    className={styles.sendButton}
-                    aria-label="Send message"
-                >
-                    Send
-                </button>
-            </form>
-        </section>
-    );
+      <form onSubmit={handleSendMessage} className={styles.inputForm}>
+        <input
+          id="chat-input"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={
+            isLoading ? "Waiting for response..." : "Type your message..."
+          }
+          disabled={isLoading}
+          className={styles.inputField}
+          aria-label="Message input"
+        />
+        <button
+          type="submit"
+          disabled={isLoading || !input.trim()}
+          className={styles.sendButton}
+          aria-label="Send message"
+        >
+          Send
+        </button>
+      </form>
+    </section>
+  );
 }

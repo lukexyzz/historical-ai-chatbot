@@ -1,13 +1,13 @@
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
-    padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  padding: 1rem;
 }
 
 .emptyState {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary, #666);
-    grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary, #666);
+  grid-column: 1 / -1;
 }

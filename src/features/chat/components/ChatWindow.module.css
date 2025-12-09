@@ -1,281 +1,278 @@
 .chatContainer {
-    font-family: 'Segoe UI', serif;
-    max-width: 1080px;
-    margin: 1.5rem auto;
-    width: 100%;
-    height: calc(100% - 3rem);
-    /* Egyptian-style double border effect using box-shadow and border */
-    border: 2px solid var(--accent-gold);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow:
-        0 0 0 4px var(--secondary-bg),
-        0 0 0 6px var(--accent-gold),
-        0 10px 30px rgba(0, 0, 0, 0.5);
-    background-color: var(--secondary-bg);
-    margin: 0;
+  font-family: "Segoe UI", serif;
+  max-width: 1080px;
+  margin: 1.5rem auto;
+  width: 100%;
+  height: calc(100% - 3rem);
+  /* Egyptian-style double border effect using box-shadow and border */
+  border: 2px solid var(--accent-gold);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 4px var(--secondary-bg),
+    0 0 0 6px var(--accent-gold),
+    0 10px 30px rgba(0, 0, 0, 0.5);
+  background-color: var(--secondary-bg);
+  margin: 0;
 }
 
 .chatActions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 10px 15px;
-    background-color: var(--secondary-bg);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .saveButton {
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: 1px solid var(--accent-gold);
-    background-color: var(--accent-gold);
-    color: var(--secondary-bg);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--accent-gold);
+  background-color: var(--accent-gold);
+  color: var(--secondary-bg);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .saveButton:hover:not(:disabled) {
-    background-color: var(--accent-gold-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--accent-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .saveButton:focus-visible {
-    outline: 2px solid var(--text-primary);
-    outline-offset: 2px;
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }
 
 .saveButton:disabled {
-    background-color: rgba(212, 175, 55, 0.2);
-    color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(212, 175, 55, 0.3);
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
-    box-shadow: none;
+  background-color: rgba(212, 175, 55, 0.2);
+  color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(212, 175, 55, 0.3);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
 }
 
 .clearButton {
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: 1px solid #e74c3c;
-    background-color: transparent;
-    color: #e74c3c;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-right: 10px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #e74c3c;
+  background-color: transparent;
+  color: #e74c3c;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 10px;
 }
 
 .clearButton:hover:not(:disabled) {
-    background-color: #e74c3c;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+  background-color: #e74c3c;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
 }
 
 .clearButton:focus-visible {
-    outline: 2px solid #e74c3c;
-    outline-offset: 2px;
+  outline: 2px solid #e74c3c;
+  outline-offset: 2px;
 }
 
 .clearButton:disabled {
-    background-color: transparent;
-    color: rgba(231, 76, 60, 0.3);
-    border-color: rgba(231, 76, 60, 0.3);
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
-    box-shadow: none;
+  background-color: transparent;
+  color: rgba(231, 76, 60, 0.3);
+  border-color: rgba(231, 76, 60, 0.3);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
 }
 
 .chatBody {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background-color: var(--primary-bg);
-    /* Subtle texture or pattern could go here if desired, but keeping it clean for now */
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, transparent 100%);
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--primary-bg);
+  /* Subtle texture or pattern could go here if desired, but keeping it clean for now */
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    transparent 100%
+  );
 }
 
 .chatPlaceholder {
-    text-align: center;
-    color: var(--accent-gold);
-    margin-top: 50px;
-    font-style: italic;
-    font-size: 1.2rem;
-    opacity: 0.8;
+  text-align: center;
+  color: var(--accent-gold);
+  margin-top: 50px;
+  font-style: italic;
+  font-size: 1.2rem;
+  opacity: 0.8;
 }
 
 .messageContainer {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .userMessageContainer {
-    align-items: flex-end;
+  align-items: flex-end;
 }
 
 .apiMessageContainer {
-    align-items: flex-start;
+  align-items: flex-start;
 }
-
 
 .userName,
 .apiName {
-    font-size: 0.85em;
-    font-weight: bold;
-    color: var(--accent-gold);
-    margin-bottom: 5px;
-    letter-spacing: 0.5px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: var(--accent-gold);
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
 }
 
 .userTimestamp,
 .apiTimestamp {
-    font-size: 0.7em;
-    color: rgba(245, 230, 211, 0.5);
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
+  font-size: 0.7em;
+  color: rgba(245, 230, 211, 0.5);
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .messageBubble {
-    padding: 12px 18px;
-    max-width: 90%;
-    word-break: break-word;
-    line-height: 1.6;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 12px 18px;
+  max-width: 90%;
+  word-break: break-word;
+  line-height: 1.6;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .userBubble {
-    background-color: var(--accent-gold);
-    color: var(--secondary-bg);
-    border-radius: 18px 18px 2px 18px;
-    font-weight: 500;
+  background-color: var(--accent-gold);
+  color: var(--secondary-bg);
+  border-radius: 18px 18px 2px 18px;
+  font-weight: 500;
 }
 
 .apiBubble {
-    background-color: var(--card-bg);
-    color: var(--text-primary);
-    border-radius: 18px 18px 18px 2px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border-radius: 18px 18px 18px 2px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .inputForm {
-    display: flex;
-    border-top: 1px solid var(--accent-gold);
-    background-color: var(--secondary-bg);
-    flex-shrink: 0;
-    padding: 10px;
+  display: flex;
+  border-top: 1px solid var(--accent-gold);
+  background-color: var(--secondary-bg);
+  flex-shrink: 0;
+  padding: 10px;
 }
 
 .inputField {
-    flex-grow: 1;
-    border-radius: 25px;
-    padding: 12px 20px;
-    border: 1px solid rgba(212, 175, 55, 0.5);
-    margin: 0 10px 0 0;
-    background-color: var(--primary-bg);
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: all 0.3s ease;
+  flex-grow: 1;
+  border-radius: 25px;
+  padding: 12px 20px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  margin: 0 10px 0 0;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .inputField::placeholder {
-    color: rgba(245, 230, 211, 0.4);
+  color: rgba(245, 230, 211, 0.4);
 }
 
 .inputField:focus-visible {
-    outline: none;
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-
 .sendButton {
-    padding: 10px 25px;
-    border-radius: 25px;
-    border: none;
-    background-color: var(--accent-gold);
-    color: var(--secondary-bg);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  padding: 10px 25px;
+  border-radius: 25px;
+  border: none;
+  background-color: var(--accent-gold);
+  color: var(--secondary-bg);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .sendButton:hover {
-    background-color: var(--accent-gold-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--accent-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .sendButton:focus-visible {
-    outline: 2px solid var(--text-primary);
-    outline-offset: 2px;
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
 }
 
 .sendButton:disabled {
-    background-color: rgba(212, 175, 55, 0.3);
-    color: rgba(255, 255, 255, 0.3);
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+  background-color: rgba(212, 175, 55, 0.3);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .loadingBubble {
-    display: flex;
-    background-color: var(--card-bg);
-    padding: 12px 18px;
-    border-radius: 18px 18px 18px 2px;
-    align-items: center;
-    max-width: 100px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  background-color: var(--card-bg);
+  padding: 12px 18px;
+  border-radius: 18px 18px 18px 2px;
+  align-items: center;
+  max-width: 100px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .loadingDot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--accent-gold);
-    border-radius: 50%;
-    margin: 0 3px;
-    animation: bounce 1.2s infinite ease-in-out;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-gold);
+  border-radius: 50%;
+  margin: 0 3px;
+  animation: bounce 1.2s infinite ease-in-out;
 }
 
-
 .loadingDot:nth-child(1) {
-    animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
 
 .loadingDot:nth-child(2) {
-    animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
 
-
 @keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
 
-    0%,
-    80%,
-    100% {
-
-        transform: scale(0);
-    }
-
-    40% {
-
-        transform: scale(1);
-    }
+  40% {
+    transform: scale(1);
+  }
 }

@@ -5,24 +5,24 @@
 }
 
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   /* Egyptian Purple & Gold Theme */
-  --primary-bg: #2D1B4E;
+  --primary-bg: #2d1b4e;
   /* Deep Royal Purple */
-  --secondary-bg: #1A0F2E;
+  --secondary-bg: #1a0f2e;
   /* Darker Purple for contrast */
-  --card-bg: #3D2B5F;
+  --card-bg: #3d2b5f;
   /* Lighter purple for cards */
-  --text-primary: #F5E6D3;
+  --text-primary: #f5e6d3;
   /* Papyrus/Cream */
-  --text-secondary: #D4AF37;
+  --text-secondary: #d4af37;
   /* Gold */
-  --accent-gold: #D4AF37;
-  --accent-gold-hover: #C5A028;
-  --border-color: #D4AF37;
+  --accent-gold: #d4af37;
+  --accent-gold-hover: #c5a028;
+  --border-color: #d4af37;
 
   color-scheme: dark;
   color: var(--text-primary);

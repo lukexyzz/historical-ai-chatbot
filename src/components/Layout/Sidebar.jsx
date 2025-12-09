@@ -1,11 +1,11 @@
-import styles from './Sidebar.module.css';
-import DeleteButton from '../UI/Button/DeleteButton.jsx';
-import { handleKeyboardEvent } from '../../utils/accessibility';
-import { useSidebar } from '../../context/SidebarContext';
+import styles from "./Sidebar.module.css";
+import DeleteButton from "../UI/Button/DeleteButton.jsx";
+import { handleKeyboardEvent } from "../../utils/accessibility";
+import { useSidebar } from "../../context/SidebarContext";
 
 /**
  * The sidebar component that displays previous chat history.
- * 
+ *
  * @component
  * @param {Object} props - The component props.
  * @param {Function} props.onChatClick - Callback function when a chat item is clicked.
@@ -20,7 +20,7 @@ export default function Sidebar({
   chats = [],
   isLoading = false,
   error = null,
-  onDeleteChat
+  onDeleteChat,
 }) {
   const { isOpen, closeSidebar } = useSidebar();
 
@@ -31,21 +31,24 @@ export default function Sidebar({
     closeSidebar();
   };
 
-  const sidebarClasses = [
-    styles.sidebar,
-    isOpen ? styles.open : ''
-  ].join(' ');
+  const sidebarClasses = [styles.sidebar, isOpen ? styles.open : ""].join(" ");
 
   return (
     <aside className={sidebarClasses}>
       <header className={styles.sidebarHeader}>
         <h3>Previous Chats</h3>
-        <button className={styles.closeButton} onClick={closeSidebar} aria-label="Close sidebar">
+        <button
+          className={styles.closeButton}
+          onClick={closeSidebar}
+          aria-label="Close sidebar"
+        >
           &times;
         </button>
       </header>
 
-      {isLoading && <p className={styles.statusMessage}>Loading previous chats...</p>}
+      {isLoading && (
+        <p className={styles.statusMessage}>Loading previous chats...</p>
+      )}
       {error && <p className={styles.errorText}>{error}</p>}
       {!isLoading && !error && chats.length === 0 && (
         <p className={styles.statusMessage}>No previous chats found.</p>
@@ -64,7 +67,9 @@ export default function Sidebar({
               <span
                 className={styles.chatTitle}
                 onClick={() => handleChatClick(chat)}
-                onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
+                onKeyDown={(e) =>
+                  handleKeyboardEvent(e, () => handleChatClick(chat))
+                }
               >
                 {chat.title}
               </span>

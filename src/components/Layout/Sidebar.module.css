@@ -6,7 +6,7 @@
   width: 300px;
   background-color: var(--secondary-bg);
   color: var(--text-primary);
-  font-family: 'Segoe UI', serif;
+  font-family: "Segoe UI", serif;
 
   border-right: 1px solid var(--accent-gold);
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);

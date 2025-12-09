@@ -1,9 +1,8 @@
 .navbar {
-
   background-color: var(--secondary-bg);
   padding: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  font-family: 'Segoe UI', serif;
+  font-family: "Segoe UI", serif;
   color: var(--accent-gold);
   border-bottom: 1px solid var(--accent-gold);
 }
@@ -29,7 +28,11 @@
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  background: linear-gradient(to right, var(--text-primary), var(--accent-gold));
+  background: linear-gradient(
+    to right,
+    var(--text-primary),
+    var(--accent-gold)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

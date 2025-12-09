@@ -1,22 +1,26 @@
 .homeContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--primary-bg) 0%,
+    var(--secondary-bg) 100%
+  );
 }
 
 .homeContainer h1 {
-    font-size: 3.5rem;
-    margin-bottom: 4rem;
-    color: var(--accent-gold);
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    border-bottom: 2px solid var(--accent-gold);
-    display: inline-block;
-    padding-bottom: 1rem;
+  font-size: 3.5rem;
+  margin-bottom: 4rem;
+  color: var(--accent-gold);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  border-bottom: 2px solid var(--accent-gold);
+  display: inline-block;
+  padding-bottom: 1rem;
 }

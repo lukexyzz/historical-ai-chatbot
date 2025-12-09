@@ -1,5 +1,4 @@
-
-import styles from './ChatMessage.module.css';
+import styles from "./ChatMessage.module.css";
 import ProfilePicture from "./ProfilePicture";
 import cleopatra from "../../../assets/icons/cleopatra.svg";
 import ramessesII from "../../../assets/icons/ramesses-ii.svg";
@@ -11,14 +10,14 @@ import user from "../../../assets/icons/user.svg";
  * @type {Object.<string, string>}
  */
 const personaImages = {
-    cleopatra: cleopatra,
-    ramesses: ramessesII,
-    tutankhamun: tutankhamun
+  cleopatra: cleopatra,
+  ramesses: ramessesII,
+  tutankhamun: tutankhamun,
 };
 
 /**
  * A component that displays a single chat message.
- * 
+ *
  * @component
  * @param {Object} props - The component props.
  * @param {Object} props.msg - The message object containing details about the chat message.
@@ -33,69 +32,67 @@ const personaImages = {
  * @param {number} [props.messageIndex] - The index of the message in the chat history.
  * @returns {JSX.Element} The rendered chat message component.
  */
-export default function ChatMessage({ msg, persona, onSendOption, messageIndex }) {
+export default function ChatMessage({
+  msg,
+  persona,
+  onSendOption,
+  messageIndex,
+}) {
+  //Apply correct CSS class clearly
+  const isUser = msg.role === "user";
 
-    //Apply correct CSS class clearly
-    const isUser = msg.role === 'user';
+  const containerClass = isUser
+    ? styles.userMessageContainer
+    : styles.apiMessageContainer;
+  const nameClass = isUser ? styles.userName : styles.apiName;
+  const bubbleClass = isUser ? styles.userBubble : styles.apiBubble;
+  const timestampClass = isUser ? styles.userTimestamp : styles.apiTimestamp;
+  const alignClass = isUser ? styles.alignRight : styles.alignLeft;
 
-    const containerClass = isUser ? styles.userMessageContainer : styles.apiMessageContainer;
-    const nameClass = isUser ? styles.userName : styles.apiName;
-    const bubbleClass = isUser ? styles.userBubble : styles.apiBubble;
-    const timestampClass = isUser ? styles.userTimestamp : styles.apiTimestamp;
-    const alignClass = isUser ? styles.alignRight : styles.alignLeft;
+  // Determine the image to use
+  let avatarSrc = cleopatra; // Default
+  if (!isUser && persona && personaImages[persona.id]) {
+    avatarSrc = personaImages[persona.id];
+  } else if (isUser) {
+    avatarSrc = user;
+  }
 
-    // Determine the image to use
-    let avatarSrc = cleopatra; // Default
-    if (!isUser && persona && personaImages[persona.id]) {
-        avatarSrc = personaImages[persona.id];
-    } else if (isUser) {
-        avatarSrc = user;
-    }
+  return (
+    <article className={`${styles.messageContainer} ${containerClass}`}>
+      {!isUser && (
+        <div className={styles.avatarWrapper}>
+          <ProfilePicture src={avatarSrc} alt={persona ? persona.name : "AI"} />
+        </div>
+      )}
+      <div className={`${styles.textGroup} ${alignClass}`}>
+        <small className={nameClass}>{msg.name}</small>
 
-    return (
-        <article
-            className={`${styles.messageContainer} ${containerClass}`}
+        <div className={`${styles.messageBubble} ${bubbleClass}`}>
+          {msg.text}
+        </div>
 
+        {msg.options && msg.options.length > 0 && !msg.selectedOption && (
+          <div className={styles.optionsContainer}>
+            {msg.options.map((option, idx) => (
+              <button
+                key={idx}
+                className={styles.optionButton}
+                onClick={() => onSendOption(option, messageIndex)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
 
-        >
-            {!isUser && (
-                <div className={styles.avatarWrapper}>
-                    <ProfilePicture src={avatarSrc} alt={persona ? persona.name : 'AI'} />
-                </div>
-            )}
-            <div className={`${styles.textGroup} ${alignClass}`}>
-                <small className={nameClass}>
-                    {msg.name}
-                </small>
+        <small className={timestampClass}>{msg.timestamp}</small>
+      </div>
 
-                <div className={`${styles.messageBubble} ${bubbleClass}`}>
-                    {msg.text}
-                </div>
-
-                {msg.options && msg.options.length > 0 && !msg.selectedOption && (
-                    <div className={styles.optionsContainer}>
-                        {msg.options.map((option, idx) => (
-                            <button
-                                key={idx}
-                                className={styles.optionButton}
-                                onClick={() => onSendOption(option, messageIndex)}
-                            >
-                                {option}
-                            </button>
-                        ))}
-                    </div>
-                )}
-
-                <small className={timestampClass}>
-                    {msg.timestamp}
-                </small>
-            </div>
-
-            {isUser && (
-                <div className={styles.avatarWrapper}>
-                    <ProfilePicture src={user} alt="User" />
-                </div>
-            )}
-        </article>
-    );
+      {isUser && (
+        <div className={styles.avatarWrapper}>
+          <ProfilePicture src={user} alt="User" />
+        </div>
+      )}
+    </article>
+  );
 }

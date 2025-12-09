@@ -1,23 +1,23 @@
 .homeButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-    padding: 0.5rem;
-    color: var(--accent-gold);
-    transition: all 0.2s ease;
-    border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--accent-gold);
+  transition: all 0.2s ease;
+  border-radius: 8px;
 }
 
 .homeButton:hover {
-    background-color: rgba(212, 175, 55, 0.1);
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .homeButton:focus-visible {
-    outline: 2px solid var(--accent-gold);
-    outline-offset: 2px;
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
 }
