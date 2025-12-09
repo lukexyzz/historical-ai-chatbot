@@ -14,7 +14,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     const handlePersonaClick = (persona) => {
-        navigate('/chat', { state: { persona } });
+        navigate(`/chat/${persona.id}`);
     };
 
     return (

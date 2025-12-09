@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { createChatHistory } from '../services/chatService';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { createChatHistory, getChatHistoryById } from '../services/chatService';
 import Navbar from '../components/Layout/Navbar.jsx';
 import Sidebar from '../components/Layout/Sidebar.jsx';
 import styles from './Chat.module.css';
 import ChatWindow from '../features/chat/components/ChatWindow.jsx';
 import { personas } from '../data/personas';
-
-
 
 /**
  * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
@@ -17,24 +15,50 @@ import { personas } from '../data/personas';
  */
 export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const location = useLocation();
+
   const navigate = useNavigate();
+  const { personaId } = useParams();
   const [persona, setPersona] = useState(null);
   const [chat, setChat] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [refreshSidebarTrigger, setRefreshSidebarTrigger] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const chatId = searchParams.get('chatId');
 
   useEffect(() => {
-    if (location.state && location.state.persona) {
-      setPersona(location.state.persona);
+    const foundPersona = personas.find(p => p.id === personaId);
+
+    if (foundPersona) {
+      setPersona(foundPersona);
+
+      const loadChat = async () => {
+        if (chatId) {
+          try {
+            const loadedChat = await getChatHistoryById(chatId);
+            setChat(loadedChat);
+          } catch (error) {
+            console.error("Failed to load chat:", error);
+            // Optionally clear the invalid chatId from URL or show error
+            setChat(null);
+          }
+        } else {
+          setChat(null);
+        }
+      };
+
+      loadChat();
     } else {
+      // Invalid persona ID, redirect to home
       navigate('/');
     }
-  }, [location, navigate]);
+  }, [personaId, chatId, navigate]);
 
   const handleLoadChat = (chat) => {
-    setPersona(personas.find(p => p.name === chat.personaName))
-    setChat(chat);
+    const targetPersona = personas.find(p => p.name === chat.personaName);
+    if (targetPersona) {
+      // Navigate to the persona's URL with chatId query param
+      navigate(`/chat/${targetPersona.id}?chatId=${chat.id}`);
+    }
     closeSidebar();
   };
 

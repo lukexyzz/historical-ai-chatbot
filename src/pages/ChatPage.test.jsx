@@ -1,26 +1,32 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Chat from './ChatPage';
-import { createChatHistory } from '../services/chatService';
+import { createChatHistory, getChatHistoryById } from '../services/chatService';
 
 // Mock dependencies
 vi.mock('../services/chatService', () => ({
     createChatHistory: vi.fn(),
+    getChatHistoryById: vi.fn(),
 }));
 
 const mockNavigate = vi.fn();
 const mockLocation = { state: null };
+let mockParams = { personaId: null };
+let mockSearchParams = new URLSearchParams();
 
 vi.mock('react-router-dom', () => ({
     useNavigate: () => mockNavigate,
     useLocation: () => mockLocation,
+    useParams: () => mockParams,
+    useSearchParams: () => [mockSearchParams, vi.fn()],
 }));
 
 // Mock child components to simplify testing and isolate Chat logic
 vi.mock('../features/chat/components/ChatWindow', () => ({
-    default: ({ onSaveChat, persona, isSaving }) => (
+    default: ({ onSaveChat, persona, isSaving, chat }) => (
         <div data-testid="chat-window">
             Chat with {persona.name}
+            {chat && <span data-testid="chat-title">{chat.title}</span>}
             <button onClick={() => onSaveChat([{ role: 'user', content: 'hi' }])}>
                 {isSaving ? 'Saving...' : 'Save Chat'}
             </button>
@@ -40,17 +46,24 @@ describe('Chat Component', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockLocation.state = null;
+        mockParams = { personaId: null };
+        mockSearchParams = new URLSearchParams();
     });
 
-    it('redirects to home if no persona is provided in state', () => {
+    it('redirects to home if no persona ID is provided', () => {
+        mockParams = { personaId: null };
         render(<Chat />);
         expect(mockNavigate).toHaveBeenCalledWith('/');
     });
 
-    it('renders correctly when persona is provided', () => {
-        mockLocation.state = {
-            persona: { id: 'cleopatra', name: 'Cleopatra', description: 'Queen' }
-        };
+    it('redirects to home if invalid persona ID is provided', () => {
+        mockParams = { personaId: 'invalid-id' };
+        render(<Chat />);
+        expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
+
+    it('renders correctly when valid persona ID is provided', () => {
+        mockParams = { personaId: 'cleopatra' };
 
         render(<Chat />);
 
@@ -59,10 +72,23 @@ describe('Chat Component', () => {
         expect(mockNavigate).not.toHaveBeenCalled();
     });
 
+    it('loads chat history when chatId is present in URL', async () => {
+        mockParams = { personaId: 'cleopatra' };
+        mockSearchParams.set('chatId', '123');
+        const mockChat = { id: '123', title: 'Test Chat', personaName: 'Cleopatra', messages: [] };
+        getChatHistoryById.mockResolvedValue(mockChat);
+
+        render(<Chat />);
+
+        await waitFor(() => {
+            expect(getChatHistoryById).toHaveBeenCalledWith('123');
+        });
+
+        expect(screen.getByTestId('chat-title')).toHaveTextContent('Test Chat');
+    });
+
     it('calls createChatHistory when save is triggered from ChatWindow', async () => {
-        mockLocation.state = {
-            persona: { id: 'cleopatra', name: 'Cleopatra' }
-        };
+        mockParams = { personaId: 'cleopatra' };
         createChatHistory.mockResolvedValue({});
         const logSpy = vi.spyOn(console, 'log').mockImplementation(() => { });
 

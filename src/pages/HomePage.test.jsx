@@ -29,8 +29,6 @@ describe('Home Component', () => {
         const firstCard = screen.getAllByRole('button')[0];
         fireEvent.click(firstCard);
 
-        expect(mockNavigate).toHaveBeenCalledWith('/chat', {
-            state: { persona: personas[0] }
-        });
+        expect(mockNavigate).toHaveBeenCalledWith(`/chat/${personas[0].id}`);
     });
 });
