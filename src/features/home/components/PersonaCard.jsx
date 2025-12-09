@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './PersonaCard.module.css';
+import { handleKeyboardEvent } from '../../../utils/accessibility';
 
 /**
  * A card component displaying persona information and a chat button.
@@ -20,12 +21,7 @@ export default function PersonaCard({ persona, onClick }) {
             onClick={onClick}
             role="button"
             tabIndex="0"
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onClick();
-                }
-            }}
+            onKeyDown={(e) => handleKeyboardEvent(e, onClick)}
         >
             <div className={styles.personaInfo}>
                 <h2>{persona.name}</h2>

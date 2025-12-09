@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
 import { getChatHistory, deleteChatHistory } from '../../services/chatService';
 import DeleteButton from '../UI/Button/DeleteButton.jsx';
+import { handleKeyboardEvent } from '../../utils/accessibility';
 
 /**
  * The sidebar component that displays previous chat history.
@@ -87,12 +88,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
               <span
                 className={styles.chatTitle}
                 onClick={() => handleChatClick(chat)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleChatClick(chat);
-                  }
-                }}
+                onKeyDown={(e) => handleKeyboardEvent(e, () => handleChatClick(chat))}
               >
                 {chat.title}
               </span>
