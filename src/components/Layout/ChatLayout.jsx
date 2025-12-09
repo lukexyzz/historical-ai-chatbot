@@ -12,7 +12,14 @@ import styles from '../../pages/Chat.module.css';
  * @param {number} props.refreshTrigger - Trigger to refresh sidebar content.
  * @returns {JSX.Element} The rendered layout.
  */
-export default function ChatLayout({ children, onChatClick, refreshTrigger }) {
+export default function ChatLayout({
+    children,
+    onChatClick,
+    sidebarChats,
+    isSidebarLoading,
+    sidebarError,
+    onDeleteChat
+}) {
     const { isOpen } = useSidebar();
 
     const mainContentClasses = [
@@ -24,7 +31,10 @@ export default function ChatLayout({ children, onChatClick, refreshTrigger }) {
         <div className={styles.chatPageContainer}>
             <Sidebar
                 onChatClick={onChatClick}
-                refreshTrigger={refreshTrigger}
+                chats={sidebarChats}
+                isLoading={isSidebarLoading}
+                error={sidebarError}
+                onDeleteChat={onDeleteChat}
             />
             <main className={mainContentClasses}>
                 {children}

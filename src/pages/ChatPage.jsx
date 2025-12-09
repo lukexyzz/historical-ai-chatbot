@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { createChatHistory, getChatHistoryById } from '../services/chatService';
+import { createChatHistory, getChatHistoryById, getChatHistory, deleteChatHistory } from '../services/chatService';
 import Navbar from '../components/Layout/Navbar.jsx';
 import ChatLayout from '../components/Layout/ChatLayout.jsx';
 import styles from './Chat.module.css';
@@ -20,9 +20,31 @@ export default function Chat() {
   const [persona, setPersona] = useState(null);
   const [chat, setChat] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [refreshSidebarTrigger, setRefreshSidebarTrigger] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const chatId = searchParams.get('chatId');
+
+  // Sidebar State
+  const [sidebarChats, setSidebarChats] = useState([]);
+  const [isSidebarLoading, setIsSidebarLoading] = useState(true);
+  const [sidebarError, setSidebarError] = useState(null);
+
+  // Load Sidebar Chats
+  const fetchSidebarChats = useCallback(async () => {
+    try {
+      setIsSidebarLoading(true);
+      setSidebarError(null);
+      const data = await getChatHistory();
+      setSidebarChats(data);
+    } catch (err) {
+      setSidebarError("Failed to load chats. Please try again.");
+    } finally {
+      setIsSidebarLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSidebarChats();
+  }, [fetchSidebarChats]);
 
   useEffect(() => {
     const foundPersona = personas.find(p => p.id === personaId);
@@ -71,6 +93,17 @@ export default function Chat() {
     switchPersona(targetPersona, chat.id);
   };
 
+  const handleDeleteChat = async (chatId) => {
+    try {
+      await deleteChatHistory(chatId);
+      // Optimistically update the list
+      setSidebarChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+      setSidebarError("Failed to delete chat. Please try again.");
+    }
+  };
+
   const handleSaveChat = async (currentMessages) => {
     setIsSaving(true);
 
@@ -84,7 +117,8 @@ export default function Chat() {
       await createChatHistory(dataToSave);
       console.log('Chat saved successfully!');
 
-      setRefreshSidebarTrigger(prev => prev + 1);
+      // Refresh sidebar list after save
+      fetchSidebarChats();
 
     } catch (error) {
       console.error("Error saving chat:", error);
@@ -99,7 +133,10 @@ export default function Chat() {
     <SidebarProvider>
       <ChatLayout
         onChatClick={handleLoadChat}
-        refreshTrigger={refreshSidebarTrigger}
+        sidebarChats={sidebarChats}
+        isSidebarLoading={isSidebarLoading}
+        sidebarError={sidebarError}
+        onDeleteChat={handleDeleteChat}
       >
         <Navbar
           personaName={persona.name}

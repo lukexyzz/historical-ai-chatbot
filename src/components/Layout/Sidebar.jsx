@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { getChatHistory, deleteChatHistory } from '../../services/chatService';
 import DeleteButton from '../UI/Button/DeleteButton.jsx';
 import { handleKeyboardEvent } from '../../utils/accessibility';
 import { useSidebar } from '../../context/SidebarContext';
@@ -11,50 +9,26 @@ import { useSidebar } from '../../context/SidebarContext';
  * @component
  * @param {Object} props - The component props.
  * @param {Function} props.onChatClick - Callback function when a chat item is clicked.
- * @param {number} props.refreshTrigger - A dependency value to trigger a refresh of the chat list.
+ * @param {Array} props.chats - The list of chat history items.
+ * @param {boolean} props.isLoading - Flag indicating if chats are loading.
+ * @param {string|null} props.error - Error message if loading failed.
+ * @param {Function} props.onDeleteChat - Callback function to delete a chat.
  * @returns {JSX.Element} The rendered sidebar.
  */
-export default function Sidebar({ onChatClick, refreshTrigger }) {
+export default function Sidebar({
+  onChatClick,
+  chats = [],
+  isLoading = false,
+  error = null,
+  onDeleteChat
+}) {
   const { isOpen, closeSidebar } = useSidebar();
-  const [previousChats, setPreviousChats] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const loadChats = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        const data = await getChatHistory();
-        setPreviousChats(data);
-      } catch (err) {
-        setError("Failed to load chats. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadChats();
-
-  }, [refreshTrigger]);
 
   const handleChatClick = (chat) => {
     if (onChatClick) {
       onChatClick(chat);
     }
     closeSidebar();
-  };
-
-  const handleDeleteChat = async (chatId) => {
-    try {
-      await deleteChatHistory(chatId);
-      // Refresh the chat list by removing the deleted chat
-      setPreviousChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
-    } catch (error) {
-      console.error("Error deleting chat:", error);
-      setError("Failed to delete chat. Please try again.");
-    }
   };
 
   const sidebarClasses = [
@@ -73,13 +47,13 @@ export default function Sidebar({ onChatClick, refreshTrigger }) {
 
       {isLoading && <p className={styles.statusMessage}>Loading previous chats...</p>}
       {error && <p className={styles.errorText}>{error}</p>}
-      {!isLoading && !error && previousChats.length === 0 && (
+      {!isLoading && !error && chats.length === 0 && (
         <p className={styles.statusMessage}>No previous chats found.</p>
       )}
 
-      {!isLoading && !error && previousChats.length > 0 && (
+      {!isLoading && !error && chats.length > 0 && (
         <ul className={styles.chatList}>
-          {previousChats.map((chat) => (
+          {chats.map((chat) => (
             <li
               key={chat.id}
               className={styles.chatItem}
@@ -95,7 +69,7 @@ export default function Sidebar({ onChatClick, refreshTrigger }) {
                 {chat.title}
               </span>
               <DeleteButton
-                onClick={() => handleDeleteChat(chat.id)}
+                onClick={() => onDeleteChat(chat.id)}
                 chatTitle={chat.title}
               />
             </li>
