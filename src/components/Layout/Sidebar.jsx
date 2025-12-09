@@ -62,13 +62,13 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
 
   return (
     <>
-      <div className={sidebarClasses}>
-        <div className={styles.sidebarHeader}>
+      <aside className={sidebarClasses}>
+        <header className={styles.sidebarHeader}>
           <h3>Previous Chats</h3>
           <button className={styles.closeButton} onClick={onClose} aria-label="Close sidebar">
             &times;
           </button>
-        </div>
+        </header>
         <ul className={styles.chatList}>
           {isLoading && <li>Loading previous chats...</li>}
           {error && <li className={styles.errorText}>{error}</li>}
@@ -103,7 +103,7 @@ export default function Sidebar({ isOpen, onClose, onChatClick, refreshTrigger }
             </li>
           ))}
         </ul>
-      </div>
+      </aside>
     </>
   );
 }

@@ -16,9 +16,9 @@ export default function Home() {
     };
 
     return (
-        <div className={styles.homeContainer}>
+        <main className={styles.homeContainer}>
             <h1>Choose Your Ancient Guide</h1>
-            <div className={styles.personasGrid}>
+            <section className={styles.personasGrid}>
                 {personas.map((persona) => (
                     <div
                         key={persona.id}
@@ -40,7 +40,7 @@ export default function Home() {
                         </div>
                     </div>
                 ))}
-            </div>
-        </div>
+            </section>
+        </main>
     );
 }

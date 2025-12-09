@@ -53,7 +53,7 @@ export default function ChatMessage({ msg, persona, onSendOption, messageIndex }
     }
 
     return (
-        <div
+        <article
             className={`${styles.messageContainer} ${containerClass}`}
 
 
@@ -96,6 +96,6 @@ export default function ChatMessage({ msg, persona, onSendOption, messageIndex }
                     <ProfilePicture src={user} alt="User" />
                 </div>
             )}
-        </div>
+        </article>
     );
 }

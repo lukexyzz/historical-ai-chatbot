@@ -78,13 +78,13 @@ export default function Chat() {
         onChatClick={handleLoadChat}
         refreshTrigger={refreshSidebarTrigger}
       />
-      <div className={mainContentClasses}>
+      <main className={mainContentClasses}>
         <Navbar
           onMenuClick={openSidebar}
           personaName={persona.name}
         />
 
-        <div className={styles.chatArea}>
+        <section className={styles.chatArea}>
           <ChatWindow
             chat={chat}
             setChat={setChat}
@@ -92,8 +92,8 @@ export default function Chat() {
             isSaving={isSaving}
             persona={persona}
           />
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }

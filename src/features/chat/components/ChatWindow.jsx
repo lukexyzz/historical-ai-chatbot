@@ -52,9 +52,9 @@ export default function ChatWindow({
     const canClear = hasHistory && !isLoading;
 
     return (
-        <div className={styles.chatContainer}>
+        <section className={styles.chatContainer}>
 
-            <div className={styles.chatActions}>
+            <header className={styles.chatActions}>
                 {chat?.mode && <span style={{ marginRight: '10px', fontWeight: 'bold' }}>Mode: {chat.mode}</span>}
                 <button
                     onClick={handleClearChat}
@@ -72,7 +72,7 @@ export default function ChatWindow({
                 >
                     {isSaving ? 'Saving...' : '💾 Save Conversation'}
                 </button>
-            </div>
+            </header>
 
             <div
                 id='chat-body'
@@ -117,6 +117,6 @@ export default function ChatWindow({
                     Send
                 </button>
             </form>
-        </div>
+        </section>
     );
 }
