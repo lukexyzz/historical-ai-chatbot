@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import { personas } from '../data/personas';
 import PersonaCard from '../features/home/components/PersonaCard';
+import Grid from '../components/UI/Grid/Grid';
 
 /**
  * The Home page component where users can select a persona to chat with.
@@ -19,15 +20,17 @@ export default function Home() {
     return (
         <main className={styles.homeContainer}>
             <h1>Choose Your Ancient Guide</h1>
-            <section className={styles.personasGrid}>
-                {personas.map((persona) => (
+            <Grid
+                items={personas}
+                renderItem={(persona) => (
                     <PersonaCard
                         key={persona.id}
                         persona={persona}
                         onClick={() => handlePersonaClick(persona)}
                     />
-                ))}
-            </section>
+                )}
+                emptyState={<p>No personas available at the moment.</p>}
+            />
         </main>
     );
 }
