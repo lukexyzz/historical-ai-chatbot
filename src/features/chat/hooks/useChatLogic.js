@@ -82,7 +82,7 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
                 role: 'api',
                 text: apiResponse.reply,
                 name: persona.name,
-                timestamp: getCurrentTime(),
+                timestamp: apiResponse.timestamp,
                 options: apiResponse.options
             };
 

@@ -4,8 +4,12 @@
  * @returns {string} The current time in 'en-UK' format (24-hour clock).
  */
 export const getCurrentTime = () => {
-  return new Date().toLocaleTimeString("en-UK", {
+  const now = new Date();
+  return now.toLocaleDateString("en-UK", {
+    day: "numeric",
+    month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
   });
 };
