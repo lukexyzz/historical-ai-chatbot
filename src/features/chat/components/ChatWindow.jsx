@@ -25,7 +25,6 @@ export default function ChatWindow({
   const {
     input,
     isLoading,
-    messages,
     chatBodyRef,
     setInput,
     handleSendMessage,
@@ -35,6 +34,8 @@ export default function ChatWindow({
   const handleEndSession = () => {
     onSaveChat(messages);
   };
+
+  const messages = chat?.messages || [];
 
   const handleClearChat = () => {
     setChat((prevChat) => ({
