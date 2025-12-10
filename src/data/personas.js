@@ -11,16 +11,19 @@ export const personas = [
     id: "cleopatra",
     name: "Cleopatra",
     description: "The last active ruler of the Ptolemaic Kingdom of Egypt.",
+    avatar: "/images/cleopatra.svg",
   },
   {
     id: "ramesses",
     name: "Ramesses II",
     description: "The third pharaoh of the Nineteenth Dynasty of Egypt.",
+    avatar: "/images/ramesses-ii.svg",
   },
   {
     id: "tutankhamun",
     name: "Tutankhamun",
     description:
       "The ancient Egyptian pharaoh who was the last of his royal family.",
+    avatar: "/images/tutankhamun.svg",
   },
 ];
