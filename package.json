@@ -20,7 +20,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "test": "vitest --reporter verbose"
+    "test": "vitest --reporter verbose",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "dotenv": "^17.2.3",

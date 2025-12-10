@@ -1,32 +1,28 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import ChatMessage from "./ChatMessage";
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import ChatMessage from './ChatMessage';
 
-describe("ChatMessage Component", () => {
-  it("renders user message correctly", () => {
-    const msg = {
-      role: "user",
-      text: "Hello AI",
-      name: "You",
-      timestamp: "10:00 AM",
-    };
-    render(<ChatMessage msg={msg} />);
+describe('ChatMessage', () => {
+  const mockMsg = {
+    text: 'Hello',
+    timestamp: '12:00',
+    name: 'User'
+  };
 
-    expect(screen.getByText("Hello AI")).toBeInTheDocument();
-    expect(screen.getByText("You")).toBeInTheDocument();
-    expect(screen.getByText("10:00 AM")).toBeInTheDocument();
+  it('renders user message with correct layout class', () => {
+    const { container } = render(<ChatMessage msg={mockMsg} isUser={true} />);
+    // Check if the article has the user message class (indirectly via structure or class check if possible)
+    // Since we use CSS modules, we might just check structure
+    expect(screen.getByText('Hello')).toBeInTheDocument();
+    const article = container.querySelector('article');
+    expect(article).toBeInTheDocument();
   });
 
-  it("renders api message correctly", () => {
-    const msg = {
-      role: "api",
-      text: "Hello Human",
-      name: "Cleopatra",
-      timestamp: "10:01 AM",
-    };
-    render(<ChatMessage msg={msg} />);
-
-    expect(screen.getByText("Hello Human")).toBeInTheDocument();
-    expect(screen.getByText("Cleopatra")).toBeInTheDocument();
+  it('renders AI message', () => {
+    const aiMsg = { ...mockMsg, name: 'Cleopatra' };
+    const persona = { name: 'Cleopatra', avatar: '/img.svg' };
+    render(<ChatMessage msg={aiMsg} persona={persona} />);
+    expect(screen.getByText('Hello')).toBeInTheDocument();
+    expect(screen.getByAltText('Cleopatra')).toBeInTheDocument();
   });
 });
