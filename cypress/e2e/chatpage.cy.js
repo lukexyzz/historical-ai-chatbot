@@ -209,7 +209,8 @@ describe("Chat Page - All Elements", () => {
     it("should enable Save Conversation button after sending a message", () => {
       cy.get("#chat-input").type("Test message");
       cy.get('button[aria-label="Send message"]').click();
-      cy.wait(500); // Wait for message to be added
+      // Wait for message to appear in chat body, which confirms state update
+      cy.get("#chat-body").should("contain.text", "Test message");
       cy.get('button[aria-label="Save conversation history"]').should(
         "not.be.disabled",
       );
