@@ -53,11 +53,7 @@ export default function ChatWindow({
   return (
     <section className={styles.chatContainer}>
       <header className={styles.chatActions}>
-        {chat?.mode && (
-          <span style={{ marginRight: "10px", fontWeight: "bold" }}>
-            Mode: {chat.mode}
-          </span>
-        )}
+
         <button
           onClick={handleClearChat}
           disabled={!canClear}
