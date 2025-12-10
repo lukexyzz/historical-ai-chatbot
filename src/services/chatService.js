@@ -7,7 +7,7 @@
  * @param {string} persona.name - The name of the persona.
  * @param {Object} [dialogueTree] - The current dialogue tree state.
  * @param {Array} [history] - The chat history (last 4 messages).
- * @returns {Promise<Object>} A promise that resolves to the API response data, including the reply.
+ * @returns {Promise<Object>} A promise that resolves to the API response data, including the reply and timestamp.
  * @throws {Error} If the server responds with an error status.
  */
 export const sendMessage = async (

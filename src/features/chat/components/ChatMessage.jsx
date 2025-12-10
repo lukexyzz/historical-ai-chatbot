@@ -3,7 +3,8 @@ import MessageAvatar from "./MessageAvatar";
 import MessageContent from "./MessageContent";
 
 /**
- * A component that displays a single chat message.
+ * A container component that displays a single chat message.
+ * Composes MessageAvatar and MessageContent to render the full message UI.
  *
  * @component
  * @param {Object} props - The component props.
