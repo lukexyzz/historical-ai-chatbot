@@ -1,10 +1,10 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import Chat from "./ChatPage";
-import { createChatHistory, getChatHistoryById } from "../services/chatService";
+import Chat from "./index";
+import { createChatHistory, getChatHistoryById } from "../../services/chatService";
 
 // Mock dependencies
-vi.mock("../services/chatService", () => ({
+vi.mock("../../services/chatService", () => ({
   createChatHistory: vi.fn(),
   getChatHistoryById: vi.fn(),
 }));
@@ -22,7 +22,7 @@ vi.mock("react-router-dom", () => ({
 }));
 
 // Mock child components to simplify testing and isolate Chat logic
-vi.mock("../features/chat/components/ChatWindow", () => ({
+vi.mock("../../features/chat/components/ChatWindow", () => ({
   default: ({ onSaveChat, persona, isSaving, chat }) => (
     <div data-testid="chat-window">
       Chat with {persona.name}
@@ -34,11 +34,11 @@ vi.mock("../features/chat/components/ChatWindow", () => ({
   ),
 }));
 
-vi.mock("../components/Layout/Navbar", () => ({
+vi.mock("../../components/Layout/Navbar", () => ({
   default: ({ personaName }) => <div data-testid="navbar">{personaName}</div>,
 }));
 
-vi.mock("../components/Layout/Sidebar", () => ({
+vi.mock("../../components/Layout/Sidebar", () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,
 }));
 
@@ -97,7 +97,7 @@ describe("Chat Component", () => {
   it("calls createChatHistory when save is triggered from ChatWindow", async () => {
     mockParams = { personaId: "cleopatra" };
     createChatHistory.mockResolvedValue({});
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => { });
 
     render(<Chat />);
 

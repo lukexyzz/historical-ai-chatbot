@@ -1,6 +1,6 @@
 import { useSidebar } from "../../context/SidebarContext";
 import Sidebar from "./Sidebar";
-import styles from "../../pages/Chat.module.css";
+import styles from "../../pages/chat/index.module.css";
 
 /**
  * A layout component for the Chat page that handles the sidebar and main content shifting.

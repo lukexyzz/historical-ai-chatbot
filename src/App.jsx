@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Chat from "./pages/ChatPage";
-import Home from "./pages/HomePage";
+import Chat from "./pages/chat";
+import Home from "./pages/home";
 
 /**
  * Main application component.

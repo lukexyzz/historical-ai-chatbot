@@ -5,13 +5,13 @@ import {
   getChatHistoryById,
   getChatHistory,
   deleteChatHistory,
-} from "../services/chatService";
-import Navbar from "../components/Layout/Navbar.jsx";
-import ChatLayout from "../components/Layout/ChatLayout.jsx";
-import styles from "./Chat.module.css";
-import ChatWindow from "../features/chat/components/ChatWindow.jsx";
-import { personas } from "../data/personas";
-import { SidebarProvider } from "../context/SidebarContext";
+} from "../../services/chatService.js";
+import Navbar from "../../components/Layout/Navbar.jsx";
+import ChatLayout from "../../components/Layout/ChatLayout.jsx";
+import styles from "./index.module.css";
+import ChatWindow from "../../features/chat/components/ChatWindow.jsx";
+import { personas } from "../../data/personas.js";
+import { SidebarProvider } from "../../context/SidebarContext.jsx";
 
 /**
  * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
@@ -19,7 +19,7 @@ import { SidebarProvider } from "../context/SidebarContext";
  * @component
  * @returns {JSX.Element|null} The rendered chat page or null if no persona is selected.
  */
-export default function Chat() {
+export default function ChatPage() {
   const navigate = useNavigate();
   const { personaId } = useParams();
   const [persona, setPersona] = useState(null);

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Home.module.css";
-import { personas } from "../data/personas";
-import PersonaCard from "../features/home/components/PersonaCard";
-import Grid from "../components/UI/Grid/Grid";
+import styles from "./index.module.css";
+import { personas } from "../../data/personas";
+import PersonaCard from "../../features/home/components/PersonaCard";
+import Grid from "../../components/UI/Grid/Grid";
 
 /**
  * The Home page component where users can select a persona to chat with.
@@ -10,7 +10,7 @@ import Grid from "../components/UI/Grid/Grid";
  * @component
  * @returns {JSX.Element} The rendered home page.
  */
-export default function Home() {
+export default function HomePage() {
   const navigate = useNavigate();
 
   const handlePersonaClick = (persona) => {
