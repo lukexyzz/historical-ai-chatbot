@@ -1,5 +1,6 @@
 import styles from "./ChatWindow.module.css";
 import ChatMessage from "./ChatMessage";
+import ChatHeader from "./ChatHeader";
 import LoadingIndicator from "../../../components/UI/LoadingIndicator";
 import useChatLogic from "../hooks/useChatLogic";
 
@@ -52,25 +53,14 @@ export default function ChatWindow({
 
   return (
     <section className={styles.chatContainer}>
-      <header className={styles.chatActions}>
-
-        <button
-          onClick={handleClearChat}
-          disabled={!canClear}
-          className={styles.clearButton}
-          aria-label="Clear conversation"
-        >
-          🗑️ Clear Chat
-        </button>
-        <button
-          onClick={handleEndSession}
-          disabled={!canSave}
-          className={styles.saveButton}
-          aria-label="Save conversation history"
-        >
-          {isSaving ? "Saving..." : "💾 Save Conversation"}
-        </button>
-      </header>
+      <ChatHeader
+        chat={chat}
+        onClearChat={handleClearChat}
+        onSaveChat={handleEndSession}
+        canClear={canClear}
+        canSave={canSave}
+        isSaving={isSaving}
+      />
 
       <div id="chat-body" className={styles.chatBody} ref={chatBodyRef}>
         <div role="log" aria-live="assertive" aria-relevant="additions">
