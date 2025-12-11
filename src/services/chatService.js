@@ -81,14 +81,26 @@ export const getChatHistory = async (page = 1, limit = 8) => {
  * @returns {Promise<Object>} A promise that resolves to the server response.
  * @throws {Error} If the save operation fails.
  */
-export const createChatHistory = async ({ title, personaName, messages }) => {
+export const createChatHistory = async ({
+  title,
+  personaName,
+  messages,
+  dialogueTree,
+  mode,
+}) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_APP_API_URL + "/api/chat/history",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, personaName, messages }),
+        body: JSON.stringify({
+          title,
+          personaName,
+          messages,
+          dialogueTree,
+          mode,
+        }),
       },
     );
 

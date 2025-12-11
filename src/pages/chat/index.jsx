@@ -92,6 +92,8 @@ function ChatPageContent() {
       title: chat?.title || null,
       personaName: persona.name,
       messages: currentMessages,
+      dialogueTree: chat?.dialogueTree,
+      mode: chat?.mode,
     };
 
     try {

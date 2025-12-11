@@ -32,7 +32,12 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
                     const data = await getChatHistoryById(chat.id);
 
                     if (data && data.messages) {
-                        setChat(prev => ({ ...prev, messages: data.messages }));
+                        setChat(prev => ({
+                            ...prev,
+                            messages: data.messages,
+                            dialogueTree: data.dialogueTree,
+                            mode: data.mode
+                        }));
                     }
                 } catch (error) {
                     console.error("Error loading chat:", error);
