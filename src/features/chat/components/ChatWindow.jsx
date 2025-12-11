@@ -95,18 +95,24 @@ export default function ChatWindow({
       </div>
 
       <form onSubmit={handleSendMessage} className={styles.inputForm}>
-        <input
-          id="chat-input"
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={
-            isLoading ? "Waiting for response..." : "Type your message..."
-          }
-          disabled={isLoading}
-          className={styles.inputField}
-          aria-label="Message input"
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            id="chat-input"
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={
+              isLoading ? "Waiting for response..." : "Type your message..."
+            }
+            disabled={isLoading}
+            className={styles.inputField}
+            aria-label="Message input"
+            maxLength={2000}
+          />
+          <span className={styles.charCounter}>
+            {input.length}/2000
+          </span>
+        </div>
         <button
           type="submit"
           disabled={isLoading || !input.trim()}

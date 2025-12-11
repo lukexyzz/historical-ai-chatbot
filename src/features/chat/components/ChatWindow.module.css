@@ -183,16 +183,32 @@
   padding: 10px;
 }
 
-.inputField {
+.inputWrapper {
   flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 10px 0 0;
+}
+
+.inputField {
+  width: 100%;
   border-radius: 25px;
   padding: 12px 20px;
+  padding-right: 80px; /* Space for the counter */
   border: 1px solid rgba(212, 175, 55, 0.5);
-  margin: 0 10px 0 0;
   background-color: var(--primary-bg);
   color: var(--text-primary);
   font-size: 1rem;
   transition: all 0.3s ease;
+}
+
+.charCounter {
+  position: absolute;
+  right: 15px;
+  font-size: 0.75rem;
+  color: rgba(245, 230, 211, 0.5);
+  pointer-events: none;
 }
 
 .inputField::placeholder {
