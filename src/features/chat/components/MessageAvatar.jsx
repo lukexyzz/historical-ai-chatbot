@@ -14,11 +14,9 @@ import ProfilePicture from "./ProfilePicture";
  * @returns {JSX.Element} The rendered avatar component.
  */
 export default function MessageAvatar({ isUser, persona }) {
-    const baseUrl = import.meta.env.VITE_APP_API_URL;
-
     // Determine image path: User -> user.svg, AI -> persona.avatar (or fallback to user.svg)
     const imagePath = (!isUser && persona?.avatar) ? persona.avatar : "/images/user.svg";
-    const avatarSrc = `${baseUrl}${imagePath}`;
+    const avatarSrc = imagePath;
     const altText = isUser ? "User" : (persona?.name || "AI");
 
     return (
