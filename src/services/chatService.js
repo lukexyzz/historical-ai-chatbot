@@ -45,16 +45,18 @@ export const sendMessage = async (
 };
 
 /**
- * Fetches the list of previous chat sessions from the server.
+ * Fetches the list of previous chat sessions from the server with pagination.
  *
  * @async
- * @returns {Promise<Array<Object>>} A promise that resolves to an array of previous chat session objects.
+ * @param {number} [page=1] - The page number to retrieve.
+ * @param {number} [limit=8] - The number of items per page.
+ * @returns {Promise<{chats: Array<Object>, hasMore: boolean, total: number}>} A promise that resolves to an object containing chat sessions and pagination metadata.
  * @throws {Error} If the fetch operation fails or the server returns an error.
  */
-export const getChatHistory = async () => {
+export const getChatHistory = async (page = 1, limit = 8) => {
   try {
     const response = await fetch(
-      import.meta.env.VITE_APP_API_URL + "/api/chat/history",
+      `${import.meta.env.VITE_APP_API_URL}/api/chat/history?page=${page}&limit=${limit}`,
     );
 
     if (!response.ok) {

@@ -15,14 +15,18 @@ import { useSidebar } from "../../context/SidebarContext";
  * @param {Function} props.onDeleteChat - Callback function to delete a chat.
  * @returns {JSX.Element} The rendered sidebar.
  */
-export default function Sidebar({
-  onChatClick,
-  chats = [],
-  isLoading = false,
-  error = null,
-  onDeleteChat,
-}) {
-  const { isOpen, closeSidebar } = useSidebar();
+export default function Sidebar({ onChatClick }) {
+  const {
+    isOpen,
+    closeSidebar,
+    chats,
+    isLoading,
+    error,
+    handleDeleteChat,
+    hasMore,
+    loadMoreChats,
+    isLoadingMore
+  } = useSidebar();
 
   const handleChatClick = (chat) => {
     if (onChatClick) {
@@ -46,7 +50,7 @@ export default function Sidebar({
         </button>
       </header>
 
-      {isLoading && (
+      {isLoading && chats.length === 0 && (
         <p className={styles.statusMessage}>Loading previous chats...</p>
       )}
       {error && <p className={styles.errorText}>{error}</p>}
@@ -54,32 +58,46 @@ export default function Sidebar({
         <p className={styles.statusMessage}>No previous chats found.</p>
       )}
 
-      {!isLoading && !error && chats.length > 0 && (
-        <ul className={styles.chatList}>
-          {chats.map((chat) => (
-            <li
-              key={chat.id}
-              className={styles.chatItem}
-              role="button"
-              tabIndex="0"
-              aria-label={`Load chat: ${chat.title}`}
-            >
-              <span
-                className={styles.chatTitle}
-                onClick={() => handleChatClick(chat)}
-                onKeyDown={(e) =>
-                  handleKeyboardEvent(e, () => handleChatClick(chat))
-                }
+      {chats.length > 0 && (
+        <div className={styles.scrollContainer}>
+          <ul className={styles.chatList}>
+            {chats.map((chat) => (
+              <li
+                key={chat.id}
+                className={styles.chatItem}
+                role="button"
+                tabIndex="0"
+                aria-label={`Load chat: ${chat.title}`}
               >
-                {chat.title}
-              </span>
-              <DeleteButton
-                onClick={() => onDeleteChat(chat.id)}
-                chatTitle={chat.title}
-              />
-            </li>
-          ))}
-        </ul>
+                <span
+                  className={styles.chatTitle}
+                  onClick={() => handleChatClick(chat)}
+                  onKeyDown={(e) =>
+                    handleKeyboardEvent(e, () => handleChatClick(chat))
+                  }
+                >
+                  {chat.title}
+                </span>
+                <DeleteButton
+                  onClick={() => handleDeleteChat(chat.id)}
+                  chatTitle={chat.title}
+                />
+              </li>
+            ))}
+          </ul>
+
+          {hasMore && (
+            <div className={styles.loadMoreContainer}>
+              <button
+                className={styles.loadMoreButton}
+                onClick={loadMoreChats}
+                disabled={isLoadingMore}
+              >
+                {isLoadingMore ? "Loading..." : "Load More"}
+              </button>
+            </div>
+          )}
+        </div>
       )}
     </aside>
   );

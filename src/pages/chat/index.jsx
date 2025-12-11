@@ -11,7 +11,7 @@ import ChatLayout from "../../components/Layout/ChatLayout.jsx";
 import styles from "./index.module.css";
 import ChatWindow from "../../features/chat/components/ChatWindow.jsx";
 import { personas } from "../../data/personas.js";
-import { SidebarProvider } from "../../context/SidebarContext.jsx";
+import { SidebarProvider, useSidebar } from "../../context/SidebarContext.jsx";
 
 /**
  * The main Chat page component that orchestrates the chat interface, sidebar, and navbar.
@@ -20,6 +20,14 @@ import { SidebarProvider } from "../../context/SidebarContext.jsx";
  * @returns {JSX.Element|null} The rendered chat page or null if no persona is selected.
  */
 export default function ChatPage() {
+  return (
+    <SidebarProvider>
+      <ChatPageContent />
+    </SidebarProvider>
+  );
+}
+
+function ChatPageContent() {
   const navigate = useNavigate();
   const { personaId } = useParams();
   const [persona, setPersona] = useState(null);
@@ -28,28 +36,7 @@ export default function ChatPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const chatId = searchParams.get("chatId");
 
-  // Sidebar State
-  const [sidebarChats, setSidebarChats] = useState([]);
-  const [isSidebarLoading, setIsSidebarLoading] = useState(true);
-  const [sidebarError, setSidebarError] = useState(null);
-
-  // Load Sidebar Chats
-  const fetchSidebarChats = useCallback(async () => {
-    try {
-      setIsSidebarLoading(true);
-      setSidebarError(null);
-      const data = await getChatHistory();
-      setSidebarChats(data);
-    } catch (err) {
-      setSidebarError("Failed to load chats. Please try again.");
-    } finally {
-      setIsSidebarLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSidebarChats();
-  }, [fetchSidebarChats]);
+  const { loadChats } = useSidebar();
 
   useEffect(() => {
     const foundPersona = personas.find((p) => p.id === personaId);
@@ -98,19 +85,6 @@ export default function ChatPage() {
     switchPersona(targetPersona, chat.id);
   };
 
-  const handleDeleteChat = async (chatId) => {
-    try {
-      await deleteChatHistory(chatId);
-      // Optimistically update the list
-      setSidebarChats((prevChats) =>
-        prevChats.filter((chat) => chat.id !== chatId),
-      );
-    } catch (error) {
-      console.error("Error deleting chat:", error);
-      setSidebarError("Failed to delete chat. Please try again.");
-    }
-  };
-
   const handleSaveChat = async (currentMessages) => {
     setIsSaving(true);
 
@@ -125,7 +99,7 @@ export default function ChatPage() {
       console.log("Chat saved successfully!");
 
       // Refresh sidebar list after save
-      fetchSidebarChats();
+      loadChats(true);
     } catch (error) {
       console.error("Error saving chat:", error);
     } finally {
@@ -136,26 +110,18 @@ export default function ChatPage() {
   if (!persona) return null;
 
   return (
-    <SidebarProvider>
-      <ChatLayout
-        onChatClick={handleLoadChat}
-        sidebarChats={sidebarChats}
-        isSidebarLoading={isSidebarLoading}
-        sidebarError={sidebarError}
-        onDeleteChat={handleDeleteChat}
-      >
-        <Navbar personaName={persona.name} />
+    <ChatLayout onChatClick={handleLoadChat}>
+      <Navbar personaName={persona.name} />
 
-        <section className={styles.chatArea}>
-          <ChatWindow
-            chat={chat}
-            setChat={setChat}
-            onSaveChat={handleSaveChat}
-            isSaving={isSaving}
-            persona={persona}
-          />
-        </section>
-      </ChatLayout>
-    </SidebarProvider>
+      <section className={styles.chatArea}>
+        <ChatWindow
+          chat={chat}
+          setChat={setChat}
+          onSaveChat={handleSaveChat}
+          isSaving={isSaving}
+          persona={persona}
+        />
+      </section>
+    </ChatLayout>
   );
 }

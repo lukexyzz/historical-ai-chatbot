@@ -13,7 +13,7 @@ global.fetch = vi.fn();
 describe("API Utils", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => { });
   });
 
   afterEach(() => {
@@ -52,15 +52,42 @@ describe("API Utils", () => {
   });
 
   describe("getChatHistory", () => {
-    it("fetches previous chats successfully", async () => {
-      const mockChats = [{ id: 1, title: "Chat 1" }];
+    it("fetches previous chats successfully with default pagination", async () => {
+      const mockResponse = {
+        chats: [{ id: 1, title: "Chat 1" }],
+        hasMore: true,
+        total: 10
+      };
       fetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => mockChats,
+        json: async () => mockResponse,
       });
 
       const result = await getChatHistory();
-      expect(result).toEqual(mockChats);
+
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/api/chat/history?page=1&limit=8")
+      );
+      expect(result).toEqual(mockResponse);
+    });
+
+    it("fetches previous chats with custom pagination", async () => {
+      const mockResponse = {
+        chats: [],
+        hasMore: false,
+        total: 10
+      };
+      fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      });
+
+      const result = await getChatHistory(2, 5);
+
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/api/chat/history?page=2&limit=5")
+      );
+      expect(result).toEqual(mockResponse);
     });
 
     it("throws error on failure", async () => {

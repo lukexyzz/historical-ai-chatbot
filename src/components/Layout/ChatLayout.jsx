@@ -15,10 +15,6 @@ import styles from "../../pages/chat/index.module.css";
 export default function ChatLayout({
   children,
   onChatClick,
-  sidebarChats,
-  isSidebarLoading,
-  sidebarError,
-  onDeleteChat,
 }) {
   const { isOpen } = useSidebar();
 
@@ -29,13 +25,7 @@ export default function ChatLayout({
 
   return (
     <div className={styles.chatPageContainer}>
-      <Sidebar
-        onChatClick={onChatClick}
-        chats={sidebarChats}
-        isLoading={isSidebarLoading}
-        error={sidebarError}
-        onDeleteChat={onDeleteChat}
-      />
+      <Sidebar onChatClick={onChatClick} />
       <main className={mainContentClasses}>{children}</main>
     </div>
   );

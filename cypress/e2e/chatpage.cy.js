@@ -475,4 +475,33 @@ describe("Chat Page - All Elements", () => {
       cy.get("#chat-body").should("contain.text", "Test message");
     });
   });
+
+  describe("Sidebar Pagination & Infinite Scroll", () => {
+    beforeEach(() => {
+      cy.get('button[aria-label="Open menu"]').click();
+    });
+
+    it("should load initial 8 chats", () => {
+      // Verify that we have exactly 8 chat items initially
+      cy.get("ul li").should("have.length", 8);
+    });
+
+    it("should show 'Load More' button when scrolling to bottom", () => {
+      // Scroll the container to the bottom
+      cy.get("aside > div").scrollTo("bottom");
+      cy.contains("button", "Load More").should("be.visible");
+    });
+
+    it("should load more chats when 'Load More' is clicked", () => {
+      // Initial count
+      cy.get("ul li").should("have.length", 8);
+
+      // Scroll and click
+      cy.get("aside > div").scrollTo("bottom");
+      cy.contains("button", "Load More").click();
+
+      // Verify count increases
+      cy.get("ul li").should("have.length.gt", 8);
+    });
+  });
 });
