@@ -1,11 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import {
-  createChatHistory,
-  getChatHistoryById,
-  getChatHistory,
-  deleteChatHistory,
-} from "../../services/chatService.js";
+import { getChatById, saveChat } from "../../services/chat/chatHistoryService.js";
 import Navbar from "../../components/Layout/Navbar.jsx";
 import ChatLayout from "../../components/Layout/ChatLayout.jsx";
 import styles from "./index.module.css";
@@ -47,13 +42,14 @@ function ChatPageContent() {
       const loadChat = async () => {
         if (chatId) {
           try {
-            const loadedChat = await getChatHistoryById(chatId);
+            const loadedChat = await getChatById(chatId);
             setChat(loadedChat);
           } catch (error) {
             console.error("Failed to load chat:", error);
             setChat(null);
           }
         } else {
+          // If no chatId in URL, we are starting a fresh conversation
           setChat(null);
         }
       };
@@ -85,22 +81,33 @@ function ChatPageContent() {
     switchPersona(targetPersona, chat.id);
   };
 
-  const handleSaveChat = async (currentMessages) => {
+  /**
+   * Saves the current conversation state to the backend.
+   * Called by ChatWindow when the user clicks "Save".
+   */
+  const handleSaveChat = async (currentMessages, treeState, mode) => {
     setIsSaving(true);
-
-    const dataToSave = {
-      title: chat?.title || null,
-      personaName: persona.name,
-      messages: currentMessages,
-      dialogueTree: chat?.dialogueTree,
-      mode: chat?.mode,
-    };
-
     try {
-      await createChatHistory(dataToSave);
-      console.log("Chat saved successfully!");
+      const dataToSave = {
+        id: chat?.id, // Include ID if updating an existing chat
+        title: chat?.title, // Keep existing title (backend handles generation if missing)
+        personaName: persona.name,
+        messages: currentMessages,
+        dialogueTree: treeState,
+        mode: mode,
+      };
 
-      // Refresh sidebar list after save
+      const savedChat = await saveChat(dataToSave);
+
+      console.log("Chat saved successfully!");
+      setChat(savedChat); // Update local state with the saved version (contains ID)
+
+      // If this was a new chat, update URL with the new ID without reloading
+      if (!chatId) {
+        setSearchParams({ chatId: savedChat.id });
+      }
+
+      // Refresh sidebar list to show the new/updated chat
       loadChats(true);
     } catch (error) {
       console.error("Error saving chat:", error);

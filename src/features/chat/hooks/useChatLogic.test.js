@@ -1,12 +1,16 @@
-import { renderHook, act, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import useChatLogic from './useChatLogic';
-import * as chatService from '../../../services/chatService';
+import { sendMessage } from '../../../services/chat/chatMessageService';
 
-// Mock API functions
-vi.mock('../../../services/chatService', () => ({
+// Mock the Message Service (Only sendMessage lives here)
+vi.mock('../../../services/chat/chatMessageService', () => ({
     sendMessage: vi.fn(),
-    getChatHistoryById: vi.fn(),
+}));
+
+// Mock the History Service (getChatById lives here)
+vi.mock('../../../services/chat/chatHistoryService', () => ({
+    getChatById: vi.fn(),
 }));
 
 describe('useChatLogic', () => {
@@ -39,9 +43,11 @@ describe('useChatLogic', () => {
         const setChat = vi.fn();
         const persona = { name: 'Cleopatra' };
 
-        chatService.sendMessage.mockResolvedValue({ reply: 'Hello User' });
+        sendMessage.mockResolvedValue({ reply: 'Hello User' });
 
-        const { result } = renderHook(() => useChatLogic({ chat: { messages: [] }, setChat, persona }));
+        const { result } = renderHook(() =>
+            useChatLogic({ chat: { messages: [] }, setChat, persona })
+        );
 
         act(() => {
             result.current.setInput('Hi');
@@ -55,7 +61,7 @@ describe('useChatLogic', () => {
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
 
         // Check if API was called
-        expect(chatService.sendMessage).toHaveBeenCalledWith('Hi', persona, undefined, []);
+        expect(sendMessage).toHaveBeenCalledWith('Hi', persona, undefined, []);
     });
 
     it('handles dialogueTree and mode updates', async () => {
@@ -63,13 +69,15 @@ describe('useChatLogic', () => {
         const persona = { name: 'Cleopatra' };
         const initialChat = { messages: [], dialogueTree: { id: '1' } };
 
-        chatService.sendMessage.mockResolvedValue({
+        sendMessage.mockResolvedValue({
             reply: 'Hello',
             treeState: { id: '2' },
-            mode: 'interactive'
+            mode: 'interactive',
         });
 
-        const { result } = renderHook(() => useChatLogic({ chat: initialChat, setChat, persona }));
+        const { result } = renderHook(() =>
+            useChatLogic({ chat: initialChat, setChat, persona })
+        );
 
         act(() => {
             result.current.setInput('Next');
@@ -80,12 +88,12 @@ describe('useChatLogic', () => {
         });
 
         // Check if API was called with correct dialogueTree
-        expect(chatService.sendMessage).toHaveBeenCalledWith('Next', persona, { id: '1' }, []);
+        expect(sendMessage).toHaveBeenCalledWith('Next', persona, { id: '1' }, []);
 
         // Check if state was updated with new dialogueTree and mode
         expect(setChat).toHaveBeenCalledWith(expect.any(Function));
 
-        // Verify the updater function (second call is the API response update)
+        // Verify the updater function
         const updater = setChat.mock.calls[1][0];
         const newState = updater(initialChat);
 
@@ -97,9 +105,11 @@ describe('useChatLogic', () => {
         const setChat = vi.fn();
         const persona = { name: 'Cleopatra' };
 
-        chatService.sendMessage.mockRejectedValue(new Error('API Error'));
+        sendMessage.mockRejectedValue(new Error('API Error'));
 
-        const { result } = renderHook(() => useChatLogic({ chat: { messages: [] }, setChat, persona }));
+        const { result } = renderHook(() =>
+            useChatLogic({ chat: { messages: [] }, setChat, persona })
+        );
 
         act(() => {
             result.current.setInput('Hi');

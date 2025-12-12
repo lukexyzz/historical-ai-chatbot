@@ -1,12 +1,12 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Chat from "./index";
-import { createChatHistory, getChatHistoryById } from "../../services/chatService";
+import { saveChat, getChatById } from "../../services/chat/chatHistoryService";
 
 // Mock dependencies
-vi.mock("../../services/chatService", () => ({
-  createChatHistory: vi.fn(),
-  getChatHistoryById: vi.fn(),
+vi.mock("../../services/chat/chatHistoryService", () => ({
+  saveChat: vi.fn(),
+  getChatById: vi.fn(),
 }));
 
 const mockNavigate = vi.fn();
@@ -83,20 +83,20 @@ describe("Chat Component", () => {
       personaName: "Cleopatra",
       messages: [],
     };
-    getChatHistoryById.mockResolvedValue(mockChat);
+    getChatById.mockResolvedValue(mockChat);
 
     render(<Chat />);
 
     await waitFor(() => {
-      expect(getChatHistoryById).toHaveBeenCalledWith("123");
+      expect(getChatById).toHaveBeenCalledWith("123");
     });
 
     expect(screen.getByTestId("chat-title")).toHaveTextContent("Test Chat");
   });
 
-  it("calls createChatHistory when save is triggered from ChatWindow", async () => {
+  it("calls saveChat when save is triggered from ChatWindow", async () => {
     mockParams = { personaId: "cleopatra" };
-    createChatHistory.mockResolvedValue({});
+    saveChat.mockResolvedValue({});
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => { });
 
     render(<Chat />);
@@ -106,14 +106,14 @@ describe("Chat Component", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(createChatHistory).toHaveBeenCalledTimes(1);
+      expect(saveChat).toHaveBeenCalledTimes(1);
     });
 
     await waitFor(() => {
       expect(screen.getByText("Save Chat")).toBeInTheDocument();
     });
 
-    expect(createChatHistory).toHaveBeenCalledWith(
+    expect(saveChat).toHaveBeenCalledWith(
       expect.objectContaining({
         personaName: "Cleopatra",
         messages: expect.any(Array),

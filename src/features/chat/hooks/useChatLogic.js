@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { sendMessage, getChatHistoryById } from '../../../services/chatService';
+import { sendMessage } from '../../../services/chat/chatMessageService';
+import { getChatById } from '../../../services/chat/chatHistoryService';
 import { getCurrentTime } from '../utils/timeHelpers.js';
 
 /**
@@ -29,7 +30,7 @@ export default function useChatLogic({ chat, setChat, persona } = {}) {
             const loadChat = async () => {
                 try {
                     setIsLoading(true);
-                    const data = await getChatHistoryById(chat.id);
+                    const data = await getChatById(chat.id);
 
                     if (data && data.messages) {
                         setChat(prev => ({

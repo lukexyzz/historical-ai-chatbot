@@ -2,10 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { SidebarProvider, useSidebar } from './SidebarContext';
-import * as chatService from '../services/chatService';
+import * as chatService from "../services/chat/chatHistoryService";
 
 // Mock the chatService
-vi.mock('../services/chatService');
+vi.mock('../services/chat/chatHistoryService');
 
 // Test component to consume the context
 const TestComponent = () => {

@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect, useCallback } from "react";
-import { getChatHistory, deleteChatHistory } from "../services/chatService";
+import { getChatHistory, deleteChat } from "../services/chat/chatHistoryService";
 
 const SidebarContext = createContext();
 
@@ -70,7 +70,7 @@ export const SidebarProvider = ({ children }) => {
 
   const handleDeleteChat = async (chatId) => {
     try {
-      await deleteChatHistory(chatId);
+      await deleteChat(chatId);
       setChats((prev) => prev.filter((chat) => chat.id !== chatId));
     } catch (err) {
       console.error("Failed to delete chat:", err);
