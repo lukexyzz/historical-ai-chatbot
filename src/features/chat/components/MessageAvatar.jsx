@@ -14,9 +14,10 @@ import ProfilePicture from "./ProfilePicture";
  * @returns {JSX.Element} The rendered avatar component.
  */
 export default function MessageAvatar({ isUser, persona }) {
-    // Determine image path: User -> user.svg, AI -> persona.avatar (or fallback to user.svg)
-    const imagePath = (!isUser && persona?.avatar) ? persona.avatar : "/images/user.svg";
-    const avatarSrc = imagePath;
+    // 1. Determine image source (User fallback logic included)
+    const avatarSrc = (!isUser && persona?.avatar) ? persona.avatar : "/icons/user.svg";
+
+    // 2. Determine alt text
     const altText = isUser ? "User" : (persona?.name || "AI");
 
     return (
