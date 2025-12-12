@@ -38,7 +38,7 @@ export const SidebarProvider = ({ children }) => {
       const currentPage = reset ? 1 : page;
       const data = await getChatHistory(currentPage);
 
-      // Expect object now: { chats: [], hasMore: boolean, total: number }
+      // Expect object: { chats: [], hasMore: boolean, total: number }
       const newChats = data.chats;
       const hasMoreData = data.hasMore;
 

@@ -38,7 +38,7 @@ export const getChatById = async (chatId) => {
 
 /**
  * Saves (Creates or Updates) the current chat session.
- * IMPORTANT: You must pass 'id' to update an existing chat.
+ * Note: You must pass 'id' to update an existing chat.
  */
 export const saveChat = async ({
     id,

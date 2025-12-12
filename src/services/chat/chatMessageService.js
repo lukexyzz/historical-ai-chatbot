@@ -32,7 +32,7 @@ export const sendMessage = async (
   } catch (error) {
     console.error("Fetch API error:", error);
 
-    // UPDATED: Return the object structure the test expects
+    // Return the object structure the test expects
     return {
       reply: "I am having trouble reaching the scrolls. Please try again.",
       mode: 'error_network'
