@@ -99,8 +99,8 @@ describe("Conversation Flow & Dialogue Trees", () => {
             cy.get('button[aria-label="Send message"]').click();
 
             cy.get("#chat-body").should("contain.text", longMessage);
-            // Verify app didn't crash and sent a response
-            cy.get("#chat-body").find("article").should("have.length.at.least", 2);
+            // Verify app didn't crash and sent a response (increase timeout for AI)
+            cy.get("#chat-body").find("article", { timeout: 20000 }).should("have.length.at.least", 2);
         });
 
         it("should handle special characters", () => {
@@ -109,7 +109,8 @@ describe("Conversation Flow & Dialogue Trees", () => {
             cy.get('button[aria-label="Send message"]').click();
 
             cy.get("#chat-body").should("contain.text", specialChars);
-            cy.get("#chat-body").find("article").should("have.length.at.least", 2);
+            // AI responses can be slow, increase timeout to 20s
+            cy.get("#chat-body").find("article", { timeout: 20000 }).should("have.length.at.least", 2);
         });
 
         it("should handle rapid message sending (if allowed)", () => {
@@ -117,13 +118,11 @@ describe("Conversation Flow & Dialogue Trees", () => {
             cy.get("#chat-input").type("First");
             cy.get('button[aria-label="Send message"]').click();
 
-            // Try to type immediately (might be disabled)
-            // If disabled, check it's disabled. If not, check queueing.
-            // Based on previous tests, input is disabled during loading.
+            // Verify input disables immediately (default 4s is fine here)
             cy.get("#chat-input").should("be.disabled");
 
-            // Wait for it to enable
-            cy.get("#chat-input", { timeout: 10000 }).should("not.be.disabled");
+            // Wait for it to enable (increase to 20s for slow AI)
+            cy.get("#chat-input", { timeout: 20000 }).should("not.be.disabled");
 
             // Send second
             cy.get("#chat-input").type("Second");
@@ -131,6 +130,8 @@ describe("Conversation Flow & Dialogue Trees", () => {
 
             cy.get("#chat-body").should("contain.text", "First");
             cy.get("#chat-body").should("contain.text", "Second");
+            // Wait for second response
+            cy.get("#chat-body").find("article", { timeout: 20000 }).should("have.length.at.least", 4);
         });
     });
 });
