@@ -7,14 +7,14 @@ describe('MessageAvatar', () => {
         render(<MessageAvatar isUser={true} />);
         const img = screen.getByRole('img');
         expect(img).toHaveAttribute('alt', 'User');
-        expect(img).toHaveAttribute('src', expect.stringContaining('/images/user.svg'));
+        expect(img).toHaveAttribute('src', expect.stringContaining('/icons/user.svg'));
     });
 
     it('renders persona avatar when isUser is false', () => {
-        const persona = { name: 'Cleopatra', avatar: '/images/cleopatra.svg' };
+        const persona = { name: 'Cleopatra', avatar: '/icons/cleopatra.svg' };
         render(<MessageAvatar isUser={false} persona={persona} />);
         const img = screen.getByRole('img');
         expect(img).toHaveAttribute('alt', 'Cleopatra');
-        expect(img).toHaveAttribute('src', expect.stringContaining('/images/cleopatra.svg'));
+        expect(img).toHaveAttribute('src', expect.stringContaining('/icons/cleopatra.svg'));
     });
 });

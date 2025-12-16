@@ -85,7 +85,7 @@ function ChatPageContent() {
    * Saves the current conversation state to the backend.
    * Called by ChatWindow when the user clicks "Save".
    */
-  const handleSaveChat = async (currentMessages, treeState, mode) => {
+  const handleSaveChat = async (currentMessages, mode) => {
     setIsSaving(true);
     try {
       const dataToSave = {
@@ -93,8 +93,8 @@ function ChatPageContent() {
         title: chat?.title, // Keep existing title (backend handles generation if missing)
         personaName: persona.name,
         messages: currentMessages,
-        dialogueTree: treeState,
-        mode: mode,
+        dialogueTree: chat?.dialogueTree,
+        mode: chat?.mode,
       };
 
       const savedChat = await saveChat(dataToSave);
@@ -104,7 +104,7 @@ function ChatPageContent() {
 
       // If this was a new chat, update URL with the new ID without reloading
       if (!chatId) {
-        setSearchParams({ chatId: savedChat.id });
+        setSearchParams({ chatId: savedChat.chatId });
       }
 
       // Refresh sidebar list to show the new/updated chat

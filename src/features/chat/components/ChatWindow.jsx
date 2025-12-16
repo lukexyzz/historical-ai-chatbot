@@ -33,6 +33,7 @@ export default function ChatWindow({
   } = useChatLogic({ chat, setChat, persona });
 
   const handleEndSession = () => {
+    // onSaveChat(messages, chat?.dialogueTree, chat?.mode);
     onSaveChat(messages);
   };
 
@@ -84,7 +85,7 @@ export default function ChatWindow({
         {isLoading && <LoadingIndicator persona={persona?.name} />}
       </div>
 
-      <form onSubmit={handleSendMessage} className={styles.inputForm}>
+      <form onSubmit={handleSendMessage} className={styles.inputForm} autoComplete="off">
         <div className={styles.inputWrapper}>
           <input
             id="chat-input"
