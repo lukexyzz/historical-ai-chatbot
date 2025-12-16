@@ -33,7 +33,6 @@ export default function ChatWindow({
   } = useChatLogic({ chat, setChat, persona });
 
   const handleEndSession = () => {
-    // onSaveChat(messages, chat?.dialogueTree, chat?.mode);
     onSaveChat(messages);
   };
 
